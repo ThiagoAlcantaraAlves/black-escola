@@ -318,7 +318,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       var ut=utms();
       fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         name:nome,email:email,whatsapp:'55'+whats,tier:'lista',
-        evento:'black-2026',stage:'black-2026-lista',product:'escola',mailchimp_tag:'Black 2026',
+        evento:'black-2026',stage:'a26f7eb7-8cff-4c85-82c1-75b4bbfd9bbc',product:'e614cccc-d54f-43d7-a6ad-386fab525815',mailchimp_tag:'Black 2026',
         utms:ut,data:{origem:'black.escolademotelaria.com.br',utm_medium:ut.utm_medium||null,formulario:form.id}
       })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})}).then(function(res){
         if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
