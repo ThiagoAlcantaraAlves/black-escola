@@ -78,7 +78,7 @@ $('#f-entrar').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = e.target.querySelector('button');
   btn.disabled = true;
-  const { error } = await supabase.auth.signInWithOtp({ email: e.target.email.value.trim().toLowerCase(), options: { emailRedirectTo: location.origin + '/area/' } });
+  const { error } = await supabase.auth.signInWithOtp({ email: e.target.email.value.trim().toLowerCase(), options: { emailRedirectTo: location.origin + '/app/' } });
   btn.disabled = false;
   $('#m-entrar').textContent = error ? 'Não consegui enviar agora. Tenta de novo em 1 minuto.' : 'Pronto! Abra seu e-mail e clique no link de acesso.';
 });
