@@ -3,22 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Equipe · Área da Black 2026</title>
-<meta name="description" content="Painel da equipe da Black 2026: inscritos, pontuação e conteúdos.">
+<title>Acompanhamento · Área da Black 2026</title>
+<meta name="description" content="Acompanhamento da equipe na Black 2026: quem fez cada tarefa, faixa de lead scoring e próxima mensagem.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/assets/simbolo-neg.svg?v=2" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/app/area.css">
-<style>.wrap{max-width:1180px}</style>
+<link rel="stylesheet" href="/app/area.css?v=3">
+<style>.wrap{max-width:1280px}</style>
 </head>
 <body>
 <header><div class="wrap"><a href="/app/"><img src="/assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><a href="/app/">Voltar para a jornada</a></div></header>
 <main><div class="wrap">
   <p class="eyebrow">Equipe</p>
-  <h1>Inscritos na área da Black</h1>
+  <h1>Acompanhamento da Black 2026</h1>
   <p class="sub" id="resumo">Carregando…</p>
-  <p style="margin-top:14px"><label style="display:inline-flex;gap:8px;align-items:center"><input type="checkbox" id="so-quentes" style="width:auto"> Só os quentes</label> <button class="btn sec" id="csv">Baixar planilha</button></p>
-  <div class="card" style="overflow:auto"><table><thead><tr><th>Nome</th><th>WhatsApp</th><th>Pontos</th><th>Passos</th><th>Pesquisa</th></tr></thead><tbody id="linhas"></tbody></table></div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="filtros">
+    <label>Faixa<select id="f-faixa"><option value="">Todas</option><option value="prioridade">Prioridade</option><option value="acelerar">Acelerar</option><option value="nutrir">Nutrir</option><option value="base">Base</option></select></label>
+    <label>Situação<select id="f-sit"><option value="">Todas</option></select></label>
+    <label>Parado há<select id="f-parado"><option value="0">qualquer tempo</option><option value="3">3 dias ou mais</option><option value="7">7 dias ou mais</option></select></label>
+    <label>Busca<input id="f-busca" placeholder="nome, e-mail ou motel"></label>
+    <button class="btn sec" id="csv">Baixar planilha</button>
+  </div>
+
+  <div class="card" style="overflow:auto"><table class="painel-eq"><thead><tr>
+    <th>Pessoa</th><th>Faixa</th><th>Perfil · Eng.</th><th>Tarefas</th><th>Situação</th><th>Parado</th><th>Pesquisa</th><th>Ação</th>
+  </tr></thead><tbody id="linhas"></tbody></table></div>
+  <p class="sub">Prioridade é com a equipe (ligação ou áudio pessoal). As outras faixas o assistente acompanha pela fila <code>black_bot_fila</code> do hub, com a mesma mensagem que aparece aqui.</p>
 
   <h2>Conteúdos</h2>
   <div id="lista-conteudos"></div>
@@ -27,36 +39,63 @@
     <label>Descrição<textarea name="descricao" rows="2"></textarea></label>
     <label>Tipo<select name="tipo"><option value="video">Vídeo</option><option value="brinde">Brinde (arquivo/link)</option></select></label>
     <label>Link (YouTube, Vimeo, .mp4 ou arquivo)<input name="url" type="url" required></label>
-    <label>Libera depois de<select name="libera_apos"><option value="pesquisa">Responder a pesquisa</option><option value="video">Assistir o vídeo</option><option value="indicacao">Indicar alguém</option><option value="comunidade">Entrar na comunidade</option><option value="boas_vindas">Logo no 1º acesso</option></select></label>
+    <label>Libera depois de<select name="libera_apos"><option value="pesquisa">Raio-X 2027 (pesquisa)</option><option value="video">Assistir o vídeo</option><option value="escala">A conta da escala</option><option value="preco">O preço do fim de semana</option><option value="revpar">RevPAR no estado</option><option value="imposto">O imposto em 2027</option><option value="indicacao">Indicar alguém</option><option value="comunidade">Entrar na comunidade</option><option value="boas_vindas">Logo no 1º acesso</option></select></label>
     <button class="btn">Adicionar conteúdo</button>
     <p class="msg" id="m-conteudo"></p>
   </form>
 </div></main>
 <script type="module">
 import { supabase, $, esc } from '/app/app.js';
+import { TAREFAS, PERGUNTAS } from '/app/regras.js';
+import { situacao, NOME_SITUACAO, mensagem } from '/app/mensagens.js';
 const { data: { user } } = await supabase.auth.getUser();
 if (!user) location.href = '/app/';
+const ROT = Object.fromEntries(PERGUNTAS.map((p) => [p.id, Object.fromEntries(p.op.map((o) => [o[0], o[1]]))]));
+const FX = { prioridade: 'Prioridade', acelerar: 'Acelerar', nutrir: 'Nutrir', base: 'Base' };
 let linhas = [];
 async function carregar() {
   const { data, error } = await supabase.rpc('black_painel');
   if (error) { $('#resumo').textContent = 'Acesso restrito à equipe.'; return; }
-  linhas = data;
-  const q = data.filter((l) => l.faixa === 'quente').length, m = data.filter((l) => l.faixa === 'morno').length;
-  $('#resumo').textContent = `${data.length} inscritos · ${q} quentes · ${m} mornos · ${data.length - q - m} frios`;
+  linhas = (data || []).map((l) => ({ ...l, situacao: situacao(l) }));
+  const c = (f) => linhas.filter(f).length;
+  $('#resumo').textContent = `${linhas.length} pessoas na área.`;
+  $('#kpis').innerHTML = [
+    ['Prioridade', c((l) => l.faixa === 'prioridade')], ['Acelerar', c((l) => l.faixa === 'acelerar')], ['Nutrir', c((l) => l.faixa === 'nutrir')], ['Base', c((l) => l.faixa === 'base')],
+    ['Responderam a pesquisa', c((l) => l.passos.pesquisa)], ['Na frente', c((l) => l.na_frente)], ['Parados há 3+ dias', c((l) => l.dias_parado >= 3)],
+  ].map(([t, n]) => `<div class="kpi"><strong>${n}</strong><small>${t}</small></div>`).join('');
+  const sits = [...new Set(linhas.map((l) => l.situacao))];
+  $('#f-sit').innerHTML = '<option value="">Todas</option>' + sits.map((s) => `<option value="${s}">${NOME_SITUACAO[s] || s}</option>`).join('');
   desenhar();
   const { data: cs } = await supabase.from('black_conteudos').select('*').order('ordem');
   $('#lista-conteudos').innerHTML = (cs || []).map((c) => `<div class="card passo"><span class="ok">${c.tipo === 'video' ? '▶' : '🎁'}</span><div>${esc(c.titulo)}<small>libera após: ${c.libera_apos} · ${esc(c.url)}</small></div><button class="btn sec" data-apagar="${c.id}">Remover</button></div>`).join('');
-  document.querySelectorAll('[data-apagar]').forEach((b) => b.onclick = async () => { if (confirm('Remover este conteúdo?')) { await supabase.from('black_conteudos').delete().eq('id', b.dataset.apagar); carregar(); } });
+  document.querySelectorAll('[data-apagar]').forEach((b) => (b.onclick = async () => { b.textContent = 'Removendo…'; await supabase.from('black_conteudos').delete().eq('id', b.dataset.apagar); carregar(); }));
+}
+function filtradas() {
+  const fx = $('#f-faixa').value, st = $('#f-sit').value, pd = +$('#f-parado').value, q = $('#f-busca').value.trim().toLowerCase();
+  return linhas.filter((l) => (!fx || l.faixa === fx) && (!st || l.situacao === st) && (l.dias_parado ?? 0) >= pd
+    && (!q || `${l.nome} ${l.email} ${l.pesquisa?.motel ?? ''}`.toLowerCase().includes(q)))
+    .sort((a, b) => b.pontos - a.pontos);
 }
 function desenhar() {
-  const so = $('#so-quentes').checked;
-  $('#linhas').innerHTML = linhas.filter((l) => !so || l.faixa === 'quente').map((l) => `<tr><td>${esc(l.nome)}<br><small>${esc(l.email)}${l.ja_aluno ? ' · aluno' : ''}</small></td><td><a style="color:var(--champ)" target="_blank" href="https://wa.me/${esc(l.whatsapp.replace(/\D/g, ''))}">${esc(l.whatsapp)}</a></td><td>${l.pontos} <span class="tag ${l.faixa}">${l.faixa}</span></td><td>${(l.passos || []).length}/5</td><td>${l.intencao ? esc(`${l.intencao} · ${l.cargo} · ${l.motel_qtd} motel(is) · ${l.suites} · ${l.medo_2027} · ${l.orcamento}`) : '—'}</td></tr>`).join('');
+  $('#linhas').innerHTML = filtradas().map((l) => {
+    const p = l.pesquisa || {};
+    const marcas = TAREFAS.map((t) => `<span class="mk ${l.passos[t.id] ? 'ok' : ''}" title="${t.titulo}">${t.titulo.split(' ').slice(-1)[0].slice(0, 3)}</span>`).join('');
+    const pesq = p.versao >= 2 ? `${ROT.suites_faixa[p.suites_faixa] ?? ''} suítes · ${ROT.motel_qtd[p.motel_qtd] ?? ''} motel(is) · ${ROT.papel[p.papel] ?? ''} · ${ROT.faturamento[p.faturamento] ?? ''}<br><small>Quer acertar: ${ROT.decisao[p.decisao] ?? '—'} · ${ROT.como_entrar[p.como_entrar] ?? ''}</small>${p.pergunta_live ? `<br><small>“${esc(p.pergunta_live)}”</small>` : ''}` : '—';
+    const w = (l.whatsapp || '').replace(/\D/g, '');
+    return `<tr><td>${esc(l.nome)}<br><small>${esc(l.email)}${l.ja_aluno ? ' · aluno' : ''}</small></td>
+      <td><span class="tag ${l.faixa}">${FX[l.faixa]}</span><br><small>${l.nivel === 'na_frente' ? 'Na frente' : l.nivel === 'pronto' ? 'Pronto' : 'Preparado'}</small></td>
+      <td>${l.perfil} · ${l.engajamento}</td><td class="marcas">${marcas}</td>
+      <td>${NOME_SITUACAO[l.situacao] || l.situacao}</td><td>${l.dias_parado ?? 0} d</td><td>${pesq}</td>
+      <td>${w ? `<a class="btn sec mini" target="_blank" rel="noopener" href="https://wa.me/${w}?text=${encodeURIComponent(mensagem(l))}">WhatsApp</a>` : ''}</td></tr>`;
+  }).join('') || '<tr><td colspan="8">Ninguém com esse filtro.</td></tr>';
 }
-$('#so-quentes').onchange = desenhar;
+['#f-faixa', '#f-sit', '#f-parado'].forEach((s) => ($(s).onchange = desenhar));
+$('#f-busca').oninput = desenhar;
 $('#csv').onclick = () => {
-  const cols = ['nome', 'email', 'whatsapp', 'ja_aluno', 'pontos', 'faixa', 'intencao', 'cargo', 'motel_qtd', 'suites', 'medo_2027', 'orcamento', 'created_at'];
-  const csv = [cols.join(';'), ...linhas.map((l) => cols.map((c) => `"${String(l[c] ?? '').replace(/"/g, '""')}"`).join(';'))].join('\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'black-2026-area.csv'; a.click();
+  const cols = ['nome', 'email', 'whatsapp', 'ja_aluno', 'faixa', 'perfil', 'engajamento', 'pontos', 'nivel', 'tarefas', 'proxima', 'dias_parado', 'situacao', 'created_at'];
+  const pq = ['suites_faixa', 'motel_qtd', 'papel', 'faturamento', 'decisao', 'como_decide', 'relacao', 'como_entrar', 'pergunta_live'];
+  const csv = [[...cols, ...pq, 'mensagem'].join(';'), ...filtradas().map((l) => [...cols.map((c) => l[c]), ...pq.map((c) => l.pesquisa?.[c]), mensagem(l)].map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';'))].join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })); a.download = 'black-2026-acompanhamento.csv'; a.click();
 };
 $('#f-conteudo').onsubmit = async (e) => {
   e.preventDefault();

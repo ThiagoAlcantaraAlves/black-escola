@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Área da Black 2026 · Escola de Motelaria</title>
-<meta name="description" content="Área de membros da Black 2026 da Escola de Motelaria: jornada, pesquisa e conteúdos liberados para quem está na lista.">
+<meta name="description" content="Área da Black 2026 da Escola de Motelaria: jornada de preparação para 2027 com as ferramentas do hub e o link da oferta antes de todo mundo.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/assets/simbolo-neg.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/app/area.css">
+<link rel="stylesheet" href="/app/area.css?v=3">
 </head>
 <body>
 <header><div class="wrap"><a href="/"><img src="/assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><span><a id="link-equipe" href="/app/equipe.html" hidden>Equipe</a> <button class="link" id="sair" hidden>Sair</button></span></div></header>
@@ -21,7 +21,7 @@
 <section id="v-entrar" hidden>
   <p class="eyebrow">Área da Black 2026</p>
   <h1>Entre com o e-mail que você usou na inscrição.</h1>
-  <p class="sub">A gente manda um link de acesso para esse e-mail. O link vale uma vez só e expira; ninguém entra sem ter acesso ao seu e-mail.</p>
+  <p class="sub">A gente manda um link de acesso para esse e-mail. Ele vale uma vez só e expira em minutos.</p>
   <form id="f-entrar">
     <label>E-mail<input type="email" name="email" required autocomplete="email"></label>
     <button class="btn">Receber link de acesso</button>
@@ -31,14 +31,14 @@
 </section>
 
 <section id="v-inscricao" hidden>
-  <p class="eyebrow">Falta só confirmar</p>
-  <h1>Confirme sua inscrição na Black 2026.</h1>
-  <p class="sub">Só quem está inscrito acessa a área. Confere seus dados:</p>
+  <p class="eyebrow">Área da Black 2026</p>
+  <h1>Falta só confirmar seus dados.</h1>
+  <p class="sub">É com esse WhatsApp que o link da Black chega no domingo, 22/11.</p>
   <form id="f-inscricao">
     <label>Nome<input name="nome" required minlength="2" autocomplete="name"></label>
-    <label>WhatsApp com DDD<input name="whats" type="tel" required placeholder="(11) 99999-9999"></label>
-    <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" name="aluno" style="width:auto"> Já sou aluno da Escola</label>
-    <button class="btn">Confirmar e entrar</button>
+    <label>WhatsApp com DDD<input name="whats" type="tel" required placeholder="(47) 99999-9999"></label>
+    <label class="check"><input type="checkbox" name="aluno"> Já sou aluno da Escola</label>
+    <button class="btn">Entrar na jornada</button>
     <p class="msg" id="m-inscricao"></p>
   </form>
 </section>
@@ -46,46 +46,27 @@
 <section id="v-jornada" hidden>
   <p class="eyebrow">Jornada da Black 2026</p>
   <h1 id="oi">Bem-vindo.</h1>
-  <div class="card">
-    <div class="placar"><strong id="pontos">0</strong><div><div>pontos</div><small style="color:var(--suave)" id="faltam"></small></div></div>
-    <div class="barra"><i id="barra" style="width:0"></i></div>
-    <p class="sub" id="contador" style="font-size:14px"></p>
+
+  <div class="card topo">
+    <div class="placar">
+      <div><small>Seu nível</small><strong id="nivel">Preparado</strong></div>
+      <div><small>Tarefas</small><strong><span id="feitas">1</span>/8</strong></div>
+      <p id="contador" class="sub" style="margin:0;flex:1;min-width:220px"></p>
+    </div>
+    <div class="barra"><i id="barra" style="width:20%"></i></div>
+    <p class="sub" id="meta" style="margin-top:10px"></p>
   </div>
 
-  <h2>Seus passos</h2>
-  <div id="passos"></div>
+  <div id="painel" class="card painel" hidden></div>
 
-  <div id="bloco-pesquisa" hidden>
-    <h2>Pesquisa do seu motel</h2>
-    <p class="sub">Leva 1 minuto e libera o vídeo preparatório para a Black.</p>
-    <form id="f-pesquisa">
-      <label>Nome do motel (opcional)<input name="motel"></label>
-      <label>Quantos motéis você tem?<select name="motel_qtd" required><option value="">Escolha</option><option value="1">1</option><option value="2-3">2 ou 3</option><option value="4+">4 ou mais</option></select></label>
-      <label>Quantas suítes no total?<select name="suites" required><option value="">Escolha</option><option>até 20</option><option>21 a 40</option><option>41 a 80</option><option>mais de 80</option></select></label>
-      <label>Seu papel<select name="cargo" required><option value="">Escolha</option><option value="dono">Dono</option><option value="socio">Sócio</option><option value="gerente">Gerente</option><option value="outro">Outro</option></select></label>
-      <label>O que mais preocupa você em 2027?<select name="medo_2027" required><option value="">Escolha</option><option>Escala 6x1</option><option>CBS e reforma tributária</option><option>Split payment</option><option>Juros e caixa</option><option>Ocupação e concorrência</option></select></label>
-      <label>Você pensa em entrar na Black 2026?<select name="intencao" required><option value="">Escolha</option><option value="quero">Quero entrar</option><option value="talvez">Talvez, depende da condição</option><option value="olhando">Só estou olhando</option></select></label>
-      <label>Quanto você investiria em capacitação em 2027?<select name="orcamento" required><option value="">Escolha</option><option>até R$ 1.000</option><option>R$ 1.000 a 3.000</option><option>mais de R$ 3.000</option></select></label>
-      <button class="btn">Enviar e liberar o vídeo</button>
-      <p class="msg" id="m-pesquisa"></p>
-    </form>
-  </div>
-
-  <div id="bloco-indicacao" hidden>
-    <h2>Indique um sócio ou gerente</h2>
-    <form id="f-indicacao">
-      <label>Nome<input name="nome" required minlength="2"></label>
-      <label>WhatsApp com DDD<input name="whats" type="tel" required></label>
-      <button class="btn">Indicar</button>
-      <p class="msg" id="m-indicacao"></p>
-    </form>
-  </div>
+  <h2>Suas tarefas</h2>
+  <div id="tarefas"></div>
 
   <h2>Conteúdos liberados</h2>
   <div id="conteudos"></div>
 </section>
 
 </div></main>
-<script type="module" src="/app/jornada.js"></script>
+<script type="module" src="/app/jornada.js?v=3"></script>
 </body>
 </html>

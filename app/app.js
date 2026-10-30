@@ -7,6 +7,17 @@ export const supabase = createClient(
 
 export const COMUNIDADE = 'https://chat.whatsapp.com/EWumga16MSN0WlOhawDziF';
 export const EVENTO_LEAD = 'https://cmrydpojogzofzfzwjhi.supabase.co/functions/v1/evento-lead';
+// Ponte com o hub: sincroniza CRM, Mailchimp e a fila do assistente, e gera o Raio-X 2027.
+export const HUB_BLACK = 'https://cmrydpojogzofzfzwjhi.supabase.co/functions/v1/black-area';
+
+/** Dados que a pessoa deixou na página de inscrição (guardados por 30 dias neste aparelho). */
+export function leadDaPagina() {
+  try {
+    const l = JSON.parse(localStorage.getItem('bf_lead') || 'null');
+    if (!l || Date.now() - (l.t || 0) > 30 * 86400000) return null;
+    return { nome: l.nome, email: (l.email || '').toLowerCase(), whats: (l.whats || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '') };
+  } catch { return null; }
+}
 
 export const $ = (s) => document.querySelector(s);
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
