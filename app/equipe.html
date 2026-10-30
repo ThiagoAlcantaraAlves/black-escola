@@ -38,14 +38,16 @@
     <label>Título<input name="titulo" required></label>
     <label>Descrição<textarea name="descricao" rows="2"></textarea></label>
     <label>Tipo<select name="tipo"><option value="video">Vídeo</option><option value="brinde">Brinde (arquivo/link)</option></select></label>
-    <label>Link (YouTube, Vimeo, .mp4 ou arquivo)<input name="url" type="url" required></label>
+    <label>Vídeo do computador (mp4, mov ou webm, até 2 GB)<input type="file" id="arquivo" accept="video/mp4,video/quicktime,video/webm"></label>
+    <div id="envio" hidden><div class="barra"><i id="envio-barra" style="width:0%"></i></div><p class="sub" id="envio-txt">Enviando…</p></div>
+    <label>Ou um link (YouTube, Vimeo, arquivo)<input name="url" type="url"></label>
     <label>Libera depois de<select name="libera_apos"><option value="pesquisa">Raio-X 2027 (pesquisa)</option><option value="video">Assistir o vídeo</option><option value="escala">A conta da escala</option><option value="preco">O preço do fim de semana</option><option value="revpar">RevPAR no estado</option><option value="imposto">O imposto em 2027</option><option value="indicacao">Indicar alguém</option><option value="comunidade">Entrar na comunidade</option><option value="boas_vindas">Logo no 1º acesso</option></select></label>
     <button class="btn">Adicionar conteúdo</button>
     <p class="msg" id="m-conteudo"></p>
   </form>
 </div></main>
 <script type="module">
-import { supabase, $, esc } from '/app/app.js';
+import { supabase, $, esc, enviarVideo, BUCKET_VIDEOS } from '/app/app.js';
 import { TAREFAS, PERGUNTAS } from '/app/regras.js';
 import { situacao, NOME_SITUACAO, mensagem } from '/app/mensagens.js';
 const { data: { user } } = await supabase.auth.getUser();
@@ -67,8 +69,14 @@ async function carregar() {
   $('#f-sit').innerHTML = '<option value="">Todas</option>' + sits.map((s) => `<option value="${s}">${NOME_SITUACAO[s] || s}</option>`).join('');
   desenhar();
   const { data: cs } = await supabase.from('black_conteudos').select('*').order('ordem');
-  $('#lista-conteudos').innerHTML = (cs || []).map((c) => `<div class="card passo"><span class="ok">${c.tipo === 'video' ? '▶' : '🎁'}</span><div>${esc(c.titulo)}<small>libera após: ${c.libera_apos} · ${esc(c.url)}</small></div><button class="btn sec" data-apagar="${c.id}">Remover</button></div>`).join('');
-  document.querySelectorAll('[data-apagar]').forEach((b) => (b.onclick = async () => { b.textContent = 'Removendo…'; await supabase.from('black_conteudos').delete().eq('id', b.dataset.apagar); carregar(); }));
+  $('#lista-conteudos').innerHTML = (cs || []).map((c) => `<div class="card passo"><span class="ok">${c.tipo === 'video' ? '▶' : '🎁'}</span><div>${esc(c.titulo)}<small>libera após: ${c.libera_apos} · ${c.arquivo_path ? 'vídeo na área' : esc(c.url || '')}</small></div><button class="btn sec" data-apagar="${c.id}">Remover</button></div>`).join('');
+  document.querySelectorAll('[data-apagar]').forEach((b) => (b.onclick = async () => {
+    b.textContent = 'Removendo…';
+    const c = (cs || []).find((x) => x.id === b.dataset.apagar);
+    await supabase.from('black_conteudos').delete().eq('id', b.dataset.apagar);
+    if (c?.arquivo_path) await supabase.storage.from(BUCKET_VIDEOS).remove([c.arquivo_path]);
+    carregar();
+  }));
 }
 function filtradas() {
   const fx = $('#f-faixa').value, st = $('#f-sit').value, pd = +$('#f-parado').value, q = $('#f-busca').value.trim().toLowerCase();
@@ -99,9 +107,26 @@ $('#csv').onclick = () => {
 };
 $('#f-conteudo').onsubmit = async (e) => {
   e.preventDefault();
-  const { error } = await supabase.from('black_conteudos').insert(Object.fromEntries(new FormData(e.target)));
-  $('#m-conteudo').textContent = error ? 'Não consegui salvar.' : 'Conteúdo adicionado.';
-  if (!error) { e.target.reset(); carregar(); }
+  const f = e.target, btn = f.querySelector('button'), file = $('#arquivo').files[0];
+  const dados = Object.fromEntries(new FormData(f));
+  if (!file && !dados.url) return ($('#m-conteudo').textContent = 'Escolha o vídeo do computador ou cole um link.');
+  btn.disabled = true;
+  if (file) {
+    $('#envio').hidden = false;
+    try {
+      dados.arquivo_path = await enviarVideo(file, (pct) => { $('#envio-barra').style.width = pct + '%'; $('#envio-txt').textContent = `Enviando… ${pct}%`; });
+    } catch {
+      btn.disabled = false;
+      return ($('#m-conteudo').textContent = 'O envio parou. Escolha o arquivo de novo: ele continua de onde parou.');
+    }
+    dados.tipo = 'video';
+  }
+  if (!dados.url) delete dados.url;
+  const { error } = await supabase.from('black_conteudos').insert(dados);
+  btn.disabled = false;
+  $('#envio').hidden = true;
+  $('#m-conteudo').textContent = error ? 'Não consegui salvar o conteúdo.' : 'Conteúdo adicionado.';
+  if (!error) { f.reset(); carregar(); }
 };
 carregar();
 </script>

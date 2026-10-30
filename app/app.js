@@ -1,9 +1,42 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
+import { Upload } from 'https://esm.sh/tus-js-client@4.3.1';
 
-export const supabase = createClient(
-  'https://xzrnqghcacxjteldklyt.supabase.co',
-  'sb_publishable_kvMj40j9wnybJl0mafIogg_3gqNfgK7',
-);
+const AREA_URL = 'https://xzrnqghcacxjteldklyt.supabase.co';
+const AREA_KEY = 'sb_publishable_kvMj40j9wnybJl0mafIogg_3gqNfgK7';
+export const supabase = createClient(AREA_URL, AREA_KEY);
+export const BUCKET_VIDEOS = 'black-videos';
+
+/** Link temporário (4 h) para tocar um vídeo do bucket privado. Só sai para quem já liberou o conteúdo. */
+export async function videoAssinado(path) {
+  const { data, error } = await supabase.storage.from(BUCKET_VIDEOS).createSignedUrl(path, 60 * 60 * 4);
+  if (error) throw error;
+  return data.signedUrl;
+}
+
+/** Envio retomável (TUS) em pedaços de 6 MB, igual ao portal do MotelMind IA. Se cair, escolher o arquivo de novo continua de onde parou. */
+export async function enviarVideo(file, onProgresso) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) throw new Error('Sessão expirada. Entre de novo.');
+  const limpo = file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9.-]+/g, '-').toLowerCase();
+  const path = `${new Date().toISOString().slice(0, 10)}-${Date.now()}-${limpo}`;
+  await new Promise((resolve, reject) => {
+    const up = new Upload(file, {
+      endpoint: `${AREA_URL}/storage/v1/upload/resumable`,
+      retryDelays: [0, 3000, 5000, 10000, 20000],
+      headers: { authorization: `Bearer ${token}`, apikey: AREA_KEY, 'x-upsert': 'true' },
+      uploadDataDuringCreation: true,
+      removeFingerprintOnSuccess: true,
+      metadata: { bucketName: BUCKET_VIDEOS, objectName: path, contentType: file.type || 'video/mp4', cacheControl: '3600' },
+      chunkSize: 6 * 1024 * 1024,
+      onError: reject,
+      onProgress: (enviado, total) => onProgresso(Math.round((enviado / total) * 100)),
+      onSuccess: resolve,
+    });
+    up.findPreviousUploads().then((ant) => { if (ant[0]) up.resumeFromPreviousUpload(ant[0]); up.start(); });
+  });
+  return path;
+}
 
 export const COMUNIDADE = 'https://chat.whatsapp.com/EWumga16MSN0WlOhawDziF';
 export const EVENTO_LEAD = 'https://cmrydpojogzofzfzwjhi.supabase.co/functions/v1/evento-lead';

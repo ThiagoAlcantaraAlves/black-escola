@@ -1,4 +1,4 @@
-import { supabase, $, esc, mascara, player, COMUNIDADE, HUB_BLACK, leadDaPagina } from '/app/app.js';
+import { supabase, $, esc, mascara, player, COMUNIDADE, HUB_BLACK, leadDaPagina, videoAssinado } from '/app/app.js';
 import { TAREFAS, PERGUNTAS, PERGUNTA_ABERTA, DATAS, NOME_NIVEL, contam, estado, dataCurta } from '/app/regras.js';
 import { FERRAMENTAS } from '/app/ferramentas.js';
 
@@ -68,6 +68,18 @@ async function carregar() {
 
 const feitos = () => Object.keys(S.feitos);
 
+/** Player do conteúdo: arquivo da área (link assinado, preenchido depois) ou link externo. */
+function playerDe(c) {
+  if (c.arquivo_path) return `<video data-arquivo="${esc(c.arquivo_path)}" controls playsinline preload="metadata"></video>`;
+  return player(c.url || '');
+}
+async function assinarVideos(raiz) {
+  for (const v of raiz.querySelectorAll('video[data-arquivo]')) {
+    if (v.src) continue;
+    try { v.src = await videoAssinado(v.dataset.arquivo); } catch { v.outerHTML = '<p class="sub">Não consegui carregar o vídeo agora. Recarregue a página.</p>'; }
+  }
+}
+
 // ───────────── tela ─────────────
 function desenhar() {
   mostra('jornada');
@@ -98,8 +110,9 @@ function desenhar() {
 
   const lista = S.conteudos;
   $('#conteudos').innerHTML = lista.length
-    ? lista.map((c) => `<div class="card"><h3>${esc(c.titulo)}</h3>${c.descricao ? `<p class="sub">${esc(c.descricao)}</p>` : ''}${c.tipo === 'video' ? `<div class="video">${player(c.url)}</div>` : `<p style="margin-top:12px"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">Abrir</a></p>`}</div>`).join('')
+    ? lista.map((c) => `<div class="card"><h3>${esc(c.titulo)}</h3>${c.descricao ? `<p class="sub">${esc(c.descricao)}</p>` : ''}${c.tipo === 'video' ? `<div class="video">${playerDe(c)}</div>` : `<p style="margin-top:12px"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">Abrir</a></p>`}</div>`).join('')
     : '<p class="sub">Os conteúdos aparecem aqui conforme você faz as tarefas.</p>';
+  assinarVideos($('#conteudos'));
 }
 
 function painel(html) {
@@ -189,9 +202,10 @@ function video() {
   const feito = !!S.feitos.video;
   const p = painel(`<p class="eyebrow">Vídeo</p><h2>A conta de 2027</h2>
     <p class="sub">A live com o Vinicius Roveda e o Thiago Alcântara: o fim da escala 6x1, a reforma tributária e como usar a IA para fazer essas contas no seu motel.</p>
-    ${vids.length ? vids.map((c) => `<div class="video">${player(c.url)}</div>`).join('') : '<p class="sub">O vídeo entra aqui em instantes. Volte daqui a pouco.</p>'}
+    ${vids.length ? vids.map((c) => `<div class="video">${playerDe(c)}</div>`).join('') : '<p class="sub">O vídeo entra aqui em instantes. Volte daqui a pouco.</p>'}
     ${vids.length && !feito ? '<p style="margin-top:14px"><button class="btn" id="assisti">Já assisti</button></p>' : ''}
     ${feito ? '<p class="msg">Tarefa feita.</p>' : ''}<p class="msg" id="m-video"></p>`);
+  assinarVideos(p);
   const b = p.querySelector('#assisti');
   if (b) b.onclick = async () => { b.disabled = true; const er = await marcar('video'); $('#m-video').textContent = er ? 'Não consegui marcar. Tenta de novo.' : 'Pronto, tarefa feita.'; };
 }
