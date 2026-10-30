@@ -40,6 +40,7 @@
     <label>Tipo<select name="tipo"><option value="video">Vídeo</option><option value="brinde">Brinde (arquivo/link)</option></select></label>
     <label>Vídeo do computador (mp4, mov ou webm, até 2 GB)<input type="file" id="arquivo" accept="video/mp4,video/quicktime,video/webm"></label>
     <div id="envio" hidden><div class="barra"><i id="envio-barra" style="width:0%"></i></div><p class="sub" id="envio-txt">Enviando…</p></div>
+    <label>Ou o nome de um vídeo que já está no Storage (pasta black-videos do Lovable)<input name="arquivo_existente" placeholder="ex.: live-2910.mp4"></label>
     <label>Ou um link (YouTube, Vimeo, arquivo)<input name="url" type="url"></label>
     <label>Libera depois de<select name="libera_apos"><option value="pesquisa">Raio-X 2027 (pesquisa)</option><option value="video">Assistir o vídeo</option><option value="escala">A conta da escala</option><option value="preco">O preço do fim de semana</option><option value="revpar">RevPAR no estado</option><option value="imposto">O imposto em 2027</option><option value="indicacao">Indicar alguém</option><option value="comunidade">Entrar na comunidade</option><option value="boas_vindas">Logo no 1º acesso</option></select></label>
     <button class="btn">Adicionar conteúdo</button>
@@ -109,15 +110,24 @@ $('#f-conteudo').onsubmit = async (e) => {
   e.preventDefault();
   const f = e.target, btn = f.querySelector('button'), file = $('#arquivo').files[0];
   const dados = Object.fromEntries(new FormData(f));
-  if (!file && !dados.url) return ($('#m-conteudo').textContent = 'Escolha o vídeo do computador ou cole um link.');
+  const existente = (dados.arquivo_existente || '').trim();
+  delete dados.arquivo_existente;
+  if (!file && !existente && !dados.url) return ($('#m-conteudo').textContent = 'Escolha o vídeo do computador, informe o nome no Storage ou cole um link.');
   btn.disabled = true;
-  if (file) {
+  if (existente) {
+    const { error: eArq } = await supabase.storage.from(BUCKET_VIDEOS).createSignedUrl(existente, 60);
+    if (eArq) { btn.disabled = false; return ($('#m-conteudo').textContent = `Não achei "${existente}" na pasta black-videos. Confira o nome exato no Storage.`); }
+    dados.arquivo_path = existente;
+    dados.tipo = 'video';
+  } else if (file) {
     $('#envio').hidden = false;
     try {
       dados.arquivo_path = await enviarVideo(file, (pct) => { $('#envio-barra').style.width = pct + '%'; $('#envio-txt').textContent = `Enviando… ${pct}%`; });
-    } catch {
+    } catch (er) {
+      console.error('[envio do vídeo]', er);
       btn.disabled = false;
-      return ($('#m-conteudo').textContent = 'O envio parou. Escolha o arquivo de novo: ele continua de onde parou.');
+      const detalhe = String(er?.message || er).replace(/\s+/g, ' ').slice(0, 400);
+      return ($('#m-conteudo').innerHTML = `O envio parou. Escolha o arquivo de novo: ele continua de onde parou.<br><small style="color:var(--suave)">Detalhe: ${esc(detalhe)}</small>`);
     }
     dados.tipo = 'video';
   }
