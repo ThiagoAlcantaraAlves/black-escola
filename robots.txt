@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blackedm.lovable.app/sitemap.xml
+Sitemap: https://black.escolademotelaria.com.br/sitemap.xml
