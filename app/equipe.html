@@ -6,13 +6,13 @@
 <title>Equipe · Área da Black 2026</title>
 <meta name="description" content="Painel da equipe da Black 2026: inscritos, pontuação e conteúdos.">
 <meta name="robots" content="noindex">
-<link rel="icon" href="../assets/simbolo-neg.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/simbolo-neg.svg?v=2" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="area.css">
+<link rel="stylesheet" href="/app/area.css">
 <style>.wrap{max-width:1180px}</style>
 </head>
 <body>
-<header><div class="wrap"><a href="./"><img src="../assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><a href="./">Voltar para a jornada</a></div></header>
+<header><div class="wrap"><a href="/app/"><img src="/assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><a href="/app/">Voltar para a jornada</a></div></header>
 <main><div class="wrap">
   <p class="eyebrow">Equipe</p>
   <h1>Inscritos na área da Black</h1>
@@ -33,9 +33,9 @@
   </form>
 </div></main>
 <script type="module">
-import { supabase, $, esc } from './app.js';
+import { supabase, $, esc } from '/app/app.js';
 const { data: { user } } = await supabase.auth.getUser();
-if (!user) location.href = './';
+if (!user) location.href = '/app/';
 let linhas = [];
 async function carregar() {
   const { data, error } = await supabase.rpc('black_painel');
