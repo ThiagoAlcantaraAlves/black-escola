@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Equipe · Área da Black 2026</title>
+<meta name="description" content="Painel da equipe da Black 2026: inscritos, pontuação e conteúdos.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/simbolo-neg.svg?v=2" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="area.css">
+<style>.wrap{max-width:1180px}</style>
+</head>
+<body>
+<header><div class="wrap"><a href="./"><img src="../assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><a href="./">Voltar para a jornada</a></div></header>
+<main><div class="wrap">
+  <p class="eyebrow">Equipe</p>
+  <h1>Inscritos na área da Black</h1>
+  <p class="sub" id="resumo">Carregando…</p>
+  <p style="margin-top:14px"><label style="display:inline-flex;gap:8px;align-items:center"><input type="checkbox" id="so-quentes" style="width:auto"> Só os quentes</label> <button class="btn sec" id="csv">Baixar planilha</button></p>
+  <div class="card" style="overflow:auto"><table><thead><tr><th>Nome</th><th>WhatsApp</th><th>Pontos</th><th>Passos</th><th>Pesquisa</th></tr></thead><tbody id="linhas"></tbody></table></div>
+
+  <h2>Conteúdos</h2>
+  <div id="lista-conteudos"></div>
+  <form id="f-conteudo" class="card" style="max-width:none">
+    <label>Título<input name="titulo" required></label>
+    <label>Descrição<textarea name="descricao" rows="2"></textarea></label>
+    <label>Tipo<select name="tipo"><option value="video">Vídeo</option><option value="brinde">Brinde (arquivo/link)</option></select></label>
+    <label>Link (YouTube, Vimeo, .mp4 ou arquivo)<input name="url" type="url" required></label>
+    <label>Libera depois de<select name="libera_apos"><option value="pesquisa">Responder a pesquisa</option><option value="video">Assistir o vídeo</option><option value="indicacao">Indicar alguém</option><option value="comunidade">Entrar na comunidade</option><option value="boas_vindas">Logo no 1º acesso</option></select></label>
+    <button class="btn">Adicionar conteúdo</button>
+    <p class="msg" id="m-conteudo"></p>
+  </form>
+</div></main>
+<script type="module">
+import { supabase, $, esc } from './app.js';
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) location.href = './';
+let linhas = [];
+async function carregar() {
+  const { data, error } = await supabase.rpc('black_painel');
+  if (error) { $('#resumo').textContent = 'Acesso restrito à equipe.'; return; }
+  linhas = data;
+  const q = data.filter((l) => l.faixa === 'quente').length, m = data.filter((l) => l.faixa === 'morno').length;
+  $('#resumo').textContent = `${data.length} inscritos · ${q} quentes · ${m} mornos · ${data.length - q - m} frios`;
+  desenhar();
+  const { data: cs } = await supabase.from('black_conteudos').select('*').order('ordem');
+  $('#lista-conteudos').innerHTML = (cs || []).map((c) => `<div class="card passo"><span class="ok">${c.tipo === 'video' ? '▶' : '🎁'}</span><div>${esc(c.titulo)}<small>libera após: ${c.libera_apos} · ${esc(c.url)}</small></div><button class="btn sec" data-apagar="${c.id}">Remover</button></div>`).join('');
+  document.querySelectorAll('[data-apagar]').forEach((b) => b.onclick = async () => { if (confirm('Remover este conteúdo?')) { await supabase.from('black_conteudos').delete().eq('id', b.dataset.apagar); carregar(); } });
+}
+function desenhar() {
+  const so = $('#so-quentes').checked;
+  $('#linhas').innerHTML = linhas.filter((l) => !so || l.faixa === 'quente').map((l) => `<tr><td>${esc(l.nome)}<br><small>${esc(l.email)}${l.ja_aluno ? ' · aluno' : ''}</small></td><td><a style="color:var(--champ)" target="_blank" href="https://wa.me/${esc(l.whatsapp.replace(/\D/g, ''))}">${esc(l.whatsapp)}</a></td><td>${l.pontos} <span class="tag ${l.faixa}">${l.faixa}</span></td><td>${(l.passos || []).length}/5</td><td>${l.intencao ? esc(`${l.intencao} · ${l.cargo} · ${l.motel_qtd} motel(is) · ${l.suites} · ${l.medo_2027} · ${l.orcamento}`) : '—'}</td></tr>`).join('');
+}
+$('#so-quentes').onchange = desenhar;
+$('#csv').onclick = () => {
+  const cols = ['nome', 'email', 'whatsapp', 'ja_aluno', 'pontos', 'faixa', 'intencao', 'cargo', 'motel_qtd', 'suites', 'medo_2027', 'orcamento', 'created_at'];
+  const csv = [cols.join(';'), ...linhas.map((l) => cols.map((c) => `"${String(l[c] ?? '').replace(/"/g, '""')}"`).join(';'))].join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'black-2026-area.csv'; a.click();
+};
+$('#f-conteudo').onsubmit = async (e) => {
+  e.preventDefault();
+  const { error } = await supabase.from('black_conteudos').insert(Object.fromEntries(new FormData(e.target)));
+  $('#m-conteudo').textContent = error ? 'Não consegui salvar.' : 'Conteúdo adicionado.';
+  if (!error) { e.target.reset(); carregar(); }
+};
+carregar();
+</script>
+</body>
+</html>
