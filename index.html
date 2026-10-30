@@ -322,7 +322,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})}).then(function(res){
         if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
         try{sessionStorage.setItem('bf_nome',nome.split(' ')[0])}catch(e){}
-        location.href='obrigado?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
+        location.href='obrigado.html?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
       }).catch(function(){
         btn.disabled=false; btn.textContent=txt;
         erro.textContent='Não consegui enviar agora. Tenta de novo em alguns segundos.'; erro.classList.add('on');
