@@ -19,6 +19,22 @@ async function hub(acao = 'sync') {
   } catch { return null; }
 }
 
+// ───────────── visita do dia ─────────────
+// O rpc do supabase-js só dispara com await/then; por isso as visitas ficavam zeradas.
+// Roda ao abrir a área (sempre) e nas trocas de tela, no máximo a cada 5 minutos.
+const VISITA_INTERVALO = 5 * 60 * 1000;
+async function visita(forcar = false) {
+  if (!user || !membro) return;
+  const chave = 'bf_visita_' + user.id;
+  const ultima = +localStorage.getItem(chave) || 0;
+  if (!forcar && Date.now() - ultima < VISITA_INTERVALO) return;
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return;
+  const { error } = await supabase.rpc('black_visita');
+  if (!error) localStorage.setItem(chave, String(Date.now()));
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') visita(); });
+
 // ───────────── entrada ─────────────
 async function iniciar() {
   const { data } = await supabase.auth.getUser();
@@ -43,7 +59,7 @@ async function iniciar() {
     if (l?.whats) f.whats.value = mascara(l.whats);
     return mostra('inscricao');
   }
-  supabase.rpc('black_visita');
+  await visita(true);
   if (!sessionStorage.getItem('bf_sync')) { sessionStorage.setItem('bf_sync', '1'); hub(); }
   await carregar();
 }
@@ -134,6 +150,7 @@ async function marcar(passo, dados = null) {
 
 // ───────────── cada tarefa ─────────────
 function abrir(id) {
+  visita();
   if (id === 'pesquisa') return S.pesquisa ? raiox() : pesquisa(0, {});
   if (id === 'video') return video();
   if (id === 'comunidade') return comunidade();

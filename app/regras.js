@@ -79,3 +79,22 @@ export function estado(tarefaId, feitos, agora = new Date()) {
 
 export const NOME_NIVEL = { preparado: 'Preparado', pronto: 'Pronto', na_frente: 'Na frente' };
 export const dataCurta = (d) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'America/Sao_Paulo' });
+
+// ───────────── painel da equipe ─────────────
+export const tituloTarefa = (id) => TAREFAS.find((t) => t.id === id)?.titulo ?? id ?? '';
+export const dataHoraBrasilia = (iso) => iso
+  ? new Date(iso).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  : '';
+export const COLUNAS_CSV_EQUIPE = ['nome', 'email', 'whatsapp', 'faixa', 'pontos', 'tarefas_concluidas', 'proxima_tarefa', 'ultimo_acesso', 'dias_parado', 'pesquisa_respondida'];
+/** Uma linha do "Exportar CSV" do painel, a partir do que black_painel devolve. */
+export function linhaCsvEquipe(l) {
+  const feitas = (l.feitas || []).map((f) => tituloTarefa(f.passo)).join(', ');
+  return {
+    nome: l.nome, email: l.email, whatsapp: l.whatsapp, faixa: l.faixa, pontos: l.pontos,
+    tarefas_concluidas: feitas,
+    proxima_tarefa: l.proxima ? tituloTarefa(l.proxima) : 'Em dia',
+    ultimo_acesso: dataHoraBrasilia(l.ultimo_acesso),
+    dias_parado: l.dias_parado ?? 0,
+    pesquisa_respondida: (l.feitas || []).some((f) => f.passo === 'pesquisa') ? 'sim' : 'não',
+  };
+}

@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/simbolo-neg.svg?v=2" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/app/area.css?v=3">
-<style>.wrap{max-width:1280px}</style>
+<style>.wrap{max-width:1280px}.chips{min-width:220px;white-space:normal}.chips .mk{font-size:11px;padding:2px 6px}.nowrap{white-space:nowrap}</style>
 </head>
 <body>
 <header><div class="wrap"><a href="/app/"><img src="/assets/escola-neg.svg?v=2" alt="Escola de Motelaria" width="160" height="34"></a><a href="/app/">Voltar para a jornada</a></div></header>
@@ -25,10 +25,11 @@
     <label>Parado há<select id="f-parado"><option value="0">qualquer tempo</option><option value="3">3 dias ou mais</option><option value="7">7 dias ou mais</option></select></label>
     <label>Busca<input id="f-busca" placeholder="nome, e-mail ou motel"></label>
     <button class="btn sec" id="csv">Baixar planilha</button>
+    <button class="btn sec" id="csv-resumo">Exportar CSV</button>
   </div>
 
   <div class="card" style="overflow:auto"><table class="painel-eq"><thead><tr>
-    <th>Pessoa</th><th>Faixa</th><th>Perfil · Eng.</th><th>Tarefas</th><th>Situação</th><th>Parado</th><th>Pesquisa</th><th>Ação</th>
+    <th>Pessoa</th><th>Faixa</th><th>Perfil · Eng.</th><th>Tarefas concluídas</th><th>Onde está</th><th>Último acesso</th><th>Dias parado</th><th>Pesquisa</th><th>Ação</th>
   </tr></thead><tbody id="linhas"></tbody></table></div>
   <p class="sub">Prioridade é com a equipe (ligação ou áudio pessoal). As outras faixas o assistente acompanha pela fila <code>black_bot_fila</code> do hub, com a mesma mensagem que aparece aqui.</p>
 
@@ -49,7 +50,7 @@
 </div></main>
 <script type="module">
 import { supabase, $, esc, enviarVideo, BUCKET_VIDEOS } from '/app/app.js';
-import { TAREFAS, PERGUNTAS } from '/app/regras.js';
+import { TAREFAS, PERGUNTAS, tituloTarefa, dataHoraBrasilia, COLUNAS_CSV_EQUIPE, linhaCsvEquipe } from '/app/regras.js';
 import { situacao, NOME_SITUACAO, mensagem } from '/app/mensagens.js';
 const { data: { user } } = await supabase.auth.getUser();
 if (!user) location.href = '/app/';
@@ -88,23 +89,31 @@ function filtradas() {
 function desenhar() {
   $('#linhas').innerHTML = filtradas().map((l) => {
     const p = l.pesquisa || {};
-    const marcas = TAREFAS.map((t) => `<span class="mk ${l.passos[t.id] ? 'ok' : ''}" title="${t.titulo}">${t.titulo.split(' ').slice(-1)[0].slice(0, 3)}</span>`).join('');
+    const feito = Object.fromEntries((l.feitas || []).map((f) => [f.passo, f.feito_em]));
+    const marcas = TAREFAS.map((t) => `<span class="mk ${feito[t.id] ? 'ok' : ''}" title="${feito[t.id] ? 'Feita em ' + dataHoraBrasilia(feito[t.id]) : 'Pendente'}">${t.titulo}</span>`).join('');
     const pesq = p.versao >= 2 ? `${ROT.suites_faixa[p.suites_faixa] ?? ''} suítes · ${ROT.motel_qtd[p.motel_qtd] ?? ''} motel(is) · ${ROT.papel[p.papel] ?? ''} · ${ROT.faturamento[p.faturamento] ?? ''}<br><small>Quer acertar: ${ROT.decisao[p.decisao] ?? '—'} · ${ROT.como_entrar[p.como_entrar] ?? ''}</small>${p.pergunta_live ? `<br><small>“${esc(p.pergunta_live)}”</small>` : ''}` : '—';
     const w = (l.whatsapp || '').replace(/\D/g, '');
-    return `<tr><td>${esc(l.nome)}<br><small>${esc(l.email)}${l.ja_aluno ? ' · aluno' : ''}</small></td>
+    return `<tr><td>${esc(l.nome)}<br><small>${w ? `<a href="https://wa.me/${w}" target="_blank" rel="noopener" style="color:var(--champ)">${esc(l.whatsapp)}</a><br>` : ''}${esc(l.email)}${l.ja_aluno ? ' · aluno' : ''}</small></td>
       <td><span class="tag ${l.faixa}">${FX[l.faixa]}</span><br><small>${l.nivel === 'na_frente' ? 'Na frente' : l.nivel === 'pronto' ? 'Pronto' : 'Preparado'}</small></td>
-      <td>${l.perfil} · ${l.engajamento}</td><td class="marcas">${marcas}</td>
-      <td>${NOME_SITUACAO[l.situacao] || l.situacao}</td><td>${l.dias_parado ?? 0} d</td><td>${pesq}</td>
+      <td>${l.perfil} · ${l.engajamento}</td><td class="chips">${marcas}</td>
+      <td>${l.proxima ? esc(tituloTarefa(l.proxima)) : 'Em dia'}<br><small>${NOME_SITUACAO[l.situacao] || l.situacao}</small></td>
+      <td class="nowrap">${dataHoraBrasilia(l.ultimo_acesso) || '—'}</td><td>${l.dias_parado ?? 0} d</td><td>${pesq}</td>
       <td>${w ? `<a class="btn sec mini" target="_blank" rel="noopener" href="https://wa.me/${w}?text=${encodeURIComponent(mensagem(l))}">WhatsApp</a>` : ''}</td></tr>`;
-  }).join('') || '<tr><td colspan="8">Ninguém com esse filtro.</td></tr>';
+  }).join('') || '<tr><td colspan="9">Ninguém com esse filtro.</td></tr>';
 }
 ['#f-faixa', '#f-sit', '#f-parado'].forEach((s) => ($(s).onchange = desenhar));
 $('#f-busca').oninput = desenhar;
+const baixar = (nome, linhasCsv) => {
+  const csv = linhasCsv.map((r) => r.map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })); a.download = nome; a.click();
+};
 $('#csv').onclick = () => {
   const cols = ['nome', 'email', 'whatsapp', 'ja_aluno', 'faixa', 'perfil', 'engajamento', 'pontos', 'nivel', 'tarefas', 'proxima', 'dias_parado', 'situacao', 'created_at'];
   const pq = ['suites_faixa', 'motel_qtd', 'papel', 'faturamento', 'decisao', 'como_decide', 'relacao', 'como_entrar', 'pergunta_live'];
-  const csv = [[...cols, ...pq, 'mensagem'].join(';'), ...filtradas().map((l) => [...cols.map((c) => l[c]), ...pq.map((c) => l.pesquisa?.[c]), mensagem(l)].map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';'))].join('\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })); a.download = 'black-2026-acompanhamento.csv'; a.click();
+  baixar('black-2026-acompanhamento.csv', [[...cols, ...pq, 'mensagem'], ...filtradas().map((l) => [...cols.map((c) => l[c]), ...pq.map((c) => l.pesquisa?.[c]), mensagem(l)])]);
+};
+$('#csv-resumo').onclick = () => {
+  baixar('black-2026-equipe.csv', [COLUNAS_CSV_EQUIPE, ...filtradas().map((l) => { const r = linhaCsvEquipe(l); return COLUNAS_CSV_EQUIPE.map((c) => r[c]); })]);
 };
 $('#f-conteudo').onsubmit = async (e) => {
   e.preventDefault();
