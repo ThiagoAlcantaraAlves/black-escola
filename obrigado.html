@@ -53,6 +53,7 @@ fbq('init','777460607647004');fbq('track','PageView');fbq('track','Lead',{conten
       <a class="btn sec" id="compartilhar" href="#" rel="noopener">Avisar o sócio</a>
       <a class="btn sec" href="app/">Entrar na área da Black</a>
     </div>
+    <p class="nota" id="contagem" aria-live="polite" hidden></p>
     <h2 class="passos-titulo">O que acontece até a Black 2026</h2>
     <ul class="passos">
       <li><span class="quando">Agora</span><div><h3>Confirmação no WhatsApp e no e-mail</h3><p>Se não chegar em alguns minutos, confere o número e o e-mail que você cadastrou.</p></div></li>
@@ -73,6 +74,12 @@ fbq('init','777460607647004');fbq('track','PageView');fbq('track','Lead',{conten
   if(n){document.getElementById('oi').textContent=n+', você está'}
   var c=document.getElementById('comunidade');
   if(COMUNIDADE){c.href=COMUNIDADE}else{c.textContent='O link da comunidade chega no seu WhatsApp';c.style.pointerEvents='none';c.style.opacity='.75'}
+  if(COMUNIDADE){
+    var cont=document.getElementById('contagem'), s=5;
+    var mostra=function(){cont.textContent='Abrindo a comunidade do WhatsApp em '+s+'s...'};
+    cont.hidden=false; mostra();
+    var t=setInterval(function(){s--; if(s>0){mostra()}else{clearInterval(t);cont.textContent='Abrindo a comunidade do WhatsApp...';window.location.href=COMUNIDADE}},1000);
+  }
   var msg='2027 vai ser o ano mais caro da motelaria. Entrei na lista da Black 2026 da Escola de Motelaria: o link da oferta chega 24h antes pra quem está na lista. Entra também: https://black.escolademotelaria.com.br/?utm_source=whatsapp&utm_medium=compartilhar';
   document.getElementById('compartilhar').href='https://wa.me/?text='+encodeURIComponent(msg);
 })();
