@@ -293,13 +293,24 @@ fbq('init','777460607647004');fbq('track','PageView');
   var LANC=new Date('2026-11-23T20:00:00Z');       // seg 23/11 17h (Brasília)
   var MOSTRA_CONTADOR=new Date('2026-11-16T03:00:00Z');
 
-  // UTMs: guarda a primeira visita
+  // UTMs: first-touch (bf_utms_first) e last-touch (bf_utms)
+  var UTM_KEYS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   try{
-    var q=new URLSearchParams(location.search), u={};
-    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(q.get(k))u[k]=q.get(k)});
-    if(Object.keys(u).length)sessionStorage.setItem('bf_utms',JSON.stringify(u));
+    var q=new URLSearchParams(location.search), u={}, temUtm=false;
+    UTM_KEYS.forEach(function(k){if(q.get(k)){u[k]=q.get(k);temUtm=true}});
+    var ref='';try{if(document.referrer&&new URL(document.referrer).hostname!==location.hostname)ref=document.referrer}catch(e){}
+    if(ref)u.referrer=ref;
+    u.landing_page=location.href.split('#')[0];
+    if((temUtm||ref)&&!localStorage.getItem('bf_utms_first'))localStorage.setItem('bf_utms_first',JSON.stringify(u));
+    if(temUtm){var s=JSON.stringify(u);try{sessionStorage.setItem('bf_utms',s)}catch(e){}localStorage.setItem('bf_utms',s)}
   }catch(e){}
-  function utms(){try{return JSON.parse(sessionStorage.getItem('bf_utms')||'{}')}catch(e){return {}}}
+  function utms(){
+    var o={};
+    try{o=JSON.parse(localStorage.getItem('bf_utms')||sessionStorage.getItem('bf_utms')||'{}')||{}}catch(e){o={}}
+    if(!Object.keys(o).length){try{o=JSON.parse(localStorage.getItem('bf_utms_first')||'{}')||{}}catch(e){o={}}}
+    var r={};UTM_KEYS.concat(['referrer','landing_page']).forEach(function(k){r[k]=o[k]||null});
+    return r;
+  }
 
   // máscara de telefone
   function mask(v){v=v.replace(/\D/g,'').slice(0,11);if(v.length>10)return v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3');if(v.length>6)return v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');if(v.length>2)return v.replace(/(\d{2})(\d{0,5})/,'($1) $2');return v}
@@ -320,7 +331,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         name:nome,email:email,whatsapp:'55'+whats,tier:'lista',
         evento:'black-2026',stage:'a26f7eb7-8cff-4c85-82c1-75b4bbfd9bbc',product:'e614cccc-d54f-43d7-a6ad-386fab525815',mailchimp_tag:'Black 2026',
-        utms:ut,data:{origem:'black.escolademotelaria.com.br',utm_medium:ut.utm_medium||null,formulario:form.id}
+        utms:ut,data:{origem:'black.escolademotelaria.com.br',utm_source:ut.utm_source,utm_medium:ut.utm_medium,utm_campaign:ut.utm_campaign,utm_content:ut.utm_content,utm_term:ut.utm_term,referrer:ut.referrer,landing_page:ut.landing_page,formulario:form.id}
       })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})}).then(function(res){
         if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
         try{sessionStorage.setItem('bf_nome',nome.split(' ')[0])}catch(e){}
@@ -333,7 +344,8 @@ fbq('init','777460607647004');fbq('track','PageView');
             event_name:'Lead',event_id:id,event_source_url:location.href,content_name:'black-2026-lista',email:email,phone:whats,fbp:ck('_fbp'),fbc:ck('_fbc')
           })}).catch(function(){});
         }catch(e){}
-        location.href='obrigado.html?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
+        var destino='obrigado.html?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
+        setTimeout(function(){location.href=destino},400);
       }).catch(function(){
         btn.disabled=false; btn.textContent=txt;
         erro.textContent='Não consegui enviar agora. Tenta de novo em alguns segundos.'; erro.classList.add('on');
