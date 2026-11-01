@@ -2,6 +2,8 @@ import { supabase, $, esc, mascara, player, COMUNIDADE, HUB_BLACK, leadDaPagina,
 import { TAREFAS, PERGUNTAS, PERGUNTA_ABERTA, DATAS, NOME_NIVEL, contam, estado, dataCurta } from '/app/regras.js';
 import { FERRAMENTAS } from '/app/ferramentas.js';
 
+const META_CAPI = 'https://xzrnqghcacxjteldklyt.supabase.co/functions/v1/meta-capi';
+
 const views = ['carregando', 'entrar', 'inscricao', 'jornada'];
 let viewAtual = null;
 const mostra = (v) => { views.forEach((n) => ($('#v-' + n).hidden = n !== v)); if (viewAtual !== null && viewAtual !== v && window.fbq) fbq('track','PageView'); viewAtual = v; };
@@ -179,7 +181,16 @@ function pesquisa(i, resp) {
     const linha = { user_id: user.id, ...resp, pergunta_live: e.target.t.value.trim() || null, versao: 2, updated_at: new Date().toISOString() };
     const { error } = await supabase.from('black_pesquisa').upsert(linha, { onConflict: 'user_id' });
     if (error) { e.target.querySelector('button').disabled = false; return ($('#m-pesq').textContent = 'Não consegui salvar. Tenta de novo.'); }
-    try { const k = 'bf_fb_raiox_' + user.id; if (window.fbq && !sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); fbq('track','CompleteRegistration',{content_name:'raio-x-2027'}); } } catch {}
+    try {
+      const k = 'bf_fb_raiox_' + user.id;
+      if (!sessionStorage.getItem(k)) {
+        sessionStorage.setItem(k, '1');
+        const id = crypto.randomUUID();
+        try { if (window.fbq) fbq('track','CompleteRegistration',{content_name:'raio-x-2027'},{eventID:id}); } catch {}
+        const ck = (n) => (document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')) || [])[1];
+        fetch(META_CAPI, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event_name: 'CompleteRegistration', event_id: id, event_source_url: location.href, content_name: 'raio-x-2027', email: user.email, fbp: ck('_fbp'), fbc: ck('_fbc') }) }).catch(() => {});
+      }
+    } catch {}
     await carregar();
     hub();
     raiox();

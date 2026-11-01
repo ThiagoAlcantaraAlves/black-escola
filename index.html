@@ -325,6 +325,14 @@ fbq('init','777460607647004');fbq('track','PageView');
         if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
         try{sessionStorage.setItem('bf_nome',nome.split(' ')[0])}catch(e){}
         try{localStorage.setItem('bf_lead',JSON.stringify({nome:nome,email:email,whats:whats,t:Date.now()}))}catch(e){}
+        try{
+          var id=crypto.randomUUID();
+          try{if(window.fbq)fbq('track','Lead',{content_name:'black-2026-lista'},{eventID:id})}catch(e){}
+          var ck=function(n){return (document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'))||[])[1]};
+          fetch('https://xzrnqghcacxjteldklyt.supabase.co/functions/v1/meta-capi',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({
+            event_name:'Lead',event_id:id,event_source_url:location.href,content_name:'black-2026-lista',email:email,phone:whats,fbp:ck('_fbp'),fbc:ck('_fbc')
+          })}).catch(function(){});
+        }catch(e){}
         location.href='obrigado.html?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
       }).catch(function(){
         btn.disabled=false; btn.textContent=txt;
