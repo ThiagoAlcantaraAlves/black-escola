@@ -3,7 +3,8 @@ import { TAREFAS, PERGUNTAS, PERGUNTA_ABERTA, DATAS, NOME_NIVEL, contam, estado,
 import { FERRAMENTAS } from '/app/ferramentas.js';
 
 const views = ['carregando', 'entrar', 'inscricao', 'jornada'];
-const mostra = (v) => views.forEach((n) => ($('#v-' + n).hidden = n !== v));
+let viewAtual = null;
+const mostra = (v) => { views.forEach((n) => ($('#v-' + n).hidden = n !== v)); if (viewAtual !== null && viewAtual !== v && window.fbq) fbq('track','PageView'); viewAtual = v; };
 document.querySelectorAll('input[type=tel]').forEach((i) => i.addEventListener('input', () => (i.value = mascara(i.value))));
 
 let user = null, membro = null;
@@ -178,6 +179,7 @@ function pesquisa(i, resp) {
     const linha = { user_id: user.id, ...resp, pergunta_live: e.target.t.value.trim() || null, versao: 2, updated_at: new Date().toISOString() };
     const { error } = await supabase.from('black_pesquisa').upsert(linha, { onConflict: 'user_id' });
     if (error) { e.target.querySelector('button').disabled = false; return ($('#m-pesq').textContent = 'Não consegui salvar. Tenta de novo.'); }
+    try { const k = 'bf_fb_raiox_' + user.id; if (window.fbq && !sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); fbq('track','CompleteRegistration',{content_name:'raio-x-2027'}); } } catch {}
     await carregar();
     hub();
     raiox();
