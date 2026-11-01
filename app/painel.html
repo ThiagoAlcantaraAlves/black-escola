@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Painel da equipe: o plano de comunicação da Black 2026 por canal, com a copy de cada peça e as marcas de feito.">
+<link rel="icon" href="/assets/simbolo-neg.svg?v=2" type="image/svg+xml">
+<title>Central da Black 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F2EE; --paper:#FFFFFF; --ink:#0B1C37; --ink2:#3C4659; --mute:#7D848E; --line:#E3DFD7; --soft:#ECE8E1;
+  --navy:#0B1C37; --navy2:#13294F; --champ:#C6AF99; --champ2:#A98E73;
+  --email:#2F6FED; --grupo:#1FA463; --individual:#0E8F8F; --instagram:#C13584; --ads:#E0552B; --area:#8A7A6A;
+  --cap1:#C6AF99; --cap2:#2F6FED; --cap3:#C13584; --cap4:#0B1C37;
+  --ok:#1FA463; --r:14px; --sh:0 1px 2px rgba(11,28,55,.06),0 8px 24px -12px rgba(11,28,55,.18);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0B1220; --paper:#121B2E; --ink:#F4F2EE; --ink2:#C9CFDB; --mute:#8D95A3; --line:#243049; --soft:#1A2540;
+  --navy:#0B1C37; --navy2:#13294F; --champ:#C6AF99; --champ2:#D9C7B2; --cap4:#C6AF99; --sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0B1220; --paper:#121B2E; --ink:#F4F2EE; --ink2:#C9CFDB; --mute:#8D95A3; --line:#243049; --soft:#1A2540;
+  --navy:#0B1C37; --navy2:#13294F; --champ:#C6AF99; --champ2:#D9C7B2; --cap4:#C6AF99; --sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.jost{font-family:Jost,Inter,system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--email)}
+mark{background:rgba(198,175,153,.35);color:inherit;border-radius:4px;padding:0 3px;font-weight:500}
+
+/* ── Topo ── */
+.topo{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,#1B3566 100%);color:#F4F2EE;padding:calc(22px + env(safe-area-inset-top,0px)) 20px 0}
+.topo .in{max-width:1180px;margin:0 auto}
+.topo .linha{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px}
+.volta{margin:0 0 14px;font-size:13px;color:rgba(244,242,238,.7)} .volta a{color:rgba(244,242,238,.85);text-decoration:none} .volta b{color:#C6AF99}
+.topo h1{margin:0;font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.topo h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);font-weight:500;margin-bottom:6px}
+.contagens{display:flex;gap:10px;flex-wrap:wrap}
+.contagem{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;min-width:120px}
+.contagem small{display:block;font-size:11px;color:rgba(244,242,238,.7);text-transform:uppercase;letter-spacing:.08em}
+.contagem strong{font-family:Jost;font-size:22px;font-weight:600;color:#fff}
+.contagem.alvo strong{color:var(--champ)}
+.progresso{margin:18px 0 0;display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(244,242,238,.8)}
+.progresso .bar{flex:1;height:6px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+.progresso .bar i{display:block;height:100%;background:var(--champ);border-radius:99px;transition:width .4s}
+
+/* ── Abas ── */
+.abas{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--navy);padding:14px 20px 0;box-shadow:0 6px 16px -10px rgba(0,0,0,.5)}
+.abas .in{max-width:1180px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.abas .in::-webkit-scrollbar{display:none}
+.aba{flex:0 0 auto;background:transparent;border:0;border-bottom:3px solid transparent;color:rgba(244,242,238,.65);padding:10px 14px 12px;display:flex;align-items:center;gap:8px;font-weight:500;white-space:nowrap;border-radius:8px 8px 0 0}
+.aba:hover{color:#fff;background:rgba(255,255,255,.05)}
+.aba.on{color:#fff;border-bottom-color:var(--champ)}
+.aba .dot{width:9px;height:9px;border-radius:50%;background:var(--c,#fff)}
+.aba .n{font-size:11px;background:rgba(255,255,255,.12);border-radius:99px;padding:1px 7px;color:rgba(255,255,255,.85)}
+.aba.on .n{background:var(--champ);color:var(--navy)}
+
+/* ── Corpo ── */
+.wrap{max-width:1180px;margin:0 auto;padding:18px 20px 60px}
+.barra{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 16px}
+.barra h2{margin:0 auto 0 0;font-size:20px;font-weight:600}
+.barra p{margin:0;flex-basis:100%;color:var(--mute);font-size:13px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:6px 12px;font-size:13px;color:var(--ink2)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .n{opacity:.6;margin-left:4px}
+.vazio{color:var(--mute);text-align:center;padding:40px 0}
+.aviso{font-size:12px;color:var(--mute);margin:24px 0 0;text-align:center}
+.aviso.erro{color:#B23B3B}
+
+/* ── Calendário ── */
+.cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px;margin:0 0 18px}
+.dia{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:6px 2px 5px;text-align:center;border-bottom-width:3px;position:relative;line-height:1.2}
+.dia small{display:block;font-size:10px;color:var(--mute);text-transform:uppercase}
+.dia b{font-family:Jost;font-size:17px;font-weight:600}
+.dia .pts{display:flex;justify-content:center;gap:2px;margin-top:4px;height:5px}
+.dia .pts i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.dia .pts i.ok{background:var(--ok)}
+.dia.marco b{color:var(--ads)}
+.dia.hoje{outline:2px solid var(--champ);outline-offset:1px}
+.dia.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dia.sel small{color:rgba(244,242,238,.7)}
+.dia.sel b{color:var(--champ)}
+.legenda{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mute);margin:-8px 0 18px}
+.legenda i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+
+/* ── Grade de cards ── */
+.grade{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+@media (min-width:1000px){.grade{grid-template-columns:1fr 1fr}}
+.grade .sep{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:10px 0 -4px;font-family:Jost;font-weight:600;font-size:15px}
+.grade .sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.grade .sep .marco{font-family:Inter;font-weight:500;font-size:12px;color:var(--ads);background:rgba(224,85,43,.1);border-radius:99px;padding:2px 9px}
+.grade .sep .cap{font-family:Inter;font-weight:500;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+
+/* ── Card ── */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;position:relative;transition:opacity .2s}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
+.card.email{--c:var(--email)} .card.grupo{--c:var(--grupo)} .card.individual{--c:var(--individual)} .card.instagram{--c:var(--instagram)} .card.ads{--c:var(--ads)} .card.area{--c:var(--area)}
+.card.feito{opacity:.62}
+.card.feito .corpo{display:none}
+.card.feito .rodape .abrir{display:inline-flex}
+.card .abrir{display:none}
+.card .cab{display:flex;align-items:center;gap:12px;padding:14px 16px 10px 20px}
+.quando{flex:0 0 auto;text-align:center;line-height:1;min-width:44px}
+.quando b{display:block;font-family:Jost;font-size:24px;font-weight:600}
+.quando small{display:block;font-size:10px;text-transform:uppercase;color:var(--mute);letter-spacing:.06em;margin-top:2px}
+.meta{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:12.5px;color:var(--ink2)}
+.cod{font-family:Jost;font-weight:600;font-size:12px;letter-spacing:.04em;color:#fff;background:var(--c);border-radius:6px;padding:2px 7px}
+.tipo{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--c);border:1px solid var(--c);border-radius:6px;padding:1px 6px}
+.hora{font-weight:600;color:var(--ink)}
+.quem::before{content:"·";margin-right:8px;color:var(--mute)}
+.chk{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--mute);user-select:none}
+.chk input{width:18px;height:18px;accent-color:var(--ok);margin:0}
+.card.feito .chk{color:var(--ok);font-weight:600}
+.card h3{margin:0;padding:0 16px 0 20px;font-size:17px;font-weight:600;line-height:1.3}
+.card .previa{margin:4px 0 0;padding:0 16px 0 20px;color:var(--mute);font-style:italic;font-size:13.5px}
+.corpo{padding:12px 16px 4px 20px}
+.corpo p{margin:0 0 10px;overflow-wrap:anywhere}
+.corpo .cta{display:inline-block;background:var(--navy);color:#F4F2EE;border-radius:8px;padding:7px 14px;font-weight:500;font-size:13px}
+.corpo .cta small{display:block;font-weight:400;font-size:11px;opacity:.7;word-break:break-all}
+.corpo .sub{font-family:Jost;font-weight:600;font-size:14px;margin:12px 0 4px;color:var(--c)}
+.corpo .sub:first-child{margin-top:0}
+.corpo .nota{display:block;color:var(--champ2);font-style:italic;background:rgba(198,175,153,.14);border-left:3px solid var(--champ);padding:6px 10px;border-radius:0 8px 8px 0}
+.corpo .cena{padding-left:14px;border-left:2px solid var(--line);margin:0 0 6px}
+.rodape{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 16px 14px 20px;border-top:1px dashed var(--line);margin-top:6px}
+.rodape .para{flex:1;min-width:0;font-size:12px;color:var(--mute)}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 11px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--ink);background:var(--soft)}
+.btn.primario{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* e-mail: moldura de inbox */
+.card.email .mail{margin:10px 16px 0 20px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:10px 14px}
+.card.email .mail .de{font-size:12px;color:var(--mute);display:flex;gap:10px;flex-wrap:wrap}
+.card.email .mail .de b{color:var(--ink)}
+.card.email .mail h3{padding:0;margin:4px 0 0;font-size:16px}
+.card.email .mail .previa{padding:0;margin:2px 0 0}
+
+/* grupos: duas versões */
+.versoes{display:grid;grid-template-columns:1fr;gap:10px;padding:10px 16px 0 20px}
+@media (min-width:640px){.versoes{grid-template-columns:1fr 1fr}}
+.versao{border-radius:10px;padding:10px 12px;background:var(--soft);font-size:13.5px;min-width:0;overflow-wrap:anywhere}
+.versao.a{background:rgba(31,164,99,.1)}
+.versao .rot{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--grupo);margin-bottom:4px}
+.versao.m .rot{color:var(--mute)}
+.versao.vazia{color:var(--mute);font-style:italic}
+
+/* individual: balão */
+.balao{overflow-wrap:anywhere;margin:10px 16px 0 20px;background:#DCF8C6;color:#0B1C37;border-radius:12px 12px 12px 2px;padding:10px 14px;font-size:14px;position:relative;max-width:560px}
+:root[data-theme="dark"] .balao{background:#1E3A2F;color:#F4F2EE}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .balao{background:#1E3A2F;color:#F4F2EE}}
+.balao p{margin:0 0 8px}.balao p:last-child{margin:0}
+.balao::after{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-bottom-color:#DCF8C6;border-left:0}
+:root[data-theme="dark"] .balao::after{border-bottom-color:#1E3A2F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .balao::after{border-bottom-color:#1E3A2F}}
+
+/* instagram: formato */
+.card.instagram .cab .tipo{background:rgba(193,53,132,.08)}
+.ig-prev{display:flex;gap:12px;padding:10px 16px 0 20px;align-items:flex-start}
+.ig-fmt{flex:0 0 auto;width:52px;padding:4px;text-align:center;border-radius:8px;background:linear-gradient(160deg,#C13584,#F56040);display:flex;align-items:center;justify-content:center;color:#fff;font-family:Jost;font-weight:700;font-size:10px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.ig-fmt.reels{height:78px}.ig-fmt.stories{height:78px;background:linear-gradient(160deg,#833AB4,#C13584)}.ig-fmt.carrossel{height:46px;background:linear-gradient(160deg,#F77737,#FCAF45)}.ig-fmt.gravar{height:46px;background:var(--ink2)}
+.ig-prev .corpo{padding:0;flex:1;min-width:0}
+
+/* produção */
+.duas{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:900px){.duas{grid-template-columns:1fr 1fr}}
+.bloco{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh)}
+.bloco h3{margin:0 0 10px;font-size:17px}
+.bloco p.sub{margin:-6px 0 12px;color:var(--mute);font-size:13px}
+.lin{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.lin:first-of-type{border-top:0}
+.lin input{width:18px;height:18px;accent-color:var(--ok);margin:2px 0 0;flex:0 0 auto}
+.lin.feito label{text-decoration:line-through;color:var(--mute)}
+.lin label{flex:1}
+.lin .m{display:block;font-size:12px;color:var(--mute);margin-top:2px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<header class="topo"><div class="in">
+  <p class="volta"><a href="/app/">← Jornada</a> · <a href="/app/equipe.html">Acompanhamento</a> · <a href="/app/painel.html"><b>Painel da campanha</b></a></p>
+  <div class="linha">
+    <h1><small>Escola de Motelaria · 30/10 a 29/11</small>Central da Black 2026</h1>
+    <div class="contagens" id="contagens"></div>
+  </div>
+  <div class="progresso"><span id="progTxt"></span><div class="bar"><i id="progBar" style="width:0"></i></div></div>
+  <nav class="abas" style="margin:16px -20px 0;position:static;box-shadow:none"><div class="in" id="abas"></div></nav>
+</div></header>
+
+<main class="wrap" id="main" hidden>
+  <p class="aviso erro" id="gate" style="margin:40px 0;font-size:15px"></p>
+  <div class="barra" id="barra"></div>
+  <div id="cal" class="cal" hidden></div>
+  <div id="legenda" class="legenda" hidden></div>
+  <div id="grade" class="grade"></div>
+  <div id="producao" class="duas" hidden>
+    <section class="bloco"><h3>Decisões pendentes</h3><p class="sub">Fecham na reunião Thiago × Vinicius de 12/11.</p><div id="decisoes"></div></section>
+    <section class="bloco"><h3>Produção</h3><p class="sub">O que precisa estar pronto, e até quando.</p><div id="prodLista"></div></section>
+  </div>
+  <p class="aviso" id="aviso"></p>
+</main>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { supabase } from '/app/app.js';
+
+// ───────── Dados do plano (doc 35) ─────────
+const AREA = 'https://black.escolademotelaria.com.br/app/';
+const PAG = 'https://black.escolademotelaria.com.br';
+const CANAIS = {email:'E-mail', grupo:'Grupos WhatsApp', individual:'Mensagem individual', instagram:'Instagram', ads:'Meta Ads', area:'Área e operação'};
+const CAP = (d) => d < '2026-11-09' ? 1 : d < '2026-11-16' ? 2 : d < '2026-11-22' ? 3 : 4;
+const CAPNOME = {1:'Capítulo 1 · A conta de 2027', 2:'Capítulo 2 · O preço e o imposto', 3:'Capítulo 3 · A nova Escola', 4:'Capítulo 4 · A Black'};
+const MARCOS = {'2026-11-05':'Abre: escala','2026-11-09':'Abre: preço e RevPAR','2026-11-12':'Abre: imposto · reunião','2026-11-16':'Abre: live · contador','2026-11-20':'Fecha Na frente 23h59','2026-11-22':'Link 15h e 17h','2026-11-23':'Live 17h','2026-11-27':'Black Friday','2026-11-29':'Fecha 23h59'};
+
+const tipoIg = (t) => /^Stories/i.test(t) ? 'stories' : /^Carrossel/i.test(t) ? 'carrossel' : /^Gravar/i.test(t) ? 'gravar' : 'reels';
+const E = (id, data, titulo, quem, assunto, previa, corpo, para='') => ({id, data, canal:'email', titulo, quem, assunto, previa, corpo, para, copy:`ASSUNTO: ${assunto}\nPRÉVIA: ${previa}\nDE: ${quem}\n\n${corpo}`});
+const G = (id, data, titulo, a, m) => ({id, data, canal:'grupo', titulo, quem:'CRM / grupos', a, m, copy:a + (m ? `\n\n— Versão moteleiros —\n${m}` : '')});
+const I = (id, data, titulo, quem, msg) => ({id, data, canal:'individual', titulo, quem, msg, copy:msg});
+const R = (id, data, titulo, quem, roteiro) => ({id, data, canal:'instagram', titulo, quem, tipo:tipoIg(titulo), roteiro, copy:roteiro});
+const A = (id, data, titulo, quem, briefing) => ({id, data, canal:'ads', titulo, quem, briefing, copy:briefing});
+const X = (id, data, titulo, quem, nota) => ({id, data, canal:'area', titulo, quem, nota, copy:nota});
+
+const ITENS = [
+  X('x-video','2026-10-30','Vídeo da live na área, assistente ligado','Thiago','Vídeo "A conta de 2027" cadastrado na área (libera após o Raio-X). Assistente lendo a fila black_bot_fila (doc 34).'),
+  E('e0','2026-10-30','E0 · A área da Black 2026 está aberta','Thiago Alcântara','A área da Black 2026 está aberta','O vídeo da conta de 2027 está lá dentro.',
+`{nome}, ontem eu e o Vinicius fizemos a live sobre os desafios de 2027: o fim da escala 6x1, a reforma tributária e como a IA faz essas contas.
+
+A gravação está na área da Black 2026, junto com o seu Raio-X 2027: 8 perguntas rápidas sobre o seu motel e a IA devolve os 3 riscos e as 3 oportunidades do seu caso.
+
+Para entrar, é o mesmo e-mail da inscrição. Chega um link de acesso na sua caixa.
+
+[BOTÃO] Entrar na área da Black → ${AREA}
+
+Quem ainda não está na lista entra por aqui: ${PAG}. O link da oferta chega para a lista no domingo 22/11, 24 horas antes de todo mundo.`,'Para: lista Black 2026 + Alunos + Moteleiros (com a exclusão evento-ja-aluno).'),
+  G('g0','2026-10-30','G0 · A gravação está na área',
+`A gravação da live de ontem está na área da Black 2026, junto com o Raio-X 2027 do seu motel. Entra com o mesmo e-mail da inscrição: ${AREA}`,
+`A gravação da live de ontem sobre os desafios de 2027 está na área da Black 2026. Para ter acesso, é só entrar na lista: ${PAG}`),
+  R('st0','2026-10-30','Stories · "a área da Black abriu"','Escola','Print da área com o vídeo. Texto: "A gravação da live de ontem já está na área da Black 2026. Lista na bio."'),
+  R('r1g','2026-10-31','Gravar R1 (papel) e R2 (preço de sábado)','Vinicius',
+`R1 · TEASER DO PAPEL (sem fala, 15 s)
+Cena 1: passa um papel escrito CONFIDENCIAL.
+Cena 2: outro cenário, mesmo papel.
+Cena 3: outro cenário.
+Cena 4: Vinicius sentado vira o papel: "A MAIOR BLACK DA HISTÓRIA DA ESCOLA". Troca a folha: "23/11 · 17H".
+
+R2 · O PREÇO DE SÁBADO (Vinicius na câmera, 30 s)
+"No evento de outubro eu perguntei que decisão cada um queria acertar. 20 de 33 responderam a mesma coisa: o preço de sábado. A resposta não está no feeling, está na ocupação. Eu mostro a conta na área da Black. Lista na bio."`),
+  E('e1','2026-11-02','E1 · A conta que todo moteleiro está fazendo','Vinicius Roveda','A conta que todo moteleiro está fazendo','Sem mexer em nada, a folha sobe. Com ajuste, sobe menos. Com ajuste bem feito, pode nem subir.',
+`{nome}, eu fiz a conta da nova escala nos meus motéis. Três cenários: não mexer, ajustar e ajustar bem feito. A diferença entre o primeiro e o último é o que separa um ano apertado de um ano normal.
+
+Não é a única conta de 2027. Tem a CBS, que chega em janeiro. Tem o split payment, que ficou para 2028 mas já entra no planejamento. E tem o juro, que encarece qualquer reforma.
+
+Na área da Black 2026 eu mostro como fiz a minha, e na quinta abre o simulador para você fazer a sua, com os números do seu motel.
+
+[BOTÃO] Fazer o meu Raio-X 2027 → ${AREA}
+
+Ainda não está na lista? ${PAG}`,'Para: Alunos + Moteleiros. Confirmar com o Vinicius os números da escala antes de citar qualquer valor.'),
+  R('r1','2026-11-02','Postar R1 · teaser do papel','Escola + Vinicius','Legenda: "A maior Black da história da Escola. 23/11, 17h, ao vivo. Lista na bio."'),
+  R('st1','2026-11-02','Stories · trecho do vídeo','Escola','20 s do trecho da escala 6x1 da live. "A conta completa está na área da Black. Lista na bio."'),
+  A('ads-l','2026-11-03','Ligar campanha LISTA · Black 2026','Claude / Thiago',
+`Objetivo: cadastros (Lead na /obrigado). R$ 30/dia, 03 a 21/11.
+Públicos: amplo com Advantage+ (BR, 30-65) + engajados 180d + lookalike 1% compradores (Black 2025 + evento out). Exclui alunos ativos e Lead 30d.
+Alvo: até R$ 20 por cadastro. Acima de R$ 30 por 3 dias, troca criativo.
+
+L1 · PROMESSA
+Título: 2027 vai ser o ano mais caro da motelaria
+Texto: Fim da escala 6x1, CBS, split payment e juros, tudo no mesmo ano. A Escola de Motelaria fez a conta e abriu uma área com o vídeo e as ferramentas para você fazer a sua. Grátis, para quem entra na lista da Black 2026.
+
+L2 · LINGUAGEM DO CLIENTE
+Título: Quanto o seu sábado deveria custar?
+Texto: Foi a decisão que mais apareceu entre os moteleiros do nosso último evento. A resposta está na ocupação da categoria, não no feeling. A ferramenta que faz essa conta está na área da Black 2026. Entre na lista e use com os números do seu motel.
+
+L3 · VÍDEO DO FUNDADOR (Vinicius, 30 s)
+"Fiz a conta da nova escala nos meus motéis. Três cenários. A diferença entre o pior e o melhor paga um ano de Escola. Entra na lista e faz a sua."
+
+L4 · PROVA
+Título: 23 moteleiros entraram na Black 2025 nas primeiras horas
+Texto: Este ano a lista recebe o link 24 horas antes, e os bônus são por ordem de chegada. Entre agora e receba hoje a gravação da live sobre os desafios de 2027.`),
+  R('r2','2026-11-03','Postar R2 · o preço de sábado','Escola + Vinicius','Legenda: "20 de 33 moteleiros queriam acertar o preço de sábado. A conta está na área da Black. Lista na bio."'),
+  I('bot1','2026-11-03','Assistente: quem não entrou na área','Assistente','Fila black_bot_fila, situação nao_entrou_na_area, dias_parado ≥ 2. Mensagem sugerida da própria fila. Máximo 1 por dia por pessoa.'),
+  R('c1','2026-11-04','Carrossel C1 · 4 coisas que mudam em 2027','Escola',
+`Capa: "Quatro coisas mudam em 2027. Nenhuma delas é escolha sua."
+1. Fim da escala 6x1: a folha muda de tamanho.
+2. Reforma tributária e CBS: o imposto muda de nome e de lugar.
+3. Split payment: adiado para 2028, mas já entra na conta.
+4. Juros altos: cada investimento pesa mais.
+Última: "Quem faz a conta agora ajusta com calma. A conta está na área da Black. Lista na bio."`),
+  X('x-conf','2026-11-04','Confirmar com o Vinicius os números da escala','Thiago','Os valores da rede dele (folha +15% sem mexer, etc.) são projeção. Só entram em E1, R3 e na live com o OK dele.'),
+  X('x-esc','2026-11-05','Abre: a conta da escala','Área','A tarefa "A conta da escala" abre sozinha às 00h. Conferir que abriu.'),
+  E('e2','2026-11-05','E2 · Abriu: a conta da escala do seu motel','Thiago Alcântara','Abriu: a conta da escala do seu motel','Em 2 minutos você vê os três caminhos.',
+`{nome}, hoje abriu a primeira ferramenta da área: a conta da escala.
+
+Você coloca quantas pessoas trabalham em turno e o salário médio. Ela devolve quanto a nova escala soma à folha em três caminhos, com os cuidados da 12x36 e do meio período.
+
+É a mesma ferramenta do hub da Escola, numa versão mais curta. Leva 2 minutos e o resultado fica salvo na sua área.
+
+[BOTÃO] Fazer a conta da escala → ${AREA}
+
+Lembrete: quem completar 6 das 8 tarefas até 20/11 recebe o link da Black às 15h do domingo 22/11, duas horas antes da lista.`,'Para: lista Black 2026.'),
+  G('g1','2026-11-05','G1 · Abriu a conta da escala',
+`Abriu a conta da escala na área da Black: em 2 minutos você vê quanto o fim da 6x1 soma à folha do seu motel nos três caminhos. ${AREA}`,
+`Abriu na área da Black a conta da escala: quanto o fim da 6x1 soma à folha do seu motel. Entra na lista e faz a sua: ${PAG}`),
+  R('st2','2026-11-05','Stories · demo da ferramenta da escala','Thiago','Gravação de tela, 30 s, preenchendo a ferramenta com números de exemplo e mostrando os três caminhos.'),
+  R('r3','2026-11-06','Postar R3 · bastidor do Vinicius gravando','Vinicius','Câmera por trás, Vinicius gravando as aulas novas. Duas frases: "Estou gravando a nova Escola. Dia 23 você vê."'),
+  R('st3','2026-11-07','Stories · caixinha "o que mais te preocupa em 2027?"','Escola','Caixinha de perguntas. As respostas viram stories na sexta 13/11 e pauta da live.'),
+  X('x-pre','2026-11-09','Abre: preço do fim de semana e RevPAR','Área','As duas tarefas abrem às 00h. Conferir.'),
+  E('e3','2026-11-09','E3 · Quanto o seu sábado deveria custar?','Vinicius Roveda','Quanto o seu sábado deveria custar?','O protocolo de preço da Escola, com a ocupação da sua categoria.',
+`{nome}, no evento de outubro eu perguntei que decisão cada um queria acertar. A maioria respondeu a mesma coisa: o preço de sábado.
+
+A resposta não está no feeling. Está na ocupação da categoria. Acima de 0,7 locação por suíte por dia, a categoria aceita reajuste, e o protocolo da Escola diz quanto: concentrado no período de 3 horas, com teto de 20% de uma vez, e o pernoite de fim de semana derivado do de semana.
+
+Abriram hoje na área duas ferramentas: a sugestão de reajuste de uma categoria e o seu RevPAR comparado com os motéis do seu estado.
+
+[BOTÃO] Ver o preço do meu sábado → ${AREA}
+
+Se ainda não está na lista: ${PAG}`,'Para: lista + Alunos + Moteleiros.'),
+  G('g2','2026-11-09','G2 · Quanto o seu sábado deveria custar?',
+`Quanto o seu sábado deveria custar? Abriu na área a sugestão de reajuste pelo protocolo de preço da Escola, e o seu RevPAR comparado com o estado. ${AREA}`,
+`Quanto o seu sábado deveria custar? A ferramenta está na área da Black. Entra na lista: ${PAG}`),
+  R('r4','2026-11-09','Postar R4 · o protocolo do preço','Thiago','Tela da ferramenta: período de R$ 129 virando R$ 149 com 0,8 de ocupação. Voz: "Acima de 0,7 locação por suíte por dia, a categoria aceita reajuste. O protocolo diz quanto. Lista na bio."'),
+  R('c2','2026-11-11','Carrossel C2 · RevPAR por estado (Censo)','Escola','Capa: "Onde o seu motel fica no RevPAR do seu estado?" Slides com mediana e grupo de cima por estado (tabela do hub, 13 estados). Última: "Faz a sua conta na área da Black. Lista na bio."'),
+  I('bot2','2026-11-11','Assistente: quem parou','Assistente','Fila: dias_parado ≥ 3 e proxima preenchida. Mensagem da situação.'),
+  X('x-imp','2026-11-12','Abre: o imposto em 2027 · Reunião Thiago × Vinicius','Área / Thiago','Tarefa abre às 00h. Reunião fecha preço, formato da oferta, bônus e quem grava o quê (doc 31 e doc 35, seção 11).'),
+  E('e4','2026-11-12','E4 · O imposto em 2027 pesa ou ajuda o seu motel?','Thiago Alcântara','O imposto em 2027 pesa ou ajuda o seu motel?','Depende do regime, de quem você compra e de quanto vende para empresa.',
+`{nome}, em janeiro entra a CBS. Motel cai no regime específico da hotelaria, com redução de 40%. Quem está no Simples escolhe a cada semestre entre o Simples puro e o híbrido, e a escolha depende de uma conta que quase ninguém fez.
+
+Abriu hoje na área o radar do imposto: você responde 4 perguntas e ele diz se a reforma pesa ou ajuda no seu caso, com a lista do que levar ao contador em dezembro.
+
+[BOTÃO] Fazer a conta do imposto → ${AREA}
+
+Faltam 10 dias para o link da Black. Quem está com 6 tarefas feitas recebe às 15h do domingo 22/11.`,'Para: lista Black 2026.'),
+  G('g3','2026-11-12','G3 · O imposto em 2027 pesa ou ajuda?',
+`O imposto em 2027 pesa ou ajuda o seu motel? Abriu o radar da reforma tributária na área, com o que levar ao contador. ${AREA}`,
+`O imposto em 2027 pesa ou ajuda o seu motel? O radar está na área da Black: ${PAG}`),
+  R('r5','2026-11-12','Postar R5 · pesa ou ajuda?','Thiago','"Motel entra no regime específico da hotelaria com 40% de redução. Se você está no Simples, tem uma escolha a cada semestre. A conta está na área. Lista na bio."'),
+  R('st4','2026-11-13','Stories · respostas da caixinha','Escola','Repostar 5 respostas da caixinha de sábado, cada uma com uma frase de resposta. Fechar com "isso vira pauta da live de 23/11".'),
+  X('x-prio','2026-11-13','Gerar a lista Prioridade','Claude','Do painel /app/equipe.html e da black_bot_fila: faixa prioridade. Roteiro das ligações por pessoa (decisão + pergunta para a live).'),
+  X('x-live','2026-11-16','Abre: confirmar presença na live · contador na página','Área','Tarefa "live" abre às 00h. Contador regressivo aparece na página a partir de hoje.'),
+  E('e5','2026-11-16','E5 · Faltam 6 dias. E a Escola mudou.','Vinicius Roveda','Faltam 6 dias. E a Escola mudou.','Na segunda 23/11, às 17h, eu mostro o que mudou, ao vivo.',
+`{nome}, a Escola de Motelaria que você conhece ensinava. A nova Escola acompanha.
+
+Aulas curtas, gravadas por mim, sobre a Nova Motelaria. Um hub com ferramentas de IA e os simuladores de 2027. Mentorias coletivas todo mês. E uma masterclass de preparação para 2027, só para quem é da Escola.
+
+Na segunda, 23/11, às 17h, eu apresento tudo ao vivo e abro a Black 2026. Quem está na lista recebe o link no domingo, 24 horas antes.
+
+Hoje abriu na área a confirmação de presença na live. É um clique.
+
+[BOTÃO] Confirmar presença na live → ${AREA}
+
+Ainda não está na lista? ${PAG}`,'Para: Alunos + Moteleiros + lista.'),
+  G('g4','2026-11-16','G4 · Faltam 6 dias',
+`Faltam 6 dias. Na segunda 23/11, às 17h, o Vinicius apresenta a nova Escola ao vivo e abre a Black 2026. Quem está na lista recebe o link no domingo. Confirma presença na sua área: ${AREA}`,
+`Na segunda 23/11, às 17h, a nova Escola de Motelaria ao vivo e a abertura da Black 2026. Quem está na lista recebe o link 24h antes: ${PAG}`),
+  I('prio1','2026-11-16','Ligações Prioridade (16 a 20/11)','Thiago / Vinicius',
+`Áudio ou texto, com a resposta da pergunta 5 (decisão) e da pergunta 9 (pergunta para a live):
+
+"{nome}, aqui é o Vinicius. Vi na sua área que a sua decisão dos próximos 60 dias é {decisão}. É exatamente o que eu vou tratar na segunda, 17h. Separei um tempo para falar do seu caso antes disso: você tem 15 minutos na quinta ou na sexta?"
+
+Se deixou pergunta para a live: "Você perguntou '{pergunta}'. Vou responder ao vivo, e queria entender melhor o seu caso antes."`),
+  R('r6','2026-11-16','Postar R6 · o que mudou na Escola','Vinicius','30 segundos de uma aula nova do Vinicius + cartela "Dia 23, 17h, ao vivo. Lista na bio."'),
+  R('st5','2026-11-17','Stories · contagem','Escola','"Faltam 5 dias para o link da Black. Quem está na lista recebe primeiro."'),
+  E('e6','2026-11-18','E6 · Para quem já é aluno','Vinicius Roveda','{nome}, isso vale para você também','Os anos da Black somam ao final da sua assinatura.',
+`{nome}, você já é aluno, então talvez esteja pensando que a Black é para quem está de fora. Não é.
+
+Na Black, os anos que você compra somam ao final da sua assinatura atual. Você não perde um dia do que já pagou. Só expande o tempo, com a melhor condição do ano e com tudo que entra na nova Escola: hub, simuladores, mentorias e a masterclass de 2027.
+
+No ano passado, cinco alunos fizeram isso. Entre na lista com o mesmo e-mail da sua compra e o link chega no domingo.
+
+[BOTÃO] Entrar na lista da Black → ${PAG}`,'Para: só alunos ativos (Combo Hotmart ativo + Eduzz em dia).'),
+  I('acel1','2026-11-18','Acelerar: uma ferramenta só','Equipe',
+`"{nome}, você entrou na área da Black mas ainda não fez a conta da escala. São 2 minutos e o resultado é com os números do seu motel: ${AREA}"`),
+  R('c3','2026-11-18','Carrossel C3 · o que vem na nova Escola','Escola','Capa: "A Escola mudou." Slides: aulas curtas do Vinicius · hub com IA e o Kit 2027 · mentorias coletivas mensais · masterclass Preparação 2027. Última: "Dia 23, 17h, ao vivo. Lista na bio."'),
+  R('r7','2026-11-19','Postar R7 · depoimento de aluno da Black 2025','Escola','Comprador da Black 2025 (Cristina, Ada ou Mário, com autorização), 30 s: por que entrou e o que fez.'),
+  E('e7','2026-11-20','E7 · Hoje é o último dia para receber o link às 15h','Thiago Alcântara','Hoje é o último dia para receber o link às 15h','6 tarefas até 23h59. Depois disso, o link chega às 17h, com todo mundo.',
+`{nome}, você está com {tarefas} de 8 tarefas feitas.
+
+Quem fechar 6 até hoje, 23h59, recebe o link da Black no domingo às 15h. A lista recebe às 17h. Como os bônus são por ordem de chegada, duas horas fazem diferença: no ano passado, os bônus acabaram nas primeiras horas.
+
+As tarefas que faltam para você estão na sua área, e cada uma leva menos de 5 minutos.
+
+[BOTÃO] Completar a jornada → ${AREA}
+
+(Versão para quem já está "Na frente": "Você está Na frente. O link chega para você às 15h do domingo. Só confirma que o WhatsApp {whatsapp} está certo.")`,'Para: lista Black 2026, com a variável {tarefas} vinda do acompanhamento.'),
+  G('g5','2026-11-20','G5 · Hoje fecha o Na frente',
+`Hoje, 23h59, fecha o "Na frente": quem completar 6 tarefas recebe o link da Black às 15h do domingo, duas horas antes da lista. ${AREA}`,''),
+  X('x-pv','2026-11-20','Página de vendas publicada e testada · campanha VENDAS montada (pausada)','Claude / Thiago','Compra real de R$ 1 reembolsada. Produto, ofertas e order bumps na Hotmart. Contador de vagas. Templates de WhatsApp do link aprovados.'),
+  R('st6','2026-11-20','Stories · "hoje fecha o Na frente"','Escola','"Quem completar a jornada até 23h59 recebe o link às 15h de domingo."'),
+  G('g6','2026-11-21','G6 · Amanhã',
+`Amanhã, 17h, o link da Black chega para a lista. Segunda, 17h, a live. Fica de olho aqui e no e-mail.`,
+`Amanhã, 17h, o link da Black chega para quem está na lista. Última chance de entrar antes: ${PAG}`),
+  R('st7','2026-11-21','Stories · "amanhã, 17h"','Escola','"Amanhã, 17h, o link da Black chega para a lista. Entra agora: lista na bio."'),
+  E('e8a','2026-11-22','E8a · 15h · O link, duas horas antes (Na frente)','Vinicius Roveda','O link da Black 2026, duas horas antes','Você completou a jornada. Chegou primeiro.',
+`{nome}, você fez a jornada inteira. Por isso recebe o link antes da lista.
+
+[OFERTA EM UMA FRASE, A CONFIRMAR EM 12/11: plano anual e plano de 3 anos com o hub, pela melhor condição do ano.]
+
+Os bônus de chegada começam a contar agora: sorteio de uma vaga no MotelMind Floripa 2027 nas primeiras 24 horas, mentoria da escala 6x1 comigo para os 10 primeiros, e o diagnóstico de IA com o Thiago para os 5 primeiros do plano de 3 anos.
+
+[BOTÃO] Ver a oferta da Black 2026
+
+Amanhã, às 17h, eu apresento a nova Escola ao vivo. O link da sala chega aqui.`,'Para: segmento Na frente. Enviar às 15h em ponto.'),
+  E('e8b','2026-11-22','E8b · 17h · O link da Black 2026 chegou (lista)','Vinicius Roveda','O link da Black 2026 chegou','24 horas antes de todo mundo, como combinado.',
+`{nome}, você está na lista, então recebe antes.
+
+[OFERTA EM UMA FRASE, A CONFIRMAR EM 12/11.]
+
+Bônus por ordem de chegada: sorteio de uma vaga no MotelMind Floripa 2027 nas primeiras 24 horas, mentoria da escala 6x1 para os 10 primeiros, diagnóstico de IA para os 5 primeiros do plano de 3 anos, e 30% no MotelMind Floripa 2027 para quem entrar até sexta.
+
+[BOTÃO] Ver a oferta da Black 2026
+
+Amanhã, 17h, ao vivo: a nova Escola de Motelaria. O link da sala chega aqui e na comunidade.`,'Para: lista Black 2026 (menos Na frente, que já recebeu às 15h, e menos os 23 inelegíveis).'),
+  G('g-com22','2026-11-22','Comunidade · 15h e 17h',
+`15h: Chegou primeiro para quem está Na frente: [link]. Para o resto da lista, 17h.
+
+17h: O link da Black 2026: [link]. Bônus por ordem de chegada, valendo a partir de agora. Amanhã, 17h, a live.`,''),
+  I('prio2','2026-11-22','Prioridade: link no pessoal às 15h','Thiago / Vinicius','"{nome}, o link da Black, antes da lista, como prometido: [link]. O que eu te disse na quinta está aí. Qualquer dúvida, me responde aqui."'),
+  A('ads-v','2026-11-22','Desligar LISTA · ligar VENDAS (17h)','Claude / Thiago',
+`Campanha VENDAS · Black 2026, 22 a 29/11. Objetivo: compra. R$ 60/dia.
+Públicos: leads da Black (Lead 60d + lista enviada), engajados 180d, visitantes da página de vendas, lookalike compradores. Exclui Purchase.
+
+V1 · OFERTA: os dois planos, 12x sem juros ou Pix.
+V2 · BÔNUS DE CHEGADA com contador (troca a arte na quarta, quando a mentoria lotar).
+V3 · URGÊNCIA a partir de sexta: "fecha domingo, sem reabertura". De 27/11 em diante, 70% do orçamento no V3.`),
+  R('st8','2026-11-22','Stories 17h · "a lista já recebeu"','Escola','"O link da Black chegou para a lista. Amanhã, 17h, abre para todo mundo, ao vivo."'),
+  E('e9','2026-11-23','E9 · 9h · Hoje, 17h: a nova Escola, ao vivo','Vinicius Roveda','Hoje, 17h: a nova Escola de Motelaria, ao vivo','O que mudou, por que mudou e a Black 2026 aberta para todos.',
+`{nome}, hoje às 17h eu apresento a nova Escola de Motelaria ao vivo: as aulas novas, o hub com os simuladores de 2027, as mentorias e a masterclass de preparação.
+
+No fim, abro a Black 2026 para todo mundo. Quem está na lista já tem o link desde ontem.
+
+O link da sala chega no WhatsApp e por e-mail às 16h30.
+
+[BOTÃO] Quero o link da sala`,'Para: todos.'),
+  G('g7','2026-11-23','G7 · 9h · É hoje',
+`É hoje, 17h: a nova Escola de Motelaria ao vivo, com o Vinicius. O link da sala vem aqui às 16h30.`,
+`É hoje, 17h: a nova Escola de Motelaria ao vivo. O link da sala vai para quem está na lista: ${PAG}`),
+  G('g8','2026-11-23','G8 · 16h30 · Link da sala (só A e comunidade)',
+`Entra agora: [link da sala]. Começamos às 17h.`,''),
+  X('x-liveok','2026-11-23','Live 17h · roteiro em 6 blocos','Vinicius + Thiago',
+`1. Abertura (5 min, Vinicius): 2027 em 3 frases. Quantas pessoas da lista fizeram a conta da escala (número real da área).
+2. A conta de 2027 (15 min, Vinicius): o caso da rede dele nos três cenários. CBS e split em 5 minutos.
+3. A nova Escola (15 min): aulas curtas (mostra uma), hub e simuladores (Thiago mostra 1 ferramenta ao vivo com número de um participante que autorizar), mentorias, masterclass.
+4. A Black 2026 (10 min, Vinicius): os dois planos, os bônus de chegada, o contador de vagas na tela.
+5. Perguntas (15 min, Thiago modera): começa pelas perguntas da pesquisa (pergunta 9), chamando pelo nome.
+6. Fechamento (2 min): "O link está no WhatsApp e no e-mail. Os bônus estão contando."`),
+  I('prio3','2026-11-23','Convite pessoal para a live (Prioridade)','Thiago / Vinicius','"{nome}, é hoje às 17h. Vou responder a sua pergunta ao vivo. Entra por aqui: [link da sala]."'),
+  E('e10','2026-11-23','E10 · 19h · Abriu: a Black 2026','Thiago Alcântara','Abriu: a Black 2026 da Escola de Motelaria','A gravação da live e a oferta, no mesmo lugar.',
+`{nome}, acabou de acontecer: o Vinicius apresentou a nova Escola e abriu a Black 2026.
+
+[OFERTA EM UMA FRASE.] Em até 12x sem juros ou Pix.
+
+Bônus por ordem de chegada ainda valendo: o sorteio do Floripa fecha amanhã ao meio-dia e as 10 vagas da mentoria da escala estão contando.
+
+[BOTÃO] Entrar na Black 2026
+
+Perdeu a live? A gravação está no mesmo link.`,'Para: todos.'),
+  R('r8','2026-11-23','Postar R8 · "começou" + stories ao vivo','Escola','Corte de 20 s da abertura da live + "A Black 2026 está aberta. Link na bio." Stories durante a live com os melhores momentos.'),
+  X('x-sort','2026-11-24','Sorteio Floripa fecha 12h','Thiago','Fechar a lista do sorteio ao meio-dia e anunciar o ganhador na comunidade até 18h.'),
+  E('e11','2026-11-24','E11 · O sorteio fecha ao meio-dia','Thiago Alcântara','O sorteio fecha ao meio-dia','Uma vaga no MotelMind Floripa 2027 para quem entrou nas primeiras 24 horas.',
+`{nome}, duas coisas fecham hoje.
+
+Ao meio-dia, o sorteio da vaga no MotelMind Floripa 2027: entra quem já está na Black. E a mentoria da escala 6x1 com o Vinicius está em {vagas} de 10 vagas.
+
+Se você está esperando o momento certo: esse é o único dia em que os dois bônus ainda existem.
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g9','2026-11-24','G9 · O sorteio fecha ao meio-dia',
+`O sorteio da vaga no MotelMind Floripa 2027 fecha hoje ao meio-dia. Entra quem já está na Black: [link]. Vagas da mentoria da escala: {vagas} de 10.`,
+`A Black 2026 está aberta: [link da página de vendas].`),
+  I('pos1','2026-11-24','Pós-live: Prioridade que não comprou','Thiago / Vinicius','"{nome}, você viu a live? O sorteio do Floripa fecha ao meio-dia. Se tiver dúvida de plano, eu te ajudo a escolher."'),
+  R('r9','2026-11-24','Postar R9 · corte da live (escala 6x1)','Escola','O trecho da escala 6x1 da apresentação do Vinicius, 40 s. "A Black 2026 está aberta. Link na bio."'),
+  E('e12','2026-11-25','E12 · A história de quem entrou em 2025','Vinicius Roveda','O que a {aluna} fez com a Black do ano passado','Ela entrou na Black 2025 e hoje está no MotelMind IA.',
+`[História de 1 compradora da Black 2025, com autorização: quem é, o que estava decidindo, o que mudou. 120 palavras. Sem número inventado.]
+
+A Black deste ano tem mais do que a dela tinha: o hub com os simuladores, as mentorias mensais e a masterclass de 2027.
+
+[BOTÃO] Ver a oferta da Black 2026`,'Para: todos que não compraram. Depende do depoimento (pedir até 13/11).'),
+  I('pos2','2026-11-25','Acelerar que não comprou','Equipe','"{nome}, qual é a dúvida que falta? Preço, plano, equipe? Me diz que eu respondo em 5 minutos."'),
+  R('st9','2026-11-25','Stories · contador das 10 vagas da mentoria','Escola','Print do contador. "Restam {vagas} vagas na mentoria da escala com o Vinicius."'),
+  E('e13','2026-11-26','E13 · As 5 dúvidas que mais chegaram','Thiago Alcântara','As 5 dúvidas que mais chegaram','Aluno atual, sócio, parcela, hub, masterclass.',
+`1. Já sou aluno, vale? Vale. Os anos somam ao final da sua assinatura.
+2. Meu sócio e meu gerente podem usar? Sim: 3 acessos simultâneos.
+3. Dá para parcelar? 12x sem juros no cartão, ou Pix.
+4. O hub entra? [conforme a oferta].
+5. Quando começa a masterclass de 2027? Em janeiro, só para quem é da Escola.
+
+Hoje, ao meio-dia, eu fico no WhatsApp respondendo o que faltar.
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g10','2026-11-26','G10 · Plantão de dúvidas ao meio-dia',
+`Hoje ao meio-dia o Thiago fica aqui respondendo dúvida sobre a Black. Manda a sua.`,''),
+  I('carr','2026-11-26','Recuperação de carrinho (CRM, automática)','CRM','1 hora depois do clique sem pagamento: "{nome}, vi que você começou a entrar na Black e não concluiu. Deu algum problema no pagamento? Responde aqui que eu resolvo." Em 2025 foram 14 checkouts perdidos.'),
+  R('c4','2026-11-26','Carrossel C4 · anual × 3 anos','Escola','Comparativo dos dois planos, item a item, com os bônus. Última: "Fecha domingo. Link na bio."'),
+  E('e14','2026-11-27','E14 · 9h · Black Friday. E a última chance do Floripa com 30%.','Vinicius Roveda','Black Friday. E a última chance do Floripa com 30%.','Hoje às 16h, plantão ao vivo.',
+`{nome}, é sexta de Black Friday, e eu vou dizer o que não vai acontecer: não vai ter desconto maior amanhã, não vai ter reabertura em dezembro, não vai ter "manda o link de novo". A condição é esta e fecha no domingo.
+
+O que fecha hoje: os 30% no MotelMind Floripa 2027 para quem entra na Black.
+
+Às 16h eu e o Thiago ficamos ao vivo tirando dúvida.
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g11','2026-11-27','G11 · 9h · Black Friday',
+`Black Friday. Hoje é o último dia dos 30% no MotelMind Floripa 2027. Às 16h, plantão ao vivo com o Vinicius e o Thiago: [link].`,''),
+  X('x-plant','2026-11-27','Plantão ao vivo 16h','Vinicius + Thiago','30 a 45 minutos respondendo dúvidas. Link na comunidade e nos grupos A às 15h45.'),
+  R('st10','2026-11-27','Stories hora a hora','Escola','A cada hora, uma peça: prova social (print com autorização), contador, dúvida respondida, "fecha domingo".'),
+  E('e15','2026-11-28','E15 · Amanhã fecha','Thiago Alcântara','Amanhã fecha','Um áudio do Vinicius e o que você leva.',
+`{nome}, amanhã, 23h59, a Black 2026 fecha. O que você leva está aqui, em uma lista: [lista da oferta].
+
+O Vinicius gravou um áudio de 1 minuto sobre o que ele faria no seu lugar: [link].
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g12','2026-11-28','G12 · Áudio do Vinicius',
+`[Áudio do Vinicius, 1 minuto: o que ele faria no lugar de quem ainda não decidiu.] Fecha amanhã, 23h59.`,''),
+  I('pos3','2026-11-28','Prioridade e Acelerar que não compraram','Thiago / Vinicius','Encaminhar o áudio do Vinicius no pessoal. Sem texto a mais.'),
+  R('r10','2026-11-28','Postar R10 · o que você leva','Vinicius','Lista da oferta em tela, voz do Vinicius: "Fecha amanhã. Sem reabertura." Link na bio.'),
+  E('e16','2026-11-29','E16 · 9h · Último dia','Vinicius Roveda','Último dia','2027 começa em 33 dias.',
+`{nome}, hoje é o último dia da Black da Escola de Motelaria.
+
+Amanhã, muitos moteleiros acordam com a assinatura ativa, a conta de 2027 feita e a equipe preparada. Outros acordam com a mesma frase do ano passado: "eu devia ter entrado".
+
+A diferença entre os dois não é dinheiro. É decisão.
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g13','2026-11-29','G13 · 9h · Último dia',
+`Último dia da Black 2026. Fecha às 23h59, sem reabertura. [link]`,''),
+  I('pos4','2026-11-29','18h · Última mensagem pessoal','Thiago / Vinicius','"{nome}, fecha hoje, 23h59. Depois não tem reabertura."'),
+  E('e17','2026-11-29','E17 · 20h · 4 horas','Thiago Alcântara','4 horas','Fecha às 23h59. Sem reabertura.',
+`{nome}, faltam 4 horas. Depois disso, não tem exceção e não tem reabertura: no ano passado reabrimos e foi a última vez.
+
+[BOTÃO] Entrar na Black 2026`,'Para: todos que não compraram.'),
+  G('g14','2026-11-29','G14 · 20h · 4 horas',
+`4 horas. [link]`,''),
+  R('st11','2026-11-29','Stories · contagem até 23h59','Escola','A cada 2 horas até as 22h, depois 23h e 23h30. Sem reabertura.'),
+];
+
+const DECISOES = [
+  {id:'d-oferta', t:'Oferta e preço (reunião de 12/11). Sugestão: R$ 1.497 anual / R$ 2.997 trienal com Hub Pro.'},
+  {id:'d-grava', t:'Vinicius grava R1, R2, R3, L3 e o áudio de 28/11?'},
+  {id:'d-num', t:'Números da escala da rede dele podem ir para E1, R3 e a live?'},
+  {id:'d-lig', t:'Quem faz as ligações da Prioridade de 16 a 20/11, e quantas por dia.'},
+  {id:'d-dep', t:'Depoimentos: quais 2 compradores de 2025 pedir (sugestão: Cristina e Ada).'},
+  {id:'d-artes', t:'Gerar as artes dos anúncios de lista agora ou esperar 12/11.'},
+  {id:'d-prize', t:'Aprovar o prêmio "link às 15h para quem completar a jornada".'},
+];
+const PRODUCAO = [
+  {id:'p-e0', t:'E0 e G0 saem', q:'Thiago', d:'2026-10-30'},
+  {id:'p-r12', t:'Gravar R1 e R2; começar as aulas curtas', q:'Vinicius', d:'2026-10-31'},
+  {id:'p-mc', t:'E1 a E7 montados e agendados no Mailchimp; G1 a G6 agendadas no CRM; artes L1, L2 e L4', q:'Claude + Thiago', d:'2026-11-01'},
+  {id:'p-ads', t:'Campanha LISTA montada, para ligar dia 03', q:'Claude', d:'2026-11-02'},
+  {id:'p-c1', t:'C1 pronto; confirmar os números da escala com o Vinicius', q:'Claude + Vinicius', d:'2026-11-04'},
+  {id:'p-reun', t:'Reunião: preço, formato, bônus. Depois, copy de E8 a E17 fechada', q:'Thiago + Vinicius', d:'2026-11-12'},
+  {id:'p-prio', t:'Lista Prioridade e roteiro das ligações; pedir 2 depoimentos', q:'Claude + Thiago', d:'2026-11-13'},
+  {id:'p-aulas', t:'Pelo menos 5 aulas curtas gravadas', q:'Vinicius', d:'2026-11-16'},
+  {id:'p-pv', t:'Página de vendas testada (compra de R$ 1), Hotmart pronta, contador, campanha VENDAS montada', q:'Claude + Thiago', d:'2026-11-20'},
+  {id:'p-e8', t:'E8 a E10 agendados; templates de WhatsApp do link aprovados', q:'Thiago', d:'2026-11-21'},
+  {id:'p-env', t:'15h e 17h: envios; conferir no CRM que a Prioridade recebeu', q:'Thiago', d:'2026-11-22'},
+  {id:'p-live', t:'Live 17h; E10 e R8 na mesma noite', q:'Todos', d:'2026-11-23'},
+];
+
+// ───────── Estado ─────────
+const DIAS = []; for (let d = new Date('2026-10-30T12:00:00-03:00'); d <= new Date('2026-11-29T12:00:00-03:00'); d = new Date(d.getTime() + 86400000)) DIAS.push(d.toISOString().slice(0, 10));
+const hojeISO = () => new Date(Date.now() - 3 * 3600000).toISOString().slice(0, 10); // horário de Brasília
+const ABAS = [['agenda','Agenda'], ['email','E-mail'], ['grupo','Grupos'], ['individual','Individual'], ['instagram','Instagram'], ['ads','Meta Ads'], ['area','Área'], ['producao','Produção']];
+const IGTIPOS = {reels:'Reels', stories:'Stories', carrossel:'Carrossel', gravar:'Gravação'};
+const IGSELO = {reels:'Reels', stories:'Stories', carrossel:'Carr.', gravar:'Grav.'};
+let feito = {};            // id -> {em, por}
+let aba = 'agenda';
+let selDia = null;         // null = todos os dias
+let subIg = null;          // filtro de formato no Instagram
+let soFalta = false;
+let db = null, uid = null, podeEscrever = true;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dt = (iso) => new Date(iso + 'T12:00:00-03:00');
+const fmtDia = (iso) => dt(iso).toLocaleDateString('pt-BR', {weekday:'short', day:'2-digit', month:'2-digit', timeZone:'America/Sao_Paulo'}).replace('.', '');
+const fmtLongo = (iso) => dt(iso).toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', timeZone:'America/Sao_Paulo'});
+const semana = (iso) => dt(iso).toLocaleDateString('pt-BR', {weekday:'short', timeZone:'America/Sao_Paulo'}).replace('.', '');
+const mes = (iso) => dt(iso).toLocaleDateString('pt-BR', {month:'short', timeZone:'America/Sao_Paulo'}).replace('.', '');
+
+// Código e nome a partir do título: "E1 · A conta..." → E1 / A conta...; "Postar R4 · o protocolo" → R4 / o protocolo
+function codigo(it) {
+  const t = it.titulo;
+  let m = t.match(/^(?:Postar |Carrossel )?([A-Z]{1,2}\d{1,2}[a-z]?|G-com\d+)\s·\s(.+)$/i);
+  if (m) return {cod:m[1].toUpperCase(), nome:m[2]};
+  m = t.match(/^Stories(?: \d+h)?\s·\s(.+)$/i); if (m) return {cod:'', nome:m[1]};
+  m = t.match(/^(Comunidade|Assistente|Acelerar|Prioridade|Pós-live|Ligações|Convite|Recuperação)[^·:]*[·:]\s*(.+)$/i); if (m) return {cod:'', nome:t};
+  return {cod:'', nome:t};
+}
+// Hora, quando o título traz ("E9 · 9h · Hoje...") ou a nota traz ("Enviar às 15h")
+function hora(it) { const m = it.titulo.match(/\b(\d{1,2}h(?:\d{2})?)\b/); return m ? m[1] : ''; }
+
+// Texto corrido → HTML: parágrafos, botão, subtítulos (L1 · PROMESSA), cenas, notas entre colchetes, {variáveis} e links
+function corpoHtml(txt) {
+  const inline = (s) => esc(s)
+    .replace(/\{(\w+)\}/g, '<mark>{$1}</mark>')
+    .replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  return txt.split(/\n\s*\n/).map((par) => {
+    const linhas = par.split('\n');
+    if (/^\[BOT[ÃA]O\]/i.test(linhas[0])) {
+      const [, label, url] = linhas[0].match(/^\[BOT[ÃA]O\]\s*(.*?)(?:\s*→\s*(\S+))?$/i) || [];
+      return `<p><span class="cta">${esc(label || 'Botão')}${url ? `<small>${esc(url)}</small>` : ''}</span></p>`;
+    }
+    if (/^\[.+\]$/s.test(par.trim()) && !/^\[BOT/i.test(par)) return `<p><em class="nota">${inline(par.trim().slice(1, -1))}</em></p>`;
+    return '<p>' + linhas.map((l) => {
+      if (/^(?:[LVR]\d+|VERSÃO [AM]|Capa|Última)\s*[·:]/.test(l)) return `<span class="sub">${inline(l)}</span>`;
+      if (/^(?:Cena \d+|\d+\.)\s*[:.]?\s/.test(l)) return `<span class="cena">${inline(l)}</span>`;
+      if (/^(?:Objetivo|Públicos|Alvo|Público|Legenda|Título|Texto|Campanha|Fila):/i.test(l)) { const [k, ...r] = l.split(':'); return `<b>${esc(k)}:</b>${inline(r.join(':'))}`; }
+      return inline(l);
+    }).join('<br>') + '</p>';
+  }).join('');
+}
+
+// ───────── Topo ─────────
+function contagens() {
+  const alvos = [['Link para a lista', '2026-11-22T17:00:00-03:00'], ['Live ao vivo', '2026-11-23T17:00:00-03:00'], ['Fecha a Black', '2026-11-29T23:59:59-03:00']];
+  $('#contagens').innerHTML = alvos.map(([n, d], i) => {
+    const ms = new Date(d) - Date.now(); if (ms <= 0) return `<div class="contagem"><small>${n}</small><strong>passou</strong></div>`;
+    const dias = Math.floor(ms / 86400000), h = Math.floor(ms % 86400000 / 3600000);
+    return `<div class="contagem ${i === 0 ? 'alvo' : ''}"><small>${n}</small><strong>${dias}d ${String(h).padStart(2, '0')}h</strong></div>`;
+  }).join('');
+}
+function progresso() {
+  const tot = ITENS.length, ok = ITENS.filter((i) => feito[i.id]).length;
+  $('#progTxt').textContent = `${ok} de ${tot} peças feitas`;
+  $('#progBar').style.width = Math.round(ok / tot * 100) + '%';
+}
+function abas() {
+  $('#abas').innerHTML = ABAS.map(([k, n]) => {
+    let tot = 0, ok = 0;
+    if (CANAIS[k]) { const its = ITENS.filter((i) => i.canal === k); tot = its.length; ok = its.filter((i) => feito[i.id]).length; }
+    else if (k === 'producao') { const arr = [...DECISOES, ...PRODUCAO]; tot = arr.length; ok = arr.filter((d) => feito[d.id]).length; }
+    else { tot = ITENS.length; ok = ITENS.filter((i) => feito[i.id]).length; }
+    return `<button class="aba ${aba === k ? 'on' : ''}" data-aba="${k}">${CANAIS[k] ? `<span class="dot" style="--c:var(--${k})"></span>` : ''}${n}<span class="n">${ok}/${tot}</span></button>`;
+  }).join('');
+  $('#abas').querySelectorAll('.aba').forEach((b) => (b.onclick = () => { aba = b.dataset.aba; subIg = null; render(); window.scrollTo({top:0, behavior:'smooth'}); }));
+}
+
+// ───────── Barra de filtros ─────────
+function barra(base) {
+  const hoje = hojeISO();
+  let h = '', sub = '';
+  if (aba === 'agenda') { h = selDia ? ((selDia === hoje ? 'Hoje · ' : '') + fmtLongo(selDia)) : 'Todos os dias'; sub = selDia && MARCOS[selDia] ? MARCOS[selDia] + ' · ' : ''; sub += `${base.length} peça(s)` + (selDia ? '' : ' de 30/10 a 29/11. Clique num dia para ver só aquele dia.'); }
+  else if (aba === 'producao') { h = 'Decisões e produção'; sub = 'O que ainda depende de alguém decidir, e os entregáveis com data.'; }
+  else { h = CANAIS[aba]; sub = {email:'Cada e-mail com assunto, prévia e corpo prontos. {nome} vira a variável do Mailchimp.', grupo:'Versão A vai para alunos e MotelMind; versão M, só para o grupo dos moteleiros (quando existir).', individual:'Mensagens no pessoal: ligações da Prioridade, cutucadas do Acelerar e o assistente da fila.', instagram:'Reels, Stories e carrosséis com roteiro e legenda. Filtre pelo formato.', ads:'Campanhas de lista e de vendas, com público, orçamento e os criativos.', area:'Tarefas que abrem na área, conferências e a operação do dia.'}[aba]; sub += ` ${base.length} peça(s).`; }
+  let chips = '';
+  if (aba === 'instagram') chips += Object.entries(IGTIPOS).map(([k, n]) => `<button class="chip ${subIg === k ? 'on' : ''}" data-ig="${k}">${n}<span class="n">${ITENS.filter((i) => i.canal === 'instagram' && i.tipo === k).length}</span></button>`).join('');
+  if (aba !== 'producao') chips += `<button class="chip ${soFalta ? 'on' : ''}" id="sofalta">Só o que falta</button>`;
+  if (aba === 'agenda' && selDia) chips += `<button class="chip" id="tudo">Ver todos os dias</button>`;
+  $('#barra').innerHTML = `<h2>${esc(h)}</h2>${chips}<p>${esc(sub)}</p>`;
+  $('#barra').querySelectorAll('[data-ig]').forEach((b) => (b.onclick = () => { subIg = subIg === b.dataset.ig ? null : b.dataset.ig; render(); }));
+  const sf = $('#sofalta'); if (sf) sf.onclick = () => { soFalta = !soFalta; render(); };
+  const t = $('#tudo'); if (t) t.onclick = () => { selDia = null; render(); };
+}
+
+// ───────── Calendário (só na Agenda) ─────────
+function calendario() {
+  const hoje = hojeISO();
+  $('#cal').innerHTML = DIAS.map((d) => {
+    const its = ITENS.filter((i) => i.data === d);
+    const pts = its.slice(0, 6).map((i) => `<i class="${feito[i.id] ? 'ok' : ''}"></i>`).join('');
+    return `<button class="dia ${d === hoje ? 'hoje' : ''} ${MARCOS[d] ? 'marco' : ''} ${selDia === d ? 'sel' : ''}" data-dia="${d}" title="${MARCOS[d] ? MARCOS[d] + ' · ' : ''}${its.length} peça(s)" style="border-bottom-color:var(--cap${CAP(d)})"><small>${semana(d)}</small><b>${d.slice(8)}</b><div class="pts">${pts}</div></button>`;
+  }).join('');
+  $('#cal').querySelectorAll('.dia').forEach((b) => (b.onclick = () => { selDia = selDia === b.dataset.dia ? null : b.dataset.dia; render(); }));
+  $('#legenda').innerHTML = [1, 2, 3, 4].map((c) => `<span><i style="background:var(--cap${c})"></i>${CAPNOME[c]}</span>`).join('') + '<span><i style="background:var(--ok);width:6px;height:6px;border-radius:50%"></i>ponto verde = peça feita</span>';
+}
+
+// ───────── Cards ─────────
+function card(it) {
+  const f = feito[it.id], {cod, nome} = codigo(it), hr = hora(it);
+  const cab = `<div class="cab">
+    <div class="quando"><b>${it.data.slice(8)}</b><small>${semana(it.data)} ${mes(it.data)}</small></div>
+    <div class="meta">${cod ? `<span class="cod">${esc(cod)}</span>` : ''}${it.canal === 'instagram' ? `<span class="tipo">${IGTIPOS[it.tipo]}</span>` : `<span class="tipo">${esc(CANAIS[it.canal])}</span>`}${hr ? `<span class="hora">${hr}</span>` : ''}<span class="quem">${esc(it.quem)}</span>${f && f.em ? `<span class="quem">feito ${new Date(f.em).toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})}</span>` : ''}</div>
+    <label class="chk"><input type="checkbox" ${f ? 'checked' : ''} ${podeEscrever ? '' : 'disabled'} aria-label="Feito: ${esc(it.titulo)}">${f ? 'Feito' : 'Feito?'}</label>
+  </div>`;
+  let miolo = '', para = '';
+  if (it.canal === 'email') {
+    miolo = `<div class="mail"><div class="de"><span>De: <b>${esc(it.quem)}</b></span><span>Para: ${esc(it.para.replace(/^Para:\s*/i, '').split('.')[0])}</span></div><h3>${esc(it.assunto)}</h3><p class="previa">${esc(it.previa)}</p></div><div class="corpo">${corpoHtml(it.corpo)}</div>`;
+    para = it.para;
+  } else if (it.canal === 'grupo') {
+    miolo = `<h3>${esc(nome)}</h3><div class="corpo" style="padding:0"><div class="versoes"><div class="versao a"><div class="rot">Versão A · alunos e MotelMind</div>${corpoHtml(it.a)}</div>${it.m ? `<div class="versao m"><div class="rot">Versão M · moteleiros</div>${corpoHtml(it.m)}</div>` : `<div class="versao m vazia"><div class="rot">Versão M · moteleiros</div>Não vai para o grupo dos moteleiros.</div>`}</div></div>`;
+  } else if (it.canal === 'individual') {
+    const bal = it.msg.startsWith('"') || it.msg.includes('{nome}');
+    miolo = `<h3>${esc(nome)}</h3>` + (bal ? `<div class="corpo" style="padding:0"><div class="balao">${corpoHtml(it.msg.replace(/^"|"$/g, ''))}</div></div>` : `<div class="corpo">${corpoHtml(it.msg)}</div>`);
+  } else if (it.canal === 'instagram') {
+    miolo = `<h3>${esc(nome)}</h3><div class="ig-prev"><div class="ig-fmt ${it.tipo}">${IGSELO[it.tipo]}</div><div class="corpo">${corpoHtml(it.roteiro)}</div></div>`;
+  } else if (it.canal === 'ads') {
+    miolo = `<h3>${esc(nome)}</h3><div class="corpo">${corpoHtml(it.briefing)}</div>`;
+  } else {
+    miolo = `<h3>${esc(nome)}</h3><div class="corpo">${corpoHtml(it.nota)}</div>`;
+  }
+  const rod = `<div class="rodape"><span class="para">${esc(para)}</span><button class="btn abrir" data-abrir>Ver de novo</button><button class="btn primario" data-copiar>Copiar texto</button></div>`;
+  return `<article class="card ${it.canal} ${f ? 'feito' : ''}" data-id="${it.id}">${cab}${miolo}${rod}</article>`;
+}
+function ligarCards(el) {
+  el.querySelectorAll('.card input[type=checkbox]').forEach((c) => (c.onchange = () => marcar(c.closest('.card').dataset.id, c.checked)));
+  el.querySelectorAll('[data-copiar]').forEach((b) => (b.onclick = async () => { const it = ITENS.find((i) => i.id === b.closest('.card').dataset.id); try { await navigator.clipboard.writeText(it.copy); toast('Copiado.'); } catch { toast('Não consegui copiar. Selecione o texto.'); } }));
+  el.querySelectorAll('[data-abrir]').forEach((b) => (b.onclick = () => { const c = b.closest('.card'); c.classList.toggle('feito'); }));
+}
+
+function grade(base) {
+  if (!base.length) { $('#grade').innerHTML = '<p class="vazio">Nada aqui com esse filtro.</p>'; return; }
+  let html = '', ultimo = '', ultCap = 0;
+  for (const it of base) {
+    if (aba === 'agenda' && !selDia && it.data !== ultimo) {
+      ultimo = it.data; const c = CAP(it.data);
+      html += `<div class="sep">${fmtDia(it.data)}${MARCOS[it.data] ? `<span class="marco">${esc(MARCOS[it.data])}</span>` : ''}${c !== ultCap ? `<span class="cap">${CAPNOME[c]}</span>` : ''}</div>`; ultCap = c;
+    } else if (aba !== 'agenda' && CAP(it.data) !== ultCap) {
+      ultCap = CAP(it.data); html += `<div class="sep">${CAPNOME[ultCap]}</div>`;
+    }
+    html += card(it);
+  }
+  $('#grade').innerHTML = html;
+  ligarCards($('#grade'));
+}
+
+function producao() {
+  const bloco = (el, arr, comData) => {
+    $(el).innerHTML = arr.map((d) => `<div class="lin ${feito[d.id] ? 'feito' : ''}" data-id="${d.id}"><input type="checkbox" id="chk-${d.id}" ${feito[d.id] ? 'checked' : ''} ${podeEscrever ? '' : 'disabled'}><label for="chk-${d.id}">${esc(d.t)}${comData ? `<span class="m">${esc(d.q)} · até ${fmtDia(d.d)}</span>` : ''}</label></div>`).join('');
+    $(el).querySelectorAll('input[type=checkbox]').forEach((c) => (c.onchange = () => marcar(c.closest('.lin').dataset.id, c.checked)));
+  };
+  bloco('#decisoes', DECISOES, false);
+  bloco('#prodLista', PRODUCAO, true);
+}
+
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 1600); }
+function render() {
+  progresso(); abas();
+  const agenda = aba === 'agenda', prod = aba === 'producao';
+  $('#cal').hidden = !agenda; $('#legenda').hidden = !agenda; $('#producao').hidden = !prod; $('#grade').hidden = prod;
+  let base = ITENS.filter((i) => (agenda ? true : i.canal === aba) && (!soFalta || !feito[i.id]) && (!agenda || !selDia || i.data === selDia) && (aba !== 'instagram' || !subIg || i.tipo === subIg));
+  barra(base);
+  if (agenda) calendario();
+  if (prod) producao(); else grade(base);
+}
+
+
+// ───────── Marcas compartilhadas (tabela black_painel_marcas, só admin) ─────────
+const TAB = 'black_painel_marcas';
+let modoLocal = false;
+const LS = 'bf_painel_marcas';
+function lerLocal() { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch { return {}; } }
+async function carregarMarcas() {
+  const { data, error } = await supabase.from(TAB).select('id,em,por');
+  if (error) {
+    modoLocal = true; feito = lerLocal(); render();
+    $('#aviso').className = 'aviso erro';
+    $('#aviso').textContent = error.code === '42P01' ? 'A tabela black_painel_marcas ainda não existe: rode a migration 0005. Até lá as marcas ficam só neste aparelho.' : 'Não consegui ler as marcas compartilhadas (' + (error.message || error.code) + '). Marcas só neste aparelho.';
+    return;
+  }
+  modoLocal = false;
+  feito = Object.fromEntries((data || []).map((m) => [m.id, { em: m.em, por: m.por }]));
+  render();
+  $('#aviso').className = 'aviso'; $('#aviso').textContent = 'Marcas compartilhadas com a equipe.';
+}
+async function marcar(id, ok) {
+  const antes = feito[id];
+  if (ok) feito[id] = { em: new Date().toISOString(), por: uid }; else delete feito[id];
+  render();
+  if (modoLocal) { try { localStorage.setItem(LS, JSON.stringify(feito)); } catch {} return; }
+  const { error } = ok ? await supabase.from(TAB).upsert({ id, em: feito[id].em, por: uid }) : await supabase.from(TAB).delete().eq('id', id);
+  if (error) {
+    if (antes) feito[id] = antes; else delete feito[id];
+    render();
+    $('#aviso').className = 'aviso erro'; $('#aviso').textContent = 'Não consegui salvar a marca: ' + (error.message || error.code);
+  }
+}
+
+// ───────── Início: só entra quem está logado e é da equipe ─────────
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) { location.href = '/app/'; throw new Error('sem sessão'); }
+uid = user.id;
+const { data: papeis } = await supabase.from('user_roles').select('role').eq('user_id', user.id);
+$('#main').hidden = false;
+if (!(papeis || []).some((p) => p.role === 'admin')) {
+  $('#gate').textContent = 'Acesso restrito à equipe da Escola. Se você é da equipe, peça para o Thiago liberar o seu e-mail.';
+  document.querySelectorAll('#main > :not(#gate)').forEach((el) => (el.hidden = true));
+  document.querySelector('.abas').hidden = true;
+  throw new Error('sem papel');
+}
+const h = hojeISO();
+selDia = DIAS.includes(h) ? h : null;
+contagens(); setInterval(contagens, 60000);
+render();
+await carregarMarcas();
+setInterval(() => { if (document.visibilityState === 'visible' && !modoLocal) carregarMarcas(); }, 45000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !modoLocal) carregarMarcas(); });
+</script>
+
+</body>
+</html>

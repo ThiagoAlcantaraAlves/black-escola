@@ -46,7 +46,7 @@ async function iniciar() {
     return mostra('entrar');
   }
   const { data: papeis } = await supabase.from('user_roles').select('role');
-  $('#link-equipe').hidden = !(papeis || []).some((p) => p.role === 'admin');
+  $('#link-equipe').hidden = $('#link-painel').hidden = !(papeis || []).some((p) => p.role === 'admin');
   ({ data: membro } = await supabase.from('black_membros').select('*').maybeSingle());
   if (!membro) {
     const l = leadDaPagina();
