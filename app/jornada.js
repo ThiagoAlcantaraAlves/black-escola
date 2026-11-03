@@ -50,7 +50,7 @@ async function iniciar() {
   }
   const { data: papeis } = await supabase.from('user_roles').select('role');
   $('#link-equipe').hidden = $('#link-painel').hidden = !(papeis || []).some((p) => p.role === 'admin');
-  ({ data: membro } = await supabase.from('black_membros').select('*').maybeSingle());
+  ({ data: membro } = await supabase.from('black_membros').select('*').eq('user_id', user.id).maybeSingle());
   if (!membro) {
     const l = leadDaPagina();
     if (l && l.email === (user.email || '').toLowerCase() && l.nome && l.whats?.length >= 10) {
@@ -72,7 +72,7 @@ async function carregar() {
     supabase.from('black_progresso').select('passo, feito_em, dados'),
     supabase.rpc('black_meu_placar'),
     supabase.from('black_conteudos').select('*').order('ordem'),
-    supabase.from('black_pesquisa').select('*').maybeSingle(),
+    supabase.from('black_pesquisa').select('*').eq('user_id', user.id).maybeSingle(),
     supabase.from('black_indicacoes').select('id', { count: 'exact', head: true }),
   ]);
   S.feitos = Object.fromEntries((prog || []).map((p) => [p.passo, p.feito_em]));
