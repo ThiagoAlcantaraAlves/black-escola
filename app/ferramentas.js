@@ -7,7 +7,7 @@ import { REVPAR_ESTADOS } from '/app/lib/revpar-estados.js';
 
 const HUB = 'https://novamotelaria.com.br';
 export const brl = (n) => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
-const num = (v) => { const n = parseFloat(String(v ?? '').replace(/\./g, '').replace(',', '.')); return isFinite(n) ? n : 0; };
+const num = (v) => { let s = String(v ?? '').trim().replace(/[^\d.,-]/g, ''); if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); else if (/\.\d{3}$/.test(s) || (s.match(/\./g) || []).length > 1) s = s.replace(/\./g, ''); const n = parseFloat(s); return isFinite(n) ? n : 0; };
 const pctTxt = (n) => (n * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%';
 
 // ─────────────────────────── Escala ───────────────────────────
@@ -24,24 +24,24 @@ export const escala = {
       <span>Cozinha e copa</span><input name="coz_p" inputmode="numeric" placeholder="2"><input name="coz_s" inputmode="decimal" placeholder="1920">
       <span>Horário fixo (gerente, manutenção)</span><input name="fix_p" inputmode="numeric" placeholder="3"><input name="fix_s" inputmode="decimal" placeholder="3000">
     </div>
-    <label class="check"><input type="checkbox" name="x12" checked> A recepção pode trabalhar em 12x36</label>
+    <label>Postos de recepção abertos 24h<input name="rec_postos" inputmode="numeric" value="1"></label> <label class="check"><input type="checkbox" name="x12" checked> A recepção pode trabalhar em 12x36</label>
     <label class="check"><input type="checkbox" name="mp" checked> Aceito meio período onde couber</label>
     <label>Faturamento médio por mês (opcional)<input name="fat" inputmode="decimal" placeholder="300000"></label>`,
   calcular(f) {
     const linha = (nome, p, s, extra = {}) => ({ nome, pessoas: num(f[p]), salario: num(f[s]), tipo: 'turnos', hoje: num(f[p]) * 6, dem: num(f[p]) * 6, mp: !!f.mp, x12: false, ...extra });
-    const st = {
+    const recT = Math.min(num(f.rec_p) * 6, 21 * Math.max(1, Math.round(num(f.rec_postos) || 1))); const st = {
       nome: 'meu motel', fat: num(f.fat), regime: f.regime, benef: 500, faltas: 3, dobra: 0, mp: 60,
       rows: [
-        linha('Recepção', 'rec_p', 'rec_s', { x12: !!f.x12 }),
+        linha('Recepção', 'rec_p', 'rec_s', { x12: !!f.x12, hoje: recT, dem: recT }),
         linha('Camareiras', 'cam_p', 'cam_s'),
         linha('Cozinha e copa', 'coz_p', 'coz_s'),
         { nome: 'Horário fixo', pessoas: num(f.fix_p), salario: num(f.fix_s), tipo: 'fixo', hoje: 0, dem: 0, mp: false, x12: false },
       ],
     };
     if (st.rows.every((r) => !r.pessoas)) throw new Error('Coloque pelo menos uma função com pessoas e salário.');
-    const r = compute(st);
+    const r = compute(st); const semX12 = compute({ ...st, rows: st.rows.map((x) => ({ ...x, x12: false })) }); const scC = semX12.sc.C.extra < r.sc.C.extra ? semX12.sc.C : r.sc.C;
     const c = (k) => ({ extra: Math.round(r.sc[k].extra), pessoas: r.sc[k].hires, meio: r.sc[k].mps });
-    return { folha: Math.round(r.folha), pessoas: r.pessoas, A: c('A'), B: c('B'), C: c('C'), fat: st.fat };
+    return { folha: Math.round(r.folha), pessoas: r.pessoas, A: c('A'), B: c('B'), C: { extra: Math.round(scC.extra), pessoas: scC.hires, meio: scC.mps }, fat: st.fat };
   },
   mostrar(d) {
     const linha = (rot, x) => `<tr><td>${rot}</td><td>${x.pessoas ? '+' + x.pessoas + ' pessoa(s)' : 'sem contratação'}${x.meio ? ' e ' + x.meio + ' meio período' : ''}</td><td><strong>+${brl(x.extra)}</strong> por mês</td><td>${d.folha ? '+' + pctTxt(x.extra / d.folha) : ''}</td></tr>`;
