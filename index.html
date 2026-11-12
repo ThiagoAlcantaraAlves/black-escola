@@ -343,12 +343,9 @@ fbq('init','777460607647004');fbq('track','PageView');
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){form.email.setAttribute('aria-invalid','true');erro.textContent='Confere o e-mail.';erro.classList.add('on');return}
       btn.disabled=true; var txt=btn.textContent; btn.textContent='Enviando…';
       var ut=utms();
-      fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        name:nome,email:email,whatsapp:'55'+whats,tier:'lista',
-        evento:'black-2026',stage:'a26f7eb7-8cff-4c85-82c1-75b4bbfd9bbc',product:'e614cccc-d54f-43d7-a6ad-386fab525815',mailchimp_tag:'Black 2026',
-        utms:ut,data:{origem:'black.escolademotelaria.com.br',utm_source:ut.utm_source,utm_medium:ut.utm_medium,utm_campaign:ut.utm_campaign,utm_content:ut.utm_content,utm_term:ut.utm_term,referrer:ut.referrer,landing_page:ut.landing_page,formulario:form.id}
-      })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})}).then(function(res){
-        if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
+      var foi=false;
+      function irObrigado(leadId){
+        if(foi)return; foi=true;
         try{sessionStorage.setItem('bf_nome',nome.split(' ')[0])}catch(e){}
         try{localStorage.setItem('bf_lead',JSON.stringify({nome:nome,email:email,whats:whats,t:Date.now()}))}catch(e){}
         try{
@@ -359,9 +356,20 @@ fbq('init','777460607647004');fbq('track','PageView');
             event_name:'Lead',event_id:id,event_source_url:location.href,content_name:'black-2026-lista',email:email,phone:whats,fbp:ck('_fbp'),fbc:ck('_fbc')
           })}).catch(function(){});
         }catch(e){}
-        var destino='obrigado.html?l='+encodeURIComponent(res.j.lead_id||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
-        setTimeout(function(){location.href=destino},400);
+        location.href='obrigado.html?l='+encodeURIComponent(leadId||'')+'&n='+encodeURIComponent(nome.split(' ')[0]);
+      }
+      // Rede de segurança: se o servidor demorar mais de 2,5 s, segue para o obrigado.
+      // keepalive:true mantém o envio vivo depois da navegação, o lead não se perde.
+      var guarda=setTimeout(function(){irObrigado('')},2500);
+      fetch(ENDPOINT,{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        name:nome,email:email,whatsapp:'55'+whats,tier:'lista',
+        evento:'black-2026',stage:'a26f7eb7-8cff-4c85-82c1-75b4bbfd9bbc',product:'e614cccc-d54f-43d7-a6ad-386fab525815',mailchimp_tag:'Black 2026',
+        utms:ut,data:{origem:'black.escolademotelaria.com.br',utm_source:ut.utm_source,utm_medium:ut.utm_medium,utm_campaign:ut.utm_campaign,utm_content:ut.utm_content,utm_term:ut.utm_term,referrer:ut.referrer,landing_page:ut.landing_page,formulario:form.id}
+      })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})}).then(function(res){
+        if(!res.ok)throw new Error(res.j&&res.j.error||'erro');
+        clearTimeout(guarda); irObrigado(res.j.lead_id);
       }).catch(function(){
+        if(foi)return; clearTimeout(guarda);
         btn.disabled=false; btn.textContent=txt;
         erro.textContent='Não consegui enviar agora. Tenta de novo em alguns segundos.'; erro.classList.add('on');
       });
