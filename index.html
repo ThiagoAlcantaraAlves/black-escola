@@ -121,6 +121,18 @@ header .tag{font-family:Jost,sans-serif;font-weight:500;letter-spacing:.2em;font
 .lista p{font-size:15px;color:var(--texto-suave)}
 @media (max-width:760px){.lista{grid-template-columns:1fr}}
 .aviso{margin-top:22px;font-size:14px;color:var(--texto-suave)}
+.aviso a{color:inherit}
+.bonus{list-style:none;margin-top:36px;display:grid;gap:14px}
+.bonus li{display:grid;grid-template-columns:170px 1fr;gap:22px;align-items:start;background:var(--azul-2);border:1px solid var(--linha-esc);border-radius:var(--raio);padding:22px 24px}
+.bonus li.destaque{border-color:var(--champ)}
+.bonus .quem{font-family:Jost,sans-serif;font-weight:500;letter-spacing:.08em;font-size:13px;text-transform:uppercase;color:var(--champ);padding-top:3px}
+.bonus h3{font-size:19px;margin-bottom:6px}
+.bonus p{font-size:15px;color:var(--texto-esc-suave)}
+@media (max-width:640px){.bonus li{grid-template-columns:1fr;gap:8px}}
+.regras{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.regras div{border-top:1px solid var(--linha-esc);padding-top:14px;font-size:14px;color:var(--texto-esc-suave)}
+.regras b{display:block;color:var(--texto-esc);font-weight:600;margin-bottom:4px}
+@media (max-width:760px){.regras{grid-template-columns:1fr}}
 
 .faixa{background:var(--champ);color:var(--azul);padding:34px 0}
 .faixa .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
@@ -213,7 +225,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       <li class="reveal"><span class="quando">Hoje</span><div><h3>A área da Black já aberta</h3><p>Enquanto o link não chega, a gravação da live sobre 2027 e o Raio-X do seu motel já ficam disponíveis para quem está na lista.</p></div></li>
       <li class="reveal"><span class="quando">Novembro</span><div><h3>As contas de 2027, uma por semana</h3><p>Escala, preço e imposto, cada uma com o simulador que você usa no seu motel. E uma amostra das aulas novas da Escola.</p></div></li>
     </ul>
-    <p class="aviso reveal">Entre os bônus de chegada: uma vaga no MotelMind Floripa 2027 por sorteio e a mentoria da escala 6x1 com o Vinicius para os primeiros que entrarem.</p>
+    <p class="aviso reveal">A Equipe de IA por 12 meses, a mentoria da reforma tributária e os sorteios são de quem compra até segunda. <a href="#bonus">Veja todos os bônus.</a></p>
   </div>
 </section>
 
@@ -245,6 +257,43 @@ fbq('init','777460607647004');fbq('track','PageView');
   </div>
 </section>
 
+<section id="oferta">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--cinza);margin-bottom:16px">O que entra na Black 2026</p>
+    <h2 class="sec-titulo reveal">Três anos de Escola, para atravessar 2027 com a conta feita.</h2>
+    <p class="sec-sub reveal">O preço chega no domingo, 22/11, às 17h, junto com o link. Isto é tudo o que entra para quem compra.</p>
+    <div class="grid-4">
+      <div class="card reveal"><div class="n">01</div><h3>3 anos de Escola de Motelaria</h3><p>Todas as aulas e cursos da Escola, o curso novo e as aulas curtas do Vinicius que entram ao longo dos três anos.</p></div>
+      <div class="card reveal"><div class="n">02</div><h3>3 anos de Hub com o Kit 2027</h3><p>Simuladores de escala 6x1, CBS e split, reajuste, RevPAR, ECAD e turnover, com os números do seu motel.</p></div>
+      <div class="card reveal"><div class="n">03</div><h3>Ao vivo durante 2027</h3><p>A masterclass Preparação 2027 e uma mentoria coletiva por mês com a Escola.</p></div>
+      <div class="card reveal"><div class="n">04</div><h3>IA e gravações</h3><p>O Básico de IA gravado, o e-book e a masterclass da EquipHotel sobre IA, e a gravação da mentoria da escala 6x1.</p></div>
+    </div>
+    <p class="frase reveal">Em até 12x sem juros. Quem já é aluno soma os três anos ao final do prazo atual.</p>
+  </div>
+</section>
+
+<section class="escuro" id="bonus">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="margin-bottom:16px">Os bônus da Black</p>
+    <h2 class="sec-titulo reveal">Quem chega antes leva mais.</h2>
+    <p class="sec-sub reveal">Os bônus são só de quem compra na Black 2026, inclusive de quem já é aluno. A ordem de chegada conta pela hora da compra, a partir de domingo, 22/11, às 17h.</p>
+    <ul class="bonus">
+      <li class="reveal destaque"><span class="quem">Até seg 23/11 · 23h59</span><div><h3>A Equipe de IA do seu motel por 12 meses</h3><p>O Hub Profissional completo, com os quatro funcionários de IA trabalhando para o seu motel: gerente, analista de receita, social e pessoas e escala. Liberado no seu login na hora da compra.</p></div></li>
+      <li class="reveal"><span class="quem">De 24 a 29/11</span><div><h3>A Equipe de IA por 6 meses</h3><p>Quem entra depois da segunda à meia-noite também leva o Hub Profissional com a Equipe de IA, por seis meses a partir da compra.</p></div></li>
+      <li class="reveal"><span class="quem">Antes da live</span><div><h3>Mentoria ao vivo com o Vinicius sobre a reforma tributária</h3><p>Uma sessão em grupo para tirar as dúvidas de 2027 com quem já fez a conta. A sala ao vivo é só de quem comprou antes da live; os alunos recebem a gravação depois.</p></div></li>
+      <li class="reveal"><span class="quem">Antes da live</span><div><h3>Dois sorteios</h3><p>Todo mundo que comprar antes da live concorre a uma vaga no MotelMind Floripa 2027 e a uma mentoria privada de uma hora com o Vinicius.</p></div></li>
+      <li class="reveal"><span class="quem">30 primeiros</span><div><h3>A escala 6x1 aplicada, com a sua folha</h3><p>Mentoria em grupo com o Vinicius em que cada um trabalha a escala de 2027 em cima da própria folha de pagamento.</p></div></li>
+      <li class="reveal"><span class="quem">5 primeiros</span><div><h3>Os dois livros do Vinicius, autografados</h3><p>Os dois livros do fundador da Escola, com dedicatória.</p></div></li>
+      <li class="reveal"><span class="quem">2 primeiros</span><div><h3>Ingresso para o MotelMind SP 2027</h3><p>O evento presencial da Nova Motelaria em São Paulo, por conta da Escola.</p></div></li>
+    </ul>
+    <div class="regras">
+      <div class="reveal"><b>Live: seg 23/11, 17h</b>"Antes da live" vale para compras feitas até o começo da transmissão.</div>
+      <div class="reveal"><b>Sorteios juntos</b>Os dois sorteios saem no mesmo dia, para todos verem.</div>
+      <div class="reveal"><b>Lista em 48 horas</b>Quem levou cada bônus é publicado em até 48 horas.</div>
+    </div>
+  </div>
+</section>
+
 <div class="faixa">
   <div class="wrap">
     <div><h3>Já é aluno da Escola?</h3><p>Vale para você também: os anos da Black somam ao final da sua assinatura atual. Você não perde nada, só expande o tempo.</p></div>
@@ -270,6 +319,9 @@ fbq('init','777460607647004');fbq('track','PageView');
       <details class="reveal"><summary>Entrar na lista custa alguma coisa?</summary><p>Não. O cadastro é gratuito e não compromete com nada. Você só recebe primeiro o que todo mundo vai receber depois.</p></details>
       <details class="reveal"><summary>O que acontece no dia 22 e no dia 23?</summary><p>No domingo, 22/11, às 17h, o link da oferta chega para quem está na lista. Na segunda, 23/11, às 17h, o Vinicius apresenta a nova Escola ao vivo e a Black abre para todo mundo.</p></details>
       <details class="reveal"><summary>Já sou aluno. Vale a pena entrar?</summary><p>Vale. Os anos da Black somam ao final da sua assinatura atual. Entre na lista com o mesmo e-mail da sua compra.</p></details>
+      <details class="reveal"><summary>Quanto vai custar?</summary><p>O preço sai no domingo, 22/11, às 17h, para quem está na lista, e na live de segunda para todo mundo. Dá para pagar em até 12x sem juros.</p></details>
+      <details class="reveal"><summary>Quem leva os bônus?</summary><p>Quem compra na Black 2026, inclusive quem já é aluno e estende o prazo. A ordem de chegada conta pela hora da compra, a partir de domingo, 22/11, às 17h.</p></details>
+      <details class="reveal"><summary>Quando a Equipe de IA começa a valer?</summary><p>Na hora da compra. O plano Profissional do Hub é liberado no seu login. Se você ainda não tem conta no Hub, ele entra quando você se cadastra com o mesmo e-mail da compra.</p></details>
       <details class="reveal"><summary>Vou receber muitas mensagens?</summary><p>Uma confirmação agora, uma conta de 2027 por semana em novembro e o link no dia 22. Você sai da lista quando quiser.</p></details>
     </div>
   </div>
