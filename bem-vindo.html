@@ -29,27 +29,31 @@ h1,h2,h3{font-family:Jost,Inter,sans-serif;font-weight:500;letter-spacing:-.01em
 .video{margin:28px 0 0;border-radius:var(--raio);overflow:hidden;background:var(--azul);aspect-ratio:16/9;display:none}
 .video.on{display:block}
 .video iframe,.video video{width:100%;height:100%;border:0;display:block}
-.cond{margin-top:28px;background:var(--azul);color:var(--off);border-radius:var(--raio);padding:30px 28px}
-.cond .eyebrow{color:var(--champ)}
+.cta-topo{display:grid;gap:12px;margin-top:20px}
+@media (min-width:640px){.cta-topo{grid-template-columns:1fr 1fr}}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:18px 24px;font:600 17px/1.2 Inter,sans-serif;cursor:pointer;text-decoration:none;text-align:center}
+.btn-escuro{background:var(--azul);color:var(--off)}
+.btn-whats{background:#25D366;color:#0B1C37}
+.leva{margin-top:36px;background:var(--azul);color:var(--off);border-radius:var(--raio);padding:32px 22px 26px}
+.leva .eyebrow{color:var(--champ)}
+.leva h2{font-size:clamp(26px,5.4vw,34px);font-weight:400;margin-bottom:22px}
+.leva h2 strong{font-weight:600}
+.leva ul{list-style:none;display:grid;gap:10px;counter-reset:b}
+.leva li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--azul-2);border:1px solid var(--linha-esc);border-radius:12px;padding:18px}
+.leva li::before{counter-increment:b;content:counter(b,decimal-leading-zero);font:300 30px/1 Jost,sans-serif;color:var(--champ);min-width:38px}
+.leva li b{display:block;font:500 20px/1.2 Jost,sans-serif;margin-bottom:5px;color:var(--off)}
+.leva li span{display:block;color:var(--esc-suave);font-size:15px}
+.precisa{margin-top:18px;font-size:14px;color:var(--esc-suave)}
+.cond{margin-top:28px;background:#fff;color:var(--texto);border:2px solid var(--azul);border-radius:var(--raio);padding:30px 26px}
+.cond .eyebrow{color:var(--cinza)}
 .cond h2{font-size:24px;margin-bottom:18px}
 .conta{display:grid;gap:10px;font-size:16px}
-.conta div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--linha-esc);padding-bottom:10px;color:var(--esc-suave)}
-.conta div.total{border:0;padding:6px 0 0;color:var(--off);align-items:baseline}
+.conta div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--linha);padding-bottom:10px;color:var(--texto-suave)}
+.conta div.total{border:0;padding:6px 0 0;color:var(--texto);align-items:baseline}
 .conta .total b{font:500 clamp(26px,5vw,34px)/1.1 Jost,sans-serif;text-align:right}
-.conta .total small{display:block;font:400 14px Inter,sans-serif;color:var(--esc-suave);margin-top:4px}
-.cond .ate{margin-top:16px;font-size:14px;color:var(--champ)}
+.conta .total small{display:block;font:400 14px Inter,sans-serif;color:var(--texto-suave);margin-top:4px}
+.cond .ate{margin-top:16px;font-size:14px;color:var(--texto-suave)}
 .botoes{display:grid;gap:12px;margin-top:22px}
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:18px 24px;font:600 17px/1.2 Inter,sans-serif;cursor:pointer;text-decoration:none;text-align:center}
-.btn-claro{background:var(--off);color:var(--azul)}
-.btn-linha{background:transparent;color:var(--off);border:1px solid var(--linha-esc)}
-.btn-whats{background:#25D366;color:#0B1C37}
-.leva{margin-top:44px}
-.leva h2,.passos h2{font-size:24px;margin-bottom:18px}
-.leva ul{list-style:none;display:grid;gap:12px}
-.leva li{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;font-size:16px}
-.leva li b{display:block;font:500 18px Jost,sans-serif;margin-bottom:4px}
-.leva li span{color:var(--texto-suave);font-size:15px}
-.precisa{margin-top:18px;font-size:14px;color:var(--texto-suave)}
 .passos{margin-top:52px;padding:36px 0 56px;border-top:1px solid var(--linha)}
 .passos ol{list-style:none;display:grid;gap:14px;counter-reset:p}
 .passos li{display:grid;grid-template-columns:auto 1fr;gap:16px;font-size:16px;color:var(--texto-suave)}
@@ -60,8 +64,8 @@ h1,h2,h3{font-family:Jost,Inter,sans-serif;font-weight:500;letter-spacing:-.01em
 [hidden]{display:none!important}
 .conta div span:last-child{white-space:nowrap}
 .fim-ia{display:none}
-body[data-ia="fim"] .cond .conta,body[data-ia="fim"] .cond .ate,body[data-ia="fim"] #comprar{display:none}
-body[data-ia="fim"] .fim-ia{display:block;color:var(--esc-suave)}
+body[data-ia="fim"] .cond .conta,body[data-ia="fim"] .cond .ate{display:none}
+body[data-ia="fim"] .fim-ia{display:block;color:var(--texto-suave)}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -87,8 +91,28 @@ fbq('init','777460607647004');fbq('track','PageView');
 
   <div class="video" id="video"></div>
 
-  <div class="cond">
+  <div class="cta-topo">
+    <a class="btn btn-escuro js-comprar" href="#" hidden>Quero a minha vaga no MotelMind IA</a>
+    <a class="btn btn-whats js-whats" href="#" target="_blank" rel="noopener">Falar com o Thiago antes</a>
+  </div>
+
+  <div class="leva">
     <p class="eyebrow">MotelMind IA · próxima turma</p>
+    <h2>O que você leva <strong>entrando agora.</strong></h2>
+    <ul>
+      <li><div><b>Intensivão de 4 semanas</b><span>Começa na quarta, 17/02/2027. Quatro quartas seguidas (17/02, 24/02, 03/03 e 10/03) em que o Thiago abre, instala e configura cada ferramenta junto com você, no seu computador.</span></div></li>
+      <li><div><b>6 meses, 12 encontros ao vivo</b><span>Depois do intensivão, um encontro a cada 15 dias. Grupo pequeno, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></div></li>
+      <li><div><b>As 18 ferramentas do Vinicius</b><span>As ferramentas que o Vinicius usa nos motéis dele, entregues para você adaptar ao seu.</span></div></li>
+      <li><div><b>A primeira automação implantada com você</b><span>No primeiro mês, individualmente: a Equipe de IA do seu motel funcionando, incluída por 12 meses.</span></div></li>
+      <li><div><b>Segunda cadeira</b><span>Para o seu gerente ou o seu sócio acompanhar a turma com você.</span></div></li>
+      <li><div><b>Abatimento integral no MotelMind Anual</b><span>Se você subir para o Anual até 30 dias depois do fim da turma, tudo o que pagou aqui é abatido.</span></div></li>
+      <li><div><b>Tudo da Black continua seu</b><span>Os três anos de Escola, o Hub e os bônus de chegada.</span></div></li>
+    </ul>
+    <p class="precisa">O que precisa da sua parte: um computador, o plano Pro do Claude (cerca de R$ 110 por mês, por sua conta) e umas 2 horas por semana.</p>
+  </div>
+
+  <div class="cond" id="condicao">
+    <p class="eyebrow">Só nesta página · para quem comprou a Black</p>
     <h2>A sua compra da Black entra como crédito.</h2>
     <div class="conta">
       <div><span>Preço da turma</span><span>R$ 15.000</span></div>
@@ -98,22 +122,9 @@ fbq('init','777460607647004');fbq('track','PageView');
     <p class="ate">Condição desta página, para quem comprou a Black. Encerra no domingo, 29/11, às 23h59. Depois, R$ 15.000.</p>
     <p class="fim-ia">A condição da Black para o MotelMind IA encerrou em 29/11. Se quiser saber da próxima turma, fale com o Thiago.</p>
     <div class="botoes">
-      <a class="btn btn-claro" id="comprar" href="#" hidden>Quero a minha vaga no MotelMind IA</a>
-      <a class="btn btn-whats" id="whats" href="#">Falar com o Thiago antes</a>
+      <a class="btn btn-escuro js-comprar" href="#" hidden>Quero a minha vaga no MotelMind IA</a>
+      <a class="btn btn-whats js-whats" href="#" target="_blank" rel="noopener">Falar com o Thiago antes</a>
     </div>
-  </div>
-
-  <div class="leva">
-    <h2>O que você leva</h2>
-    <ul>
-      <li><b>Começa na quarta, 17/02/2027</b><span>Quatro quartas seguidas de intensivo (17/02, 24/02, 03/03 e 10/03) e, depois, um encontro a cada 15 dias.</span></li>
-      <li><b>6 meses, 12 encontros ao vivo</b><span>Em grupo pequeno, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></li>
-      <li><b>A primeira automação implantada com você</b><span>No primeiro mês, individualmente: a Equipe de IA do seu motel funcionando, incluída por 12 meses.</span></li>
-      <li><b>Segunda cadeira</b><span>Para o seu gerente ou o seu sócio acompanhar a turma com você.</span></li>
-      <li><b>Abatimento integral no MotelMind Anual</b><span>Se você subir para o Anual até 30 dias depois do fim da turma, tudo o que pagou aqui é abatido.</span></li>
-      <li><b>Tudo da Black continua seu</b><span>Os três anos de Escola, o Hub e os bônus de chegada.</span></li>
-    </ul>
-    <p class="precisa">O que precisa da sua parte: um computador, o plano Pro do Claude (cerca de R$ 110 por mês, por sua conta) e umas 2 horas por semana.</p>
   </div>
 
   <div class="passos">
@@ -123,7 +134,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       <li><span><b>Entre no Hub com o mesmo e-mail.</b> O Kit 2027 e a Equipe de IA ficam em <a href="https://novamotelaria.com.br" target="_blank" rel="noopener">novamotelaria.com.br</a>. Se você ainda não tem conta, cadastre-se com o e-mail da compra e o plano entra sozinho.</span></li>
       <li><span><b>Guarde a live de segunda, 23/11, às 17h.</b> O Vinicius apresenta a nova Escola ao vivo. O link da sala chega no WhatsApp e no e-mail.</span></li>
     </ol>
-    <p class="nao">Travou em algum passo? <a id="ajuda" href="#">Chame no WhatsApp</a>.</p>
+    <p class="nao">Travou em algum passo? <a id="ajuda" href="#" target="_blank" rel="noopener">Chame no WhatsApp</a>.</p>
   </div>
 </main>
 
@@ -147,14 +158,19 @@ fbq('init','777460607647004');fbq('track','PageView');
   if(fim)document.body.setAttribute('data-ia','fim');
 
   var msg=fim?'Comprei a Black 2026 e quero saber da próxima turma do MotelMind IA.':'Acabei de entrar na Black 2026 e quero entender o MotelMind IA.';
-  var w=document.getElementById('whats'); w.href='https://wa.me/'+WHATS+'?text='+encodeURIComponent(msg);
-  w.addEventListener('click',function(){try{if(window.fbq)fbq('trackCustom','MotelMindIAFalar')}catch(e){}});
+  // Os botões do WhatsApp abrem em aba nova: no vídeo o Thiago pede para não fechar esta página.
+  var zap='https://wa.me/'+WHATS+'?text='+encodeURIComponent(msg);
+  document.querySelectorAll('.js-whats').forEach(function(w){
+    w.href=zap; w.target='_blank'; w.rel='noopener';
+    w.addEventListener('click',function(){try{if(window.fbq)fbq('trackCustom','MotelMindIAFalar')}catch(e){}});
+  });
   document.getElementById('ajuda').href='https://wa.me/'+WHATS+'?text='+encodeURIComponent('Comprei a Black 2026 e preciso de ajuda com o acesso.');
 
   if(IA_CHECKOUT&&!fim){
-    var b=document.getElementById('comprar'); b.hidden=false; b.href=IA_CHECKOUT;
-    b.addEventListener('click',function(){try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'motelmind-ia-black-2026',currency:'BRL',value:7500})}catch(e){}});
-    w.className='btn btn-linha';
+    document.querySelectorAll('.js-comprar').forEach(function(b){
+      b.hidden=false; b.href=IA_CHECKOUT;
+      b.addEventListener('click',function(){try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'motelmind-ia-black-2026',currency:'BRL',value:7500})}catch(e){}});
+    });
   }
 
   if(VIDEO){
