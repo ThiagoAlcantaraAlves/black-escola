@@ -81,8 +81,8 @@ fbq('init','777460607647004');fbq('track','PageView');
 <main class="wrap">
   <div class="topo">
     <p class="eyebrow">Só para quem acabou de entrar na Black</p>
-    <h1 id="titulo">Antes de entrar: <strong>uma condição que só aparece nesta página.</strong></h1>
-    <p class="sub">O MotelMind IA é a turma em que o Thiago implanta a IA dentro do seu motel, junto com você. Quem acabou de entrar na Black tem uma condição própria, até domingo, 29/11.</p>
+    <h1 id="titulo"><strong>Não feche esta página ainda.</strong></h1>
+    <p class="sub">Assista a este vídeo de 5 minutos antes de sair. O que está aqui só aparece agora, para quem acabou de entrar na Black.</p>
   </div>
 
   <div class="video" id="video"></div>
@@ -91,11 +91,11 @@ fbq('init','777460607647004');fbq('track','PageView');
     <p class="eyebrow">MotelMind IA · próxima turma</p>
     <h2>A sua compra da Black entra como crédito.</h2>
     <div class="conta">
-      <div><span>Preço da turma</span><span>R$ 11.000</span></div>
+      <div><span>Preço da turma</span><span>R$ 15.000</span></div>
       <div><span>Para quem comprou a Black 2026</span><span>R$ 7.500</span></div>
       <div class="total"><span>Você paga</span><b>10x de R$ 750<small>sem juros no cartão, ou R$ 7.500 no Pix</small></b></div>
     </div>
-    <p class="ate">Vale até domingo, 29/11, às 23h59. Depois, a turma volta para R$ 15.000.</p>
+    <p class="ate">Condição desta página, para quem comprou a Black. Encerra no domingo, 29/11, às 23h59. Depois, R$ 15.000.</p>
     <p class="fim-ia">A condição da Black para o MotelMind IA encerrou em 29/11. Se quiser saber da próxima turma, fale com o Thiago.</p>
     <div class="botoes">
       <a class="btn btn-claro" id="comprar" href="#" hidden>Quero a minha vaga no MotelMind IA</a>
@@ -107,7 +107,7 @@ fbq('init','777460607647004');fbq('track','PageView');
     <h2>O que você leva</h2>
     <ul>
       <li><b>Começa na quarta, 17/02/2027</b><span>Quatro quartas seguidas de intensivo (17/02, 24/02, 03/03 e 10/03) e, depois, um encontro a cada 15 dias.</span></li>
-      <li><b>6 meses de encontros ao vivo com o Thiago</b><span>Em grupo pequeno, todos gravados. Cada encontro termina com alguma coisa rodando no seu motel.</span></li>
+      <li><b>6 meses, 12 encontros ao vivo</b><span>Em grupo pequeno, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></li>
       <li><b>A primeira automação implantada com você</b><span>No primeiro mês, individualmente: a Equipe de IA do seu motel funcionando, incluída por 12 meses.</span></li>
       <li><b>Segunda cadeira</b><span>Para o seu gerente ou o seu sócio acompanhar a turma com você.</span></li>
       <li><b>Abatimento integral no MotelMind Anual</b><span>Se você subir para o Anual até 30 dias depois do fim da turma, tudo o que pagou aqui é abatido.</span></li>
@@ -132,7 +132,8 @@ fbq('init','777460607647004');fbq('track','PageView');
   // ── CONFIGURAÇÃO ─────────────────────────────────────────────────────────
   // VIDEO: link de incorporação (ex.: https://www.youtube-nocookie.com/embed/ID) ou um .mp4.
   //        Vazio = a página sobe sem vídeo, só com o texto e os botões.
-  var VIDEO='';
+  var VIDEO='assets/video/motelmind-ia-upsell.mp4';
+  var CAPA='assets/video/motelmind-ia-upsell-capa.jpg';
   // IA_CHECKOUT: link da oferta de R$ 7.500 em 10x no produto MotelMind IA (Hotmart 8777348, conta da Escola).
   //        Vazio = o botão de compra não aparece; fica só o do WhatsApp.
   var IA_CHECKOUT='https://pay.hotmart.com/Y108128230K?off=8ftffnot';
@@ -157,9 +158,8 @@ fbq('init','777460607647004');fbq('track','PageView');
 
   if(VIDEO){
     var v=document.getElementById('video'); v.classList.add('on');
-    if(/\.mp4(\?|$)/i.test(VIDEO)){v.innerHTML='<video controls playsinline preload="metadata" src="'+VIDEO+'"></video>'}
+    if(/\.mp4(\?|$)/i.test(VIDEO)){v.innerHTML='<video controls playsinline preload="metadata" poster="'+CAPA+'" src="'+VIDEO+'"></video>'}
     else{v.innerHTML='<iframe src="'+VIDEO+'" title="MotelMind IA" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'}
-    document.getElementById('titulo').innerHTML='Antes de entrar: <strong>3 minutos que só aparecem nesta página.</strong>';
   }
 })();
 </script>
