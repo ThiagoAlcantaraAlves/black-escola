@@ -183,6 +183,23 @@ footer p{font-size:13px;color:var(--texto-suave)}
 .preco-card ul b{color:var(--texto);font-weight:600}
 .preco-card .prazo{margin-top:14px;font-size:13px;text-align:center;color:var(--texto-suave)}
 .preco-card .espera{font-size:16px;color:var(--texto-suave);margin-bottom:6px}
+.mm{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;margin-top:36px;align-items:start}
+.mm-itens{list-style:none;display:grid;gap:12px;counter-reset:m}
+.mm-itens li{display:grid;grid-template-columns:auto 1fr;gap:16px;background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:20px 22px}
+.mm-itens li::before{counter-increment:m;content:counter(m,decimal-leading-zero);font:300 28px/1 Jost,sans-serif;color:var(--cinza);min-width:36px}
+.mm-itens b{display:block;font:500 19px/1.2 Jost,sans-serif;margin-bottom:4px}
+.mm-itens span{display:block;font-size:15px;color:var(--texto-suave)}
+.mm-preco{background:var(--azul);color:var(--texto-esc);border-radius:var(--raio);padding:30px 28px 26px;position:sticky;top:20px}
+.mm-preco .selo{font:500 12px/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--champ)}
+.mm-preco .de{margin-top:14px;font-size:15px;color:var(--texto-esc-suave)}
+.mm-preco .valor{font:500 clamp(38px,5.4vw,50px)/1 Jost,sans-serif;margin:8px 0 6px;letter-spacing:-.02em}
+.mm-preco .valor small{font-size:18px;font-weight:400;letter-spacing:0}
+.mm-preco .avista{font-size:15px;color:var(--texto-esc-suave)}
+.mm-preco .avista b{color:var(--texto-esc)}
+.mm-preco .btn{width:100%;min-height:58px;margin-top:18px;font-size:17px;text-align:center}
+.mm-preco .nota{margin-top:14px;font-size:13px;color:var(--texto-esc-suave)}
+.mm-preco .nota b{color:var(--champ);font-weight:600}
+@media (max-width:900px){.mm{grid-template-columns:1fr}.mm-preco{position:static}}
 .bonus li.fim{opacity:.45}
 .bonus .resta{display:inline-block;margin-top:12px;font:500 12px/1 Jost,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);background:var(--champ);border-radius:999px;padding:7px 12px}
 .bonus li.fim .resta{background:transparent;color:var(--texto-esc-suave);border:1px solid var(--linha-esc)}
@@ -327,6 +344,31 @@ fbq('init','777460607647004');fbq('track','PageView');
   </div>
 </div>
 
+<section id="motelmind" class="so-aberto" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--cinza);margin-bottom:16px">Também na Black · até domingo, 29/11</p>
+    <h2 class="sec-titulo reveal">MotelMind IA com 30% de desconto.</h2>
+    <p class="sec-sub reveal">É a turma em que o Thiago e o Vinicius sentam do seu lado e colocam a IA para trabalhar dentro do seu motel. É um programa à parte da Escola, com turma pequena.</p>
+    <div class="mm">
+      <ul class="mm-itens">
+        <li class="reveal"><div><b>Intensivão de 4 semanas</b><span>Começa na quarta, 17/02/2027. Quatro quartas seguidas em que o Thiago abre, instala e configura cada ferramenta junto com você.</span></div></li>
+        <li class="reveal"><div><b>6 meses, 12 encontros ao vivo</b><span>Depois do intensivão, um encontro a cada 15 dias, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></div></li>
+        <li class="reveal"><div><b>As 18 ferramentas do Vinicius</b><span>As ferramentas que o Vinicius usa nos motéis dele, entregues para você adaptar ao seu.</span></div></li>
+        <li class="reveal"><div><b>Turma de 10 vagas, garantia de 7 dias</b><span>Grupo pequeno, para a gente conhecer o caso de cada motel. Se não for para você, pede o reembolso em até 7 dias.</span></div></li>
+      </ul>
+      <div class="mm-preco reveal">
+        <p class="selo">Black 2026 · 30% de desconto</p>
+        <p class="de">De <s>R$ 15.000</s> por R$ 10.500</p>
+        <p class="valor"><small>10x de</small> R$ 1.050</p>
+        <p class="avista">sem juros no cartão, ou <b>R$ 10.500</b> no Pix</p>
+        <a class="btn btn-claro comprar-mm" href="#">Quero o MotelMind IA</a>
+        <p class="nota">Vale até domingo, 29/11, às 23h59. Depois, R$ 15.000.</p>
+        <p class="nota"><b>Está entrando na Escola pela Black?</b> A sua condição no MotelMind IA é ainda melhor e aparece logo depois da compra.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="quem">
   <div class="wrap">
     <p class="eyebrow reveal" style="color:var(--cinza);margin-bottom:16px">Quem conduz</p>
@@ -357,6 +399,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       <details class="reveal"><summary>Quando a Equipe de IA começa a valer?</summary><p>Na hora da compra. O plano Profissional do Hub é liberado no seu login. Se você ainda não tem conta no Hub, ele entra quando você se cadastra com o mesmo e-mail da compra.</p></details>
       <details class="reveal"><summary>A Equipe de IA vale pelos três anos?</summary><p>Não. Ela é um bônus do primeiro ano: 12 meses para quem compra até segunda, 23/11, às 23h59, e 6 meses para quem compra depois, até 29/11. Depois disso, renova no plano normal do Hub se você quiser. A Escola e o Hub com o Kit 2027 valem pelos três anos.</p></details>
       <details class="reveal"><summary>Quem leva os bônus de chegada?</summary><p>Quem compra na Black 2026, inclusive quem já é aluno e estende o prazo. A ordem conta pela hora da compra, e em até 48 horas a lista de quem levou cada bônus é publicada.</p></details>
+      <details class="reveal"><summary>O MotelMind IA está incluído na Escola?</summary><p>Não. O MotelMind IA é um programa à parte, de acompanhamento em turma pequena. Na Black ele sai com 30% de desconto, e quem entra na Escola pela Black recebe uma condição ainda melhor na página seguinte à compra.</p></details>
       <details class="reveal"><summary>A Black reabre depois?</summary><p>Não. Fecha no domingo, 29/11, às 23h59, e não tem reabertura em dezembro.</p></details>
     </div>
   </div>
@@ -413,6 +456,7 @@ fbq('init','777460607647004');fbq('track','PageView');
     lista:{link:'https://pay.hotmart.com/I108525293M?off=y39sj538',preco:'3.497',parcela:'291,42'},
     live: {link:'https://pay.hotmart.com/I108525293M?off=06cwuggl',preco:'3.997',parcela:'333,09'}
   };
+  var MOTELMIND='https://pay.hotmart.com/Y108128230K?off=58smphjo'; // MotelMind IA com 30% (R$ 10.500 em 10x sem juros)
   var ABRE =new Date('2026-11-22T18:00:00Z'); // dom 22/11 15h (Brasília): "Na frente"; a lista recebe às 17h
   var LIVE =new Date('2026-11-23T20:00:00Z'); // seg 23/11 17h: preço da live
   var IA12 =new Date('2026-11-24T03:00:00Z'); // seg 23/11 23h59: fim da Equipe de IA por 12 meses
@@ -464,6 +508,10 @@ fbq('init','777460607647004');fbq('track','PageView');
   }
   function marca(b,fim){document.querySelectorAll('[data-b="'+b+'"]').forEach(function(li){li.classList.toggle('fim',!!fim)})}
 
+  document.querySelectorAll('a.comprar-mm').forEach(function(a){
+    a.href=linkCheckout(MOTELMIND);
+    a.addEventListener('click',function(){try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'motelmind-ia-black-30',currency:'BRL',value:10500})}catch(e){}});
+  });
   document.querySelectorAll('a.comprar').forEach(function(a){a.addEventListener('click',function(){
     try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'black-2026-'+faseAtual,currency:'BRL',value:faseAtual==='lista'?3497:3997})}catch(e){}
   })});
