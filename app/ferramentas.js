@@ -4,6 +4,7 @@
 import { compute, custoPessoa } from '/app/lib/simuladorEscala.js';
 import { cenarioSimples, veredictoSimplesFinal, veredictoRR, VEREDICTO_MEI, plano, DEFAULT_STATE } from '/app/lib/radarSplit.js';
 import { REVPAR_ESTADOS } from '/app/lib/revpar-estados.js';
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const HUB = 'https://novamotelaria.com.br';
 export const brl = (n) => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
@@ -46,7 +47,7 @@ export const escala = {
   mostrar(d) {
     const linha = (rot, x) => `<tr><td>${rot}</td><td>${x.pessoas ? '+' + x.pessoas + ' pessoa(s)' : 'sem contratação'}${x.meio ? ' e ' + x.meio + ' meio período' : ''}</td><td><strong>+${brl(x.extra)}</strong> por mês</td><td>${d.folha ? '+' + pctTxt(x.extra / d.folha) : ''}</td></tr>`;
     const melhor = ['A', 'B', 'C'].reduce((m, k) => (d[k].extra < d[m].extra ? k : m), 'A');
-    return `<p>Hoje: ${d.pessoas} pessoas, folha de ${brl(d.folha)} por mês${d.fat ? ` (${pctTxt(d.folha / d.fat)} do faturamento)` : ''}.</p>
+    return `<p>Hoje: ${esc(d.pessoas)} pessoas, folha de ${brl(d.folha)} por mês${d.fat ? ` (${pctTxt(d.folha / d.fat)} do faturamento)` : ''}.</p>
       <table class="res"><tr><th>Caminho</th><th>Equipe</th><th>Custo a mais</th><th>Sobre a folha</th></tr>
       ${linha('Não mexer', d.A)}${linha('Ajuste', d.B)}${linha('Ajuste bem feito', d.C)}</table>
       <p class="sub">A diferença entre o pior e o melhor caminho é de <strong>${brl(d.A.extra - d[melhor].extra)} por mês</strong>. O roteiro do ajuste bem feito, com os cuidados da 12x36 e dos acordos coletivos, está na Masterclass Preparação 2027 da Escola. Simulação para planejamento: confirme com o contador e o advogado trabalhista.</p>`;
@@ -85,9 +86,9 @@ export const preco = {
     return { cat: f.cat, to, pct, p3, n3, p12s, n12s, p12f, n12f };
   },
   mostrar(d) {
-    if (d.bloqueado) return `<p><strong>Não é hora de subir preço${d.cat ? ' na ' + d.cat : ''}.</strong> Com ${String(d.to).replace('.', ',')} locação por suíte por dia, o protocolo da Escola trava o reajuste: abaixo de 0,4 o problema é de demanda, não de preço.</p><p class="sub">O caminho é olhar ocupação na semana, marketing e a categoria de entrada. Faça também a tarefa do RevPAR para ver onde o seu motel fica no estado.</p>`;
+    if (d.bloqueado) return `<p><strong>Não é hora de subir preço${d.cat ? ' na ' + esc(d.cat) : ''}.</strong> Com ${esc(String(d.to)).replace('.', ',')} locação por suíte por dia, o protocolo da Escola trava o reajuste: abaixo de 0,4 o problema é de demanda, não de preço.</p><p class="sub">O caminho é olhar ocupação na semana, marketing e a categoria de entrada. Faça também a tarefa do RevPAR para ver onde o seu motel fica no estado.</p>`;
     const l = (rot, a, n) => (a ? `<tr><td>${rot}</td><td>${brl(a)}</td><td><strong>${brl(n)}</strong></td><td>+${pctTxt((n - a) / a)}</td></tr>` : '');
-    return `<p>Reajuste sugerido de <strong>${pctTxt(d.pct)}</strong> no período de 3 horas${d.cat ? ' da ' + d.cat : ''}, pela ocupação de ${String(d.to).replace('.', ',')} locação por suíte por dia.</p>
+    return `<p>Reajuste sugerido de <strong>${pctTxt(d.pct)}</strong> no período de 3 horas${d.cat ? ' da ' + esc(d.cat) : ''}, pela ocupação de ${esc(String(d.to)).replace('.', ',')} locação por suíte por dia.</p>
       <table class="res"><tr><th></th><th>Hoje</th><th>Sugerido</th><th></th></tr>${l('Período de 3h', d.p3, d.n3)}${l('Pernoite de semana', d.p12s, d.n12s)}${l('Pernoite de fim de semana', d.p12f || d.n12f, d.n12f)}</table>
       <p class="sub">Preços terminam em 9 e nenhum fica abaixo do atual. Pernoite sobe menos que o período, e o de fim de semana sai do de semana. A tabela completa, com todas as categorias e a escada entre elas, está no hub, no plano Profissional.</p>`;
   },
@@ -120,7 +121,7 @@ export const revpar = {
     const max = Math.max(d.revpar, d.p75) * 1.25, w = (x) => Math.round((x / max) * 100);
     return `<p>RevPAR do seu motel: <strong>${brl(d.revpar)} por suíte por dia</strong>.</p>
       <div class="regua"><i style="width:${w(d.revpar)}%"></i><b style="left:${w(d.p50)}%" title="mediana"></b><b style="left:${w(d.p75)}%" title="quartil de cima"></b></div>
-      <p class="sub">${d.base === 'BR' ? 'Brasil' : d.base}: mediana ${brl(d.p50)} · média ${brl(d.media)} · grupo de cima a partir de ${brl(d.p75)} (amostra de ${d.amostra} motéis do Censo da Motelaria).${d.poucos ? ' O seu estado ainda tem poucos motéis na amostra, por isso a comparação é com o Brasil.' : ''}</p>
+      <p class="sub">${d.base === 'BR' ? 'Brasil' : esc(d.base)}: mediana ${brl(d.p50)} · média ${brl(d.media)} · grupo de cima a partir de ${brl(d.p75)} (amostra de ${esc(d.amostra)} motéis do Censo da Motelaria).${d.poucos ? ' O seu estado ainda tem poucos motéis na amostra, por isso a comparação é com o Brasil.' : ''}</p>
       <p>${msg}</p>`;
   },
 };
