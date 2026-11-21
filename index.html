@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <script>if(location.pathname==='/app')location.replace('/app/'+location.search+location.hash)</script>
+<script>
+// A partir da live (seg 23/11, 17h de Brasília) a home passa a ser a oferta, para todo mundo.
+// Para ver a página da lista depois disso: ?lista=1
+(function(){try{var p=location.pathname;if((p==='/'||p==='/index.html')&&Date.now()>=Date.parse('2026-11-23T20:00:00Z')&&!/[?&]lista=1/.test(location.search))location.replace('/oferta.html'+location.search)}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Black 2026 · Escola de Motelaria</title>
 <meta name="description" content="2027 vai ser o ano mais caro da motelaria. Entre preparado, com a maior Black da história da Escola. A lista recebe a oferta 24 horas antes.">
