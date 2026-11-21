@@ -53,6 +53,9 @@ h1,h2,h3{font-family:Jost,Inter,sans-serif;font-weight:500;letter-spacing:-.01em
 .conta .total b{font:500 clamp(26px,5vw,34px)/1.1 Jost,sans-serif;text-align:right}
 .conta .total small{display:block;font:400 14px Inter,sans-serif;color:var(--texto-suave);margin-top:4px}
 .cond .ate{margin-top:16px;font-size:14px;color:var(--texto-suave)}
+.selos{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.selos li{font:500 13px/1 Jost,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--azul);border:1px solid var(--azul);border-radius:999px;padding:8px 12px}
+.garantia-ia{margin-top:12px;font-size:14px;color:var(--texto-suave)}
 .botoes{display:grid;gap:12px;margin-top:22px}
 .passos{margin-top:52px;padding:36px 0 56px;border-top:1px solid var(--linha)}
 .passos ol{list-style:none;display:grid;gap:14px;counter-reset:p}
@@ -64,7 +67,7 @@ h1,h2,h3{font-family:Jost,Inter,sans-serif;font-weight:500;letter-spacing:-.01em
 [hidden]{display:none!important}
 .conta div span:last-child{white-space:nowrap}
 .fim-ia{display:none}
-body[data-ia="fim"] .cond .conta,body[data-ia="fim"] .cond .ate{display:none}
+body[data-ia="fim"] .cond .conta,body[data-ia="fim"] .cond .ate,body[data-ia="fim"] .cond .selos,body[data-ia="fim"] .cond .garantia-ia{display:none}
 body[data-ia="fim"] .fim-ia{display:block;color:var(--texto-suave)}
 </style>
 <!-- Meta Pixel -->
@@ -101,7 +104,7 @@ fbq('init','777460607647004');fbq('track','PageView');
     <h2>O que você leva <strong>entrando agora.</strong></h2>
     <ul>
       <li><div><b>Intensivão de 4 semanas</b><span>Começa na quarta, 17/02/2027. Quatro quartas seguidas (17/02, 24/02, 03/03 e 10/03) em que o Thiago abre, instala e configura cada ferramenta junto com você, no seu computador.</span></div></li>
-      <li><div><b>6 meses, 12 encontros ao vivo</b><span>Depois do intensivão, um encontro a cada 15 dias. Grupo pequeno, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></div></li>
+      <li><div><b>6 meses, 12 encontros ao vivo</b><span>Depois do intensivão, um encontro a cada 15 dias. Turma de 10 vagas, todos gravados. Cada encontro termina com uma ferramenta implementada no seu motel.</span></div></li>
       <li><div><b>As 18 ferramentas do Vinicius</b><span>As ferramentas que o Vinicius usa nos motéis dele, entregues para você adaptar ao seu.</span></div></li>
       <li><div><b>A primeira automação implantada com você</b><span>No primeiro mês, individualmente: a Equipe de IA do seu motel funcionando, incluída por 12 meses.</span></div></li>
       <li><div><b>Segunda cadeira</b><span>Para o seu gerente ou o seu sócio acompanhar a turma com você.</span></div></li>
@@ -120,6 +123,8 @@ fbq('init','777460607647004');fbq('track','PageView');
       <div class="total"><span>Você paga</span><b>10x de R$ 750<small>sem juros no cartão, ou R$ 7.500 no Pix</small></b></div>
     </div>
     <p class="ate">Condição desta página, para quem comprou a Black. Encerra no domingo, 29/11, às 23h59. Depois, R$ 15.000.</p>
+    <ul class="selos"><li>Turma de 10 vagas</li><li>Garantia de 7 dias</li></ul>
+    <p class="garantia-ia">Garantia de 7 dias pela Hotmart: se você entrar e achar que não é para você, pede o reembolso e recebe tudo de volta.</p>
     <p class="fim-ia">A condição da Black para o MotelMind IA encerrou em 29/11. Se quiser saber da próxima turma, fale com o Thiago.</p>
     <div class="botoes">
       <a class="btn btn-escuro js-comprar" href="#" hidden>Quero a minha vaga no MotelMind IA</a>
