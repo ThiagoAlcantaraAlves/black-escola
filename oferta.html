@@ -201,6 +201,7 @@ footer p{font-size:13px;color:var(--texto-suave)}
 .mm-preco .nota b{color:var(--champ);font-weight:600}
 @media (max-width:900px){.mm{grid-template-columns:1fr}.mm-preco{position:static}}
 .bonus li.fim{opacity:.45}
+.bonus li[hidden]{display:none}
 .bonus .resta{display:inline-block;margin-top:12px;font:500 12px/1 Jost,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);background:var(--champ);border-radius:999px;padding:7px 12px}
 .bonus li.fim .resta{background:transparent;color:var(--texto-esc-suave);border:1px solid var(--linha-esc)}
 .bonus li.fim .quem::after{content:" · encerrado"}
@@ -322,7 +323,6 @@ fbq('init','777460607647004');fbq('track','PageView');
     <p class="sec-sub reveal">Os bônus são só de quem compra na Black 2026, inclusive de quem já é aluno. A ordem de chegada conta pela hora da compra.</p>
     <ul class="bonus">
       <li class="reveal destaque" data-b="ia12"><span class="quem">Até seg 23/11 · 23h59</span><div><h3>A Equipe de IA do seu motel por 12 meses</h3><p>O Hub Profissional completo, com os quatro funcionários de IA trabalhando para o seu motel: gerente, analista de receita, social e pessoas e escala. Liberado no seu login na hora da compra. Vale no primeiro ano: depois dos 12 meses, renova no plano normal se você quiser.</p></div></li>
-      <li class="reveal" data-b="sp"><span class="quem">2 primeiros</span><div><h3>Ingresso para o MotelMind SP 2027</h3><p>O evento presencial da Nova Motelaria em São Paulo, por conta da Escola.</p><p class="resta" hidden></p></div></li>
       <li class="reveal" data-b="livros"><span class="quem">5 primeiros</span><div><h3>Os dois livros do Vinicius, autografados</h3><p>Os dois livros do fundador da Escola, com dedicatória.</p><p class="resta" hidden></p></div></li>
       <li class="reveal" data-b="mentoria"><span class="quem">10 primeiros</span><div><h3>Mentoria individual com o Thiago sobre IA</h3><p>Um encontro individual com o Thiago Alcântara, que cuida do Hub e das ferramentas de IA da Escola, para aplicar a inteligência artificial no dia a dia do seu motel.</p><p class="resta" hidden></p></div></li>
       <li class="reveal" data-b="escala"><span class="quem">30 primeiros</span><div><h3>A escala 6x1 aplicada, com a sua folha</h3><p>Mentoria em grupo com o Vinicius em que cada um trabalha a escala de 2027 em cima da própria folha de pagamento.</p><p class="resta" hidden></p></div></li>
@@ -520,7 +520,7 @@ fbq('init','777460607647004');fbq('track','PageView');
   // Contador de bônus de chegada: número de compras válidas do combo, lido do Hub (função black_2026_contador,
   // que só devolve um número). Atualiza a cada minuto enquanto a oferta está aberta.
   var HUB='https://cmrydpojogzofzfzwjhi.supabase.co', CHAVE='sb_publishable_t1GiiI-Xev-EgWr7JQw-rQ_-U5sf6TC';
-  var BONUS=[['sp',2],['livros',5],['mentoria',10],['escala',30]];
+  var BONUS=[['livros',5],['mentoria',10],['escala',30]];
   function contador(){
     if(faseAtual!=='lista'&&faseAtual!=='live')return;
     fetch(HUB+'/rest/v1/rpc/black_2026_contador',{method:'POST',headers:{apikey:CHAVE,'Content-Type':'application/json'},body:'{}'})
@@ -530,9 +530,8 @@ fbq('init','777460607647004');fbq('track','PageView');
         BONUS.forEach(function(x){
           var resta=Math.max(0,x[1]-n);
           document.querySelectorAll('[data-b="'+x[0]+'"]').forEach(function(li){
-            var p=li.querySelector('.resta');
-            if(p){p.textContent=resta===0?'Esgotado':(resta===1?'Resta 1 de ':'Restam '+resta+' de ')+x[1]; p.hidden=false}
-            li.classList.toggle('fim',resta===0||ESGOTADOS.indexOf(x[0])>=0);
+            // Sem contagem na tela (pedido do Thiago): o bônus só some da lista quando acaba.
+            li.hidden=(resta===0||ESGOTADOS.indexOf(x[0])>=0);
           });
         });
       }).catch(function(){});
