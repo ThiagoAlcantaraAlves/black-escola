@@ -218,9 +218,10 @@ body:not([data-ia="12"]) .so-ia12,body:not([data-ia="6"]) .so-ia6{display:none!i
   .sorteio-topo p{font-size:16px;max-width:70ch}
   .sorteio-topo b{font-family:Jost,sans-serif;font-weight:600;font-size:18px}
   .sorteio-li{background:var(--champ);color:var(--azul);border-radius:10px;padding:10px 12px;list-style:none}
-body[data-fase="lista"] header{position:relative;background:var(--azul)}
-body[data-fase="lista"] .hero{padding-top:48px}
-@media (max-width:900px){body[data-fase="lista"] .hero{padding-top:24px}}
+body:not([data-sorteio="1"]) .so-sorteio{display:none!important}
+body[data-sorteio="1"] header{position:relative;background:var(--azul)}
+body[data-sorteio="1"] .hero{padding-top:48px}
+@media (max-width:900px){body[data-sorteio="1"] .hero{padding-top:24px}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -229,7 +230,7 @@ fbq('init','777460607647004');fbq('track','PageView');
 </script>
 </head>
 <body data-fase="antes" data-ia="12">
-  <div class="sorteio-topo so-lista"><div class="wrap"><p><b>🎁 Sorteio hoje na live, às 17h, com o Vinicius.</b> Quem compra antes da live concorre a uma vaga no MotelMind Floripa 2027 e a 1 hora de mentoria com o Vinicius. Fique na live: o sorteio sai ao vivo.</p><a class="btn btn-escuro comprar" href="#">Quero entrar e concorrer</a></div></div>
+  <div class="sorteio-topo so-sorteio"><div class="wrap"><p><b>🎁 Quem entra até hoje, 23h59, participa do sorteio</b> de uma vaga no MotelMind Floripa 2027 e de 1 hora de mentoria com o Vinicius.</p><a class="btn btn-escuro comprar" href="#">Quero entrar e participar</a></div></div>
 
 <header>
   <div class="wrap">
@@ -245,7 +246,6 @@ fbq('init','777460607647004');fbq('track','PageView');
       <h1>2027 vai ser o ano mais caro da motelaria. <strong>Entre preparado.</strong></h1>
       <p class="sub">A Escola de Motelaria por três anos, com o Hub, o Kit 2027 e a Equipe de IA do seu motel. Os bônus são por ordem de chegada e a Black fecha no domingo, 29/11.</p>
       <p class="sub-curto">Três anos de Escola, com bônus por ordem de chegada. Fecha no domingo, 29/11.</p>
-      <span class="pill so-lista"><i></i> Preço da lista até seg 23/11 · 17h</span>
       <span class="pill so-live"><i></i> Fecha dom 29/11 · 23h59</span>
       <div class="count" id="count">
         <div><b data-u="d">00</b><small>dias</small></div>
@@ -271,11 +271,10 @@ fbq('init','777460607647004');fbq('track','PageView');
         <a class="btn btn-escuro comprar" href="#">Quero entrar na Black 2026</a>
         <ul>
           <li><b>Equipe de IA do motel por 6 meses</b> para quem compra até domingo, 29/11.</li>
-          <li class="so-lista sorteio-li"><b>Sorteio na live de hoje, 17h:</b> uma vaga no MotelMind Floripa 2027 e 1 hora de mentoria com o Vinicius, para quem compra antes da live.</li>
+          <li class="so-sorteio sorteio-li"><b>Sorteio para quem entra até hoje, 23h59:</b> uma vaga no MotelMind Floripa 2027 e 1 hora de mentoria com o Vinicius.</li>
           <li>Bônus por ordem de chegada, pela hora da compra.</li>
           <li>Já é aluno? Os três anos somam ao final do seu prazo atual.</li>
         </ul>
-        <p class="prazo so-lista">O preço da lista vale até a live de segunda, 23/11, às 17h. Depois, R$ 3.997.</p>
         <p class="prazo so-live">Fecha no domingo, 29/11, às 23h59. Sem reabertura.</p>
       </div>
     </div>
@@ -332,7 +331,7 @@ fbq('init','777460607647004');fbq('track','PageView');
     <p class="sec-sub reveal">Os bônus são só de quem compra na Black 2026, inclusive de quem já é aluno. A ordem de chegada conta pela hora da compra.</p>
     <ul class="bonus">
       <li class="reveal destaque"><span class="quem">Até dom 29/11</span><div><h3>A Equipe de IA do seu motel por 6 meses</h3><p>O Hub Profissional completo, com os quatro funcionários de IA trabalhando para o seu motel: gerente, analista de receita, social e pessoas e escala. Liberado no seu login na hora da compra. Vale por seis meses a partir da compra. Depois, renova no plano normal se você quiser.</p></div></li>
-      <li class="reveal destaque" data-b="live"><span class="quem">Live seg 23/11 · 17h</span><div><h3>Dois sorteios na live de hoje</h3><p>Todo mundo que comprar antes da live concorre a uma vaga no MotelMind Floripa 2027 e a uma mentoria privada de uma hora com o Vinicius. O sorteio sai ao vivo, na live com o Vinicius.</p></div></li>
+      <li class="reveal destaque" data-b="sorteio"><span class="quem">Até seg 23/11 · 23h59</span><div><h3>Dois sorteios</h3><p>Todo mundo que comprar até segunda, 23/11, às 23h59, concorre a uma vaga no MotelMind Floripa 2027 e a uma mentoria privada de uma hora com o Vinicius.</p></div></li>
       <li class="reveal" data-b="livros"><span class="quem">5 primeiros</span><div><h3>Os dois livros do Vinicius, autografados</h3><p>Os dois livros do fundador da Escola, com dedicatória.</p></div></li>
       <li class="reveal" data-b="mentoria"><span class="quem">10 primeiros</span><div><h3>Mentoria individual com o Thiago sobre IA</h3><p>Um encontro individual com o Thiago Alcântara, que cuida do Hub e das ferramentas de IA da Escola, para aplicar a inteligência artificial no dia a dia do seu motel.</p></div></li>
       <li class="reveal" data-b="escala"><span class="quem">30 primeiros</span><div><h3>A escala 6x1 aplicada, com a sua folha</h3><p>Mentoria em grupo com o Vinicius em que cada um trabalha a escala de 2027 em cima da própria folha de pagamento.</p></div></li>
@@ -438,11 +437,10 @@ fbq('init','777460607647004');fbq('track','PageView');
         <a class="btn btn-escuro comprar" href="#">Quero entrar na Black 2026</a>
         <ul>
           <li><b>Equipe de IA do motel por 6 meses</b> para quem compra até domingo, 29/11.</li>
-          <li class="so-lista sorteio-li"><b>Sorteio na live de hoje, 17h:</b> uma vaga no MotelMind Floripa 2027 e 1 hora de mentoria com o Vinicius, para quem compra antes da live.</li>
+          <li class="so-sorteio sorteio-li"><b>Sorteio para quem entra até hoje, 23h59:</b> uma vaga no MotelMind Floripa 2027 e 1 hora de mentoria com o Vinicius.</li>
           <li>Bônus por ordem de chegada, pela hora da compra.</li>
           <li>Já é aluno? Os três anos somam ao final do seu prazo atual.</li>
         </ul>
-        <p class="prazo so-lista">O preço da lista vale até a live de segunda, 23/11, às 17h. Depois, R$ 3.997.</p>
         <p class="prazo so-live">Fecha no domingo, 29/11, às 23h59. Sem reabertura.</p>
       </div>
     </div>
@@ -463,12 +461,13 @@ fbq('init','777460607647004');fbq('track','PageView');
   // na segunda 23/11 às 17h; esta página troca o link e o preço sozinha nesse horário.
   var OFERTA={
     lista:{link:'https://pay.hotmart.com/I108525293M?off=y39sj538',preco:'3.497',parcela:'291,42'},
-    live: {link:'https://pay.hotmart.com/I108525293M?off=06cwuggl',preco:'3.997',parcela:'333,09'}
+    live: {link:'https://pay.hotmart.com/I108525293M?off=y39sj538',preco:'3.497',parcela:'291,42'} // pedido do Thiago 23/11: preço não sobe às 17h
   };
   var MOTELMIND='https://pay.hotmart.com/Y108128230K?off=58smphjo'; // MotelMind IA com 30% (R$ 10.500 em 10x sem juros)
   var ABRE =new Date('2026-11-22T18:00:00Z'); // dom 22/11 15h (Brasília): "Na frente"; a lista recebe às 17h
   var LIVE =new Date('2026-11-23T20:00:00Z'); // seg 23/11 17h: preço da live
   var IA12 =new Date('2026-11-23T09:00:00Z'); // desde seg 23/11 06h: Equipe de IA só por 6 meses (pedido do Thiago)
+  var SORTEIO=new Date('2026-11-24T03:00:00Z'); // seg 23/11 23h59: fim do sorteio (quem entra até hoje participa)
   var FECHA=new Date('2026-11-30T03:00:00Z'); // dom 29/11 23h59: fecha
   // Bônus de chegada que já acabaram (marcar à mão): 'sp', 'livros', 'escala'
   var ESGOTADOS=[];
@@ -476,7 +475,7 @@ fbq('init','777460607647004');fbq('track','PageView');
 
   var q=new URLSearchParams(location.search);
   // Prévia: ?previa=lista | live | ter | fim  (mostra a página como ela fica em cada fase)
-  var PREVIA={lista:ABRE,live:LIVE,ter:IA12,fim:FECHA}[q.get('previa')];
+  var PREVIA={lista:ABRE,live:LIVE,ter:SORTEIO,fim:FECHA}[q.get('previa')];
   var desvio=PREVIA?(PREVIA.getTime()+60000-Date.now()):0;
   function agora(){return new Date(Date.now()+desvio)}
 
@@ -500,8 +499,9 @@ fbq('init','777460607647004');fbq('track','PageView');
   var faseAtual='';
   function fase(){
     var n=agora();
-    var f=n<ABRE?'antes':n<LIVE?'lista':n<FECHA?'live':'fim';
+    var f=n<ABRE?'antes':n<FECHA?'live':'fim'; // sem fase "lista": o preço é um só até 29/11
     document.body.setAttribute('data-ia',n<IA12?'12':'6');
+    document.body.setAttribute('data-sorteio',n<SORTEIO?'1':'0');
     if(f!==faseAtual){
       faseAtual=f; document.body.setAttribute('data-fase',f);
       var o=OFERTA[f];
@@ -511,7 +511,7 @@ fbq('init','777460607647004');fbq('track','PageView');
         document.querySelectorAll('a.comprar').forEach(function(a){a.href=linkCheckout(o.link)});
       }
     }
-    marca('ia12',n>=IA12); marca('live',n>=LIVE);
+    marca('ia12',n>=IA12); marca('live',n>=LIVE); marca('sorteio',n>=SORTEIO);
     ESGOTADOS.forEach(function(b){marca(b,true)});
     return f;
   }
@@ -522,7 +522,7 @@ fbq('init','777460607647004');fbq('track','PageView');
     a.addEventListener('click',function(){try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'motelmind-ia-black-30',currency:'BRL',value:10500})}catch(e){}});
   });
   document.querySelectorAll('a.comprar').forEach(function(a){a.addEventListener('click',function(){
-    try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'black-2026-'+faseAtual,currency:'BRL',value:faseAtual==='lista'?3497:3997})}catch(e){}
+    try{if(window.fbq)fbq('track','InitiateCheckout',{content_name:'black-2026-'+faseAtual,currency:'BRL',value:3497})}catch(e){}
   })});
 
   // Contador de bônus de chegada: número de compras válidas do combo, lido do Hub (função black_2026_contador,
