@@ -246,7 +246,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       <h1>2027 vai ser o ano mais caro da motelaria. <strong>Entre preparado.</strong></h1>
       <p class="sub">A Escola de Motelaria por três anos, com o Hub, o Kit 2027 e a Equipe de IA do seu motel. Os bônus são por ordem de chegada e a Black fecha no domingo, 29/11.</p>
       <p class="sub-curto">Três anos de Escola, com bônus por ordem de chegada. Fecha no domingo, 29/11.</p>
-      <span class="pill so-live"><i></i> Fecha dom 29/11 · 23h59</span>
+      <span class="pill so-lista"><i></i> R$ 3.497 só até qua 25/11 · 23h59</span><span class="pill so-live"><i></i> Fecha dom 29/11 · 23h59</span>
       <div class="count" id="count">
         <div><b data-u="d">00</b><small>dias</small></div>
         <div><b data-u="h">00</b><small>horas</small></div>
@@ -255,7 +255,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       </div>
     </div>
     <div class="preco-card" id="preco">
-      <p class="selo"><span class="so-antes">Black 2026</span><span class="so-lista">Preço da lista</span><span class="so-live">Black 2026 · aberta</span><span class="so-fim">Black 2026 · encerrada</span></p>
+      <p class="selo"><span class="so-antes">Black 2026</span><span class="so-lista">Preço especial até quarta</span><span class="so-live">Black 2026 · aberta</span><span class="so-fim">Black 2026 · encerrada</span></p>
       <h2>Escola de Motelaria por 3 anos</h2>
       <div class="so-antes">
         <p class="espera">A oferta abre para a lista no domingo, 22/11, às 17h, e para todo mundo na segunda, 23/11, às 17h.</p>
@@ -275,6 +275,7 @@ fbq('init','777460607647004');fbq('track','PageView');
           <li>Bônus por ordem de chegada, pela hora da compra.</li>
           <li>Já é aluno? Os três anos somam ao final do seu prazo atual.</li>
         </ul>
+        <p class="prazo so-lista">Esse preço vale até quarta, 25/11, às 23h59. Depois, R$ 3.997. A Black fecha no domingo, 29/11.</p>
         <p class="prazo so-live">Fecha no domingo, 29/11, às 23h59. Sem reabertura.</p>
       </div>
     </div>
@@ -421,7 +422,7 @@ fbq('init','777460607647004');fbq('track','PageView');
       <p class="sec-sub" style="margin-top:16px">Os bônus são por ordem de chegada e a Black fecha no domingo, 29/11, às 23h59.</p>
     </div>
     <div class="preco-card" id="preco2">
-      <p class="selo"><span class="so-antes">Black 2026</span><span class="so-lista">Preço da lista</span><span class="so-live">Black 2026 · aberta</span><span class="so-fim">Black 2026 · encerrada</span></p>
+      <p class="selo"><span class="so-antes">Black 2026</span><span class="so-lista">Preço especial até quarta</span><span class="so-live">Black 2026 · aberta</span><span class="so-fim">Black 2026 · encerrada</span></p>
       <h2>Escola de Motelaria por 3 anos</h2>
       <div class="so-antes">
         <p class="espera">A oferta abre para a lista no domingo, 22/11, às 17h, e para todo mundo na segunda, 23/11, às 17h.</p>
@@ -441,6 +442,7 @@ fbq('init','777460607647004');fbq('track','PageView');
           <li>Bônus por ordem de chegada, pela hora da compra.</li>
           <li>Já é aluno? Os três anos somam ao final do seu prazo atual.</li>
         </ul>
+        <p class="prazo so-lista">Esse preço vale até quarta, 25/11, às 23h59. Depois, R$ 3.997. A Black fecha no domingo, 29/11.</p>
         <p class="prazo so-live">Fecha no domingo, 29/11, às 23h59. Sem reabertura.</p>
       </div>
     </div>
@@ -457,17 +459,18 @@ fbq('init','777460607647004');fbq('track','PageView');
 <script>
 (function(){
   // ── CONFIGURAÇÃO ─────────────────────────────────────────────────────────
-  // Combo Hotmart 8990849. A oferta da lista (y39sj538) precisa ser DESATIVADA na Hotmart
-  // na segunda 23/11 às 17h; esta página troca o link e o preço sozinha nesse horário.
+  // Combo Hotmart 8990849. A oferta y39sj538 (R$ 3.497) precisa ser DESATIVADA na Hotmart
+  // na quinta 26/11 à 00h; esta página troca o link e o preço sozinha nesse horário.
   var OFERTA={
     lista:{link:'https://pay.hotmart.com/I108525293M?off=y39sj538',preco:'3.497',parcela:'291,42'},
-    live: {link:'https://pay.hotmart.com/I108525293M?off=y39sj538',preco:'3.497',parcela:'291,42'} // pedido do Thiago 23/11: preço não sobe às 17h
+    live: {link:'https://pay.hotmart.com/I108525293M?off=06cwuggl',preco:'3.997',parcela:'333,09'} // a partir de qui 26/11 00h (preço cheio)
   };
   var MOTELMIND='https://pay.hotmart.com/Y108128230K?off=58smphjo'; // MotelMind IA com 30% (R$ 10.500 em 10x sem juros)
   var ABRE =new Date('2026-11-22T18:00:00Z'); // dom 22/11 15h (Brasília): "Na frente"; a lista recebe às 17h
   var LIVE =new Date('2026-11-23T20:00:00Z'); // seg 23/11 17h: preço da live
   var IA12 =new Date('2026-11-23T09:00:00Z'); // desde seg 23/11 06h: Equipe de IA só por 6 meses (pedido do Thiago)
   var SORTEIO=new Date('2026-11-23T20:00:00Z'); // seg 23/11 17h (live): fim do sorteio. O preço NÃO muda nessa hora.
+  var PRECO=new Date('2026-11-26T03:00:00Z'); // qua 25/11 23h59: fim do preço de R$ 3.497 (decisão do Thiago em 23/11). Depois, R$ 3.997.
   var FECHA=new Date('2026-11-30T03:00:00Z'); // dom 29/11 23h59: fecha
   // Bônus de chegada que já acabaram (marcar à mão): 'sp', 'livros', 'escala'
   var ESGOTADOS=[];
@@ -475,7 +478,7 @@ fbq('init','777460607647004');fbq('track','PageView');
 
   var q=new URLSearchParams(location.search);
   // Prévia: ?previa=lista | live | ter | fim  (mostra a página como ela fica em cada fase)
-  var PREVIA={lista:ABRE,live:LIVE,ter:SORTEIO,fim:FECHA}[q.get('previa')];
+  var PREVIA={lista:ABRE,live:PRECO,ter:SORTEIO,fim:FECHA}[q.get('previa')];
   var desvio=PREVIA?(PREVIA.getTime()+60000-Date.now()):0;
   function agora(){return new Date(Date.now()+desvio)}
 
@@ -499,7 +502,7 @@ fbq('init','777460607647004');fbq('track','PageView');
   var faseAtual='';
   function fase(){
     var n=agora();
-    var f=n<ABRE?'antes':n<FECHA?'live':'fim'; // sem fase "lista": o preço é um só até 29/11
+    var f=n<ABRE?'antes':n<PRECO?'lista':n<FECHA?'live':'fim'; // lista = R$ 3.497 até qua 25/11 23h59; live = R$ 3.997 até dom 29/11
     document.body.setAttribute('data-ia',n<IA12?'12':'6');
     document.body.setAttribute('data-sorteio',n<SORTEIO?'1':'0');
     if(f!==faseAtual){
@@ -549,7 +552,7 @@ fbq('init','777460607647004');fbq('track','PageView');
   // contador: até a live (preço da lista) e depois até o fechamento
   var c=document.getElementById('count');
   function tick(){
-    var f=fase(), alvo=f==='lista'?LIVE:f==='live'?FECHA:null;
+    var f=fase(), alvo=f==='lista'?PRECO:f==='live'?FECHA:null;
     c.classList.toggle('on',!!alvo); if(!alvo)return;
     var s=Math.floor(Math.max(0,alvo-agora())/1000);
     var o={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
